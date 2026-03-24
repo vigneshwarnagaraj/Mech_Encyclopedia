@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MechAnalysis Manual Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<!-- CSS -->
+<link rel="stylesheet" href="supported-files/css/themes.css">
+<link rel="stylesheet" href="supported-files/css/main.css">
+<link rel="stylesheet" href="supported-files/css/layout.css">
+<link rel="stylesheet" href="supported-files/css/formulas.css">
+<link rel="stylesheet" href="supported-files/css/tables.css">
+<link rel="stylesheet" href="supported-files/css/components.css">
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']],
+    tags: 'ams'
+  },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<!-- ====== SIDEBAR ====== -->
+<nav id="sidebar">
+  <div class="sb-header">
+    <div class="logo-row">
+      <div class="logo-gem">ME</div>
+      <div class="logo-text">
+        <div class="logo-title">MechAnalysis Pro</div>
+        <div class="logo-sub">Engineering Reference Manual</div>
+      </div>
+      <button id="themeBtn" title="Toggle theme">🌙</button>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search chapters…" autocomplete="off"/>
+    </div>
+  </div>
+
+  <div id="sb-scroll">
+    <div class="sb-group">Start Here</div>
+    <div class="sb-item active" data-page="home"><span class="sb-num">00</span>Overview</div>
+    <div class="sb-item" data-page="constants"><span class="sb-num">00A</span>Constants &amp; Reference Data</div>
+    <div class="sb-item" data-page="math-core"><span class="sb-num">01</span>Math Foundations</div>
+    <div class="sb-item" data-page="physics-core"><span class="sb-num">02</span>Basic Physics</div>
+    <div class="sb-item" data-page="eng-mech"><span class="sb-num">03</span>Engineering Mechanics</div>
+
+    <div class="sb-group">Fluid Mechanics</div>
+    <div class="sb-item" data-page="fluids"><span class="sb-num">04</span>Fluid Properties &amp; Pressure</div>
+    <div class="sb-item" data-page="fluids-flow"><span class="sb-num">05</span>Flow Equations</div>
+    <div class="sb-item" data-page="fluids-pipe"><span class="sb-num">06</span>Pipe Flow &amp; Losses</div>
+    <div class="sb-item" data-page="fluids-bl"><span class="sb-num">07</span>Boundary Layer &amp; Turbulence</div>
+    <div class="sb-item" data-page="fluids-dim"><span class="sb-num">08</span>Dimensionless Numbers</div>
+
+    <div class="sb-group">Thermal &amp; Heat Transfer</div>
+    <div class="sb-item" data-page="thermal-basics"><span class="sb-num">09</span>Thermal Basics</div>
+    <div class="sb-item" data-page="thermal-conduction"><span class="sb-num">10</span>Conduction</div>
+    <div class="sb-item" data-page="thermal-convection"><span class="sb-num">11</span>Convection</div>
+    <div class="sb-item" data-page="thermal-radiation"><span class="sb-num">12</span>Radiation</div>
+    <div class="sb-item" data-page="thermal-systems"><span class="sb-num">13</span>Thermal Systems &amp; HX</div>
+
+    <div class="sb-group">Aerodynamics</div>
+    <div class="sb-item" data-page="aero"><span class="sb-num">14</span>Lift, Drag &amp; Aero Forces</div>
+
+    <div class="sb-group">Theory of Machines</div>
+    <div class="sb-item" data-page="theory-machines"><span class="sb-num">15</span>Mechanisms &amp; Rotation</div>
+
+    <div class="sb-group">CFD</div>
+    <div class="sb-item" data-page="cfd-basics"><span class="sb-num">16</span>CFD Fundamentals</div>
+    <div class="sb-item" data-page="cfd-governing"><span class="sb-num">17</span>Governing Equations</div>
+    <div class="sb-item" data-page="cfd-numerical"><span class="sb-num">18</span>Numerical Methods</div>
+    <div class="sb-item" data-page="cfd-turbulence"><span class="sb-num">19</span>Turbulence Models</div>
+    <div class="sb-item" data-page="cfd-convergence"><span class="sb-num">20</span>Convergence &amp; Mesh</div>
+
+    <div class="sb-group">FEA / Solid Mechanics</div>
+    <div class="sb-item" data-page="solid-mechanics"><span class="sb-num">21</span>Stress &amp; Strain</div>
+    <div class="sb-item" data-page="stress-advanced"><span class="sb-num">22</span>Principal Stress &amp; Failure</div>
+    <div class="sb-item" data-page="beam-plate"><span class="sb-num">23</span>Beams, Shafts &amp; Buckling</div>
+    <div class="sb-item" data-page="fea-basics"><span class="sb-num">24</span>FEA Formulation</div>
+    <div class="sb-item" data-page="fea-advanced"><span class="sb-num">25</span>Advanced FEA</div>
+
+    <div class="sb-group">Vibrations</div>
+    <div class="sb-item" data-page="vib-basics"><span class="sb-num">26</span>Vibration Basics</div>
+    <div class="sb-item" data-page="sdof"><span class="sb-num">27</span>SDOF Systems</div>
+    <div class="sb-item" data-page="mdof"><span class="sb-num">28</span>MDOF Systems</div>
+    <div class="sb-item" data-page="modal"><span class="sb-num">29</span>Modal Analysis</div>
+    <div class="sb-item" data-page="vib-advanced"><span class="sb-num">30</span>Advanced Vibrations</div>
+
+    <div class="sb-group">ANSYS Workflow</div>
+    <div class="sb-item" data-page="ansys-workbench"><span class="sb-num">31</span>Workbench Overview</div>
+    <div class="sb-item" data-page="ansys-fluent"><span class="sb-num">32</span>Fluent &amp; Meshing</div>
+    <div class="sb-item" data-page="postprocessing"><span class="sb-num">33</span>Post-Processing &amp; Export</div>
+
+    <div class="sb-group">Code &amp; Reference</div>
+    <div class="sb-item" data-page="python-matlab"><span class="sb-num">34</span>Python &amp; MATLAB</div>
+    <div class="sb-item" data-page="formula-index"><span class="sb-num">35</span>Formula Index</div>
+    <div class="sb-item" data-page="projects"><span class="sb-num">36</span>Projects &amp; Interviews</div>
+
+    <div class="sb-group">Calculators</div>
+    <div class="sb-item" data-page="calc-fluid"><span class="sb-num">37</span>Fluid Calculators</div>
+    <div class="sb-item" data-page="calc-thermal"><span class="sb-num">38</span>Thermal Calculators</div>
+    <div class="sb-item" data-page="calc-structural"><span class="sb-num">39</span>Structural Calculators</div>
+    <div class="sb-item" data-page="calc-vibration"><span class="sb-num">40</span>Vibration Calculators</div>
+
+    <div class="sb-group">Checklists &amp; Guides</div>
+    <div class="sb-item" data-page="checklists-cfd"><span class="sb-num">41</span>CFD Checklists</div>
+    <div class="sb-item" data-page="checklists-fea"><span class="sb-num">42</span>FEA Checklists</div>
+    <div class="sb-item" data-page="validation-guide"><span class="sb-num">43</span>Validation Guides</div>
+    <div class="sb-item" data-page="selection-guide"><span class="sb-num">44</span>Model Selection Guide</div>
+
+    <div class="sb-group">Interview &amp; Revision</div>
+    <div class="sb-item" data-page="interview"><span class="sb-num">45</span>Interview Prep</div>
+
+    <div class="sb-group">Appendix</div>
+    <div class="sb-item" data-page="appendix-units"><span class="sb-num">46</span>Units &amp; Conversions</div>
+    <div class="sb-item" data-page="appendix-glossary"><span class="sb-num">47</span>Glossary (CFD/FEA/Vib)</div>
+    <div class="sb-item" data-page="appendix-automation"><span class="sb-num">48</span>Export &amp; Automation</div>
+  </div>
+
+  <div class="sb-footer">Professional engineering reference · CFD · FEA · Vibrations · Thermal · ANSYS · MATLAB · Python</div>
+</nav>
+
+<!-- ====== MAIN ====== -->
+<main id="main">
+  <div class="mobile-bar">
+    <strong>MechAnalysis Pro</strong>
+    <div style="display:flex;gap:0.5rem">
+      <button id="themeBtnMobile" class="menu-btn">🌙</button>
+      <button class="menu-btn" id="menuBtn">☰ Menu</button>
+    </div>
+  </div>
+
+  <!-- HERO (shown only on home) -->
+  <div class="hero" id="heroSection">
+    <div class="hero-inner">
+      <div class="kicker">Engineering Reference Manual · Modular Edition</div>
+      <h1>CFD, FEA, Thermal, Vibrations,<br><span>ANSYS, MATLAB &amp; Python</span></h1>
+      <p class="hero-desc">A structured professional handbook for project work, simulation setup, interview preparation, and real-world engineering reference. Formulas render in textbook notation with symbol definitions, assumptions, and practical interpretation.</p>
+      <div class="hero-chips">
+        <span class="chip">Fluid Mechanics</span><span class="chip">Thermal Analysis</span>
+        <span class="chip">Solid Mechanics</span><span class="chip">Vibrations</span>
+        <span class="chip">CFD Governing Equations</span><span class="chip">Dimensionless Numbers</span>
+        <span class="chip">FEA</span><span class="chip">ANSYS Fluent</span>
+        <span class="chip">MathJax Rendering</span><span class="chip">Dark / Light Mode</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT CONTAINER -->
+  <div class="content">
+    <div id="page-container">
+      <!-- Pages loaded dynamically here -->
+      <div id="page-loading" style="display:none; padding:2rem; color:var(--txt-lo); font-family:'Space Mono',monospace; font-size:0.85rem;">
+        Loading…
+      </div>
+      <div id="page-error" style="display:none; padding:2rem;">
+        <div class="danger"><strong>Error:</strong> Could not load this page. Make sure you are running from a web server (not file://).</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- JS modules -->
+<script src="supported-files/js/theme.js"></script>
+<script src="supported-files/js/router.js"></script>
+<script src="supported-files/js/navigation.js"></script>
+<script src="supported-files/js/search.js"></script>
+<script src="supported-files/js/math-render.js"></script>
+<script src="supported-files/js/calculators.js"></script>
+<script src="supported-files/js/data-loader.js"></script>
+<script src="supported-files/js/app.js"></script>
+
+</body>
+</html>
