@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>404 — Page Not Found | MechAnalysis Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="supported-files/css/themes.css">
+<link rel="stylesheet" href="supported-files/css/main.css">
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-base);
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .error-wrap {
+    text-align: center;
+    max-width: 520px;
+    padding: 2rem;
+  }
+  .error-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 40px var(--accent-glow);
+  }
+  .error-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .error-desc {
+    color: var(--txt-lo);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  .error-link {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .error-link:hover { opacity: 0.85; }
+  .error-gem {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #fff;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
+</style>
+</head>
+<body>
+<div class="error-wrap">
+  <div class="error-gem">ME</div>
+  <div class="error-code">404</div>
+  <div class="error-title">Page Not Found</div>
+  <p class="error-desc">
+    This page does not exist or has been moved.<br>
+    The engineering manual lives at the root index.
+  </p>
+  <a href="index.html" class="error-link">← Return to Manual</a>
+</div>
+<script>
+  const saved = localStorage.getItem('mechTheme');
+  if (saved === 'light') document.documentElement.setAttribute('data-theme','light');
+</script>
+</body>
+</html>
