@@ -1,0 +1,109 @@
+<div class="page-hd">
+  <div class="kicker">ANSYS · 33</div>
+  <div class="page-title">Post-Processing &amp; Export</div>
+  <p class="page-desc">Extracting useful data from Fluent and Mechanical, understanding what each result shows, and automating with Python.</p>
+</div>
+
+<div class="sec">
+  <h3>Fluent post-processing tools</h3>
+  <table class="tbl">
+    <tr><th>Tool</th><th>Shows</th><th>Use for</th></tr>
+    <tr><td>Contour plot</td><td>Scalar field (p, T, |V|, k, y+)</td><td>Overall flow structure, hot spots, separation regions</td></tr>
+    <tr><td>Vector plot</td><td>Velocity direction + magnitude</td><td>Recirculation, near-wall flow direction, stagnation zones</td></tr>
+    <tr><td>Streamlines</td><td>Pathlines of massless particles</td><td>Separation bubbles, vortex identification, wake structure</td></tr>
+    <tr><td>XY plot</td><td>Profile along a line or surface</td><td>Velocity profile validation, temperature along wall, pressure recovery</td></tr>
+    <tr><td>Surface integral</td><td>Area-weighted average, mass-flow average, total flux</td><td>Pressure drop, average outlet temperature, mass flow verification</td></tr>
+    <tr><td>Force report</td><td>Pressure + viscous contributions on named surfaces</td><td>Drag, lift, downforce, friction drag component</td></tr>
+    <tr><td>Flux report</td><td>Mass flow through boundaries</td><td>Check mass conservation: inlet − outlet &lt; 0.1%</td></tr>
+    <tr><td>Histogram</td><td>Distribution of a scalar quantity over a zone</td><td>y+ distribution, temperature spread</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>ANSYS Mechanical post-processing</h3>
+  <table class="tbl">
+    <tr><th>Result</th><th>Meaning</th><th>What to check</th></tr>
+    <tr><td>Total deformation</td><td>Magnitude of displacement vector at each node</td><td>Is maximum physically plausible? Check scale factor is not exaggerated.</td></tr>
+    <tr><td>Directional deformation</td><td>Displacement in X, Y, or Z</td><td>Use for checking clearances, interference fits</td></tr>
+    <tr><td>Equivalent (von Mises) stress</td><td>Scalar failure indicator for ductile metals</td><td>Compare to yield strength; compute FOS = σ_y / σ_vM</td></tr>
+    <tr><td>Maximum principal stress</td><td>Largest eigenvalue of stress tensor — tensile failure indicator</td><td>Brittle materials: compare to tensile strength</td></tr>
+    <tr><td>Minimum principal stress</td><td>Most compressive stress</td><td>Brittle materials: compare to compressive strength</td></tr>
+    <tr><td>Shear stress</td><td>Component or maximum shear</td><td>Shear-critical joints, adhesive bonds</td></tr>
+    <tr><td>Contact pressure</td><td>Compressive stress at interface</td><td>Verify contact is closed where expected; fretting risk</td></tr>
+    <tr><td>Reaction forces</td><td>Support reactions</td><td>Must equal applied load — verify Newton's 3rd law</td></tr>
+    <tr><td>Natural frequency (modal)</td><td>Resonant frequency [Hz]</td><td>Is it above excitation frequency range?</td></tr>
+    <tr><td>Mode shape (modal)</td><td>Normalised deformation pattern</td><td>Physically sensible? Matches expected symmetry?</td></tr>
+    <tr><td>Frequency response amplitude</td><td>Deformation vs. frequency (harmonic)</td><td>Peak at resonance; phase shifts 180° through resonance</td></tr>
+    <tr><td>RMS stress (random vibration)</td><td>1σ stress level under PSD excitation</td><td>Compare to 3σ fatigue limit: P(exceed 3σ) ≈ 0.27%</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Exporting data from Fluent</h3>
+  <ol class="step-list">
+    <li><strong>Surface monitors:</strong> Reports → Surface Integrals → select surface and quantity → enable "Write to File" before running. Produces a .out file with iteration history.</li>
+    <li><strong>XY plot data:</strong> Plots → XY Plot → select axes and surface → Write → saves .csv with position and scalar value.</li>
+    <li><strong>Residual history:</strong> Plot → Residuals → Write → residuals.csv with iteration vs. all residuals.</li>
+    <li><strong>Force report:</strong> Reports → Forces → select wall zones → Write → forces.csv.</li>
+    <li><strong>Full field data:</strong> File → Export → Case+Data (.cas.h5 / .dat.h5) for post-processing in CFD-Post or Python with Fluent's API.</li>
+    <li><strong>ASCII surface data:</strong> File → Export → ASCII → select surface and variables → .csv for external analysis.</li>
+  </ol>
+</div>
+
+<div class="sec">
+  <h3>Python: load and compare multiple CFD cases</h3>
+  <div class="code"><span class="c"># Compare pressure drop across mesh study cases</span>
+<span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+
+case_files = {
+    <span class="s">'Coarse (250k)'</span>: <span class="s">'case_coarse.csv'</span>,
+    <span class="s">'Medium (1M)'</span>:  <span class="s">'case_medium.csv'</span>,
+    <span class="s">'Fine (4M)'</span>:    <span class="s">'case_fine.csv'</span>,
+}
+
+results = []
+<span class="k">for</span> label, filepath <span class="k">in</span> case_files.items():
+    df = pd.read_csv(filepath, skiprows=<span class="n">2</span>)
+    dp = df[df[<span class="s">'Surface Name'</span>] == <span class="s">'outlet'</span>][<span class="s">'Static Pressure'</span>].values[<span class="n">0</span>]
+    results.append({<span class="s">'Case'</span>: label, <span class="s">'Pressure Drop (Pa)'</span>: abs(dp)})
+
+df_out = pd.DataFrame(results)
+<span class="k">print</span>(df_out.to_string(index=<span class="k">False</span>))
+
+cells = [<span class="n">250e3</span>, <span class="n">1e6</span>, <span class="n">4e6</span>]
+dp_vals = df_out[<span class="s">'Pressure Drop (Pa)'</span>].values
+fig, ax = plt.subplots(figsize=(<span class="n">7</span>, <span class="n">4</span>))
+ax.semilogx(cells, dp_vals, <span class="s">'o-'</span>, color=<span class="s">'#4da3ff'</span>, linewidth=<span class="n">2</span>, markersize=<span class="n">8</span>)
+ax.set_xlabel(<span class="s">'Mesh cell count'</span>); ax.set_ylabel(<span class="s">'Pressure drop (Pa)'</span>)
+ax.set_title(<span class="s">'Mesh Independence Study'</span>); ax.grid(<span class="k">True</span>, alpha=<span class="n">0.3</span>)
+plt.tight_layout(); plt.savefig(<span class="s">'mesh_study.png'</span>, dpi=<span class="n">150</span>); plt.show()</div>
+</div>
+
+<div class="sec">
+  <h3>Python: SDOF free vibration + log decrement extraction</h3>
+  <div class="code"><span class="k">import</span> numpy <span class="k">as</span> np
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+<span class="k">from</span> scipy.signal <span class="k">import</span> argrelmax
+
+m, k, zeta = <span class="n">5.0</span>, <span class="n">2000</span>, <span class="n">0.04</span>
+wn = np.sqrt(k / m)
+wd = wn * np.sqrt(<span class="n">1</span> - zeta**<span class="n">2</span>)
+
+t = np.linspace(<span class="n">0</span>, <span class="n">3</span>, <span class="n">3000</span>)
+x = np.exp(-zeta*wn*t) * np.sin(wd*t)
+
+peaks_idx, _ = argrelmax(x, order=<span class="n">10</span>)
+<span class="k">if</span> len(peaks_idx) >= <span class="n">2</span>:
+    delta = np.log(x[peaks_idx[<span class="n">0</span>]] / x[peaks_idx[<span class="n">1</span>]])
+    zeta_est = delta / np.sqrt(<span class="n">4</span>*np.pi**<span class="n">2</span> + delta**<span class="n">2</span>)
+    <span class="k">print</span>(<span class="s">f"True ζ = {zeta:.4f} | Estimated ζ = {zeta_est:.4f}"</span>)
+
+plt.figure(figsize=(<span class="n">9</span>, <span class="n">4</span>))
+plt.plot(t, x*<span class="n">1000</span>, color=<span class="s">'#4da3ff'</span>, lw=<span class="n">1.5</span>, label=<span class="s">'Response'</span>)
+plt.plot(t, np.exp(-zeta*wn*t)*<span class="n">1000</span>, <span class="s">'--'</span>, color=<span class="s">'#ffc96b'</span>, lw=<span class="n">1</span>, label=<span class="s">'Envelope'</span>)
+plt.scatter(t[peaks_idx[:<span class="n">6</span>]], x[peaks_idx[:<span class="n">6</span>]]*<span class="n">1000</span>, color=<span class="s">'#ff6b8a'</span>, zorder=<span class="n">5</span>, s=<span class="n">40</span>)
+plt.xlabel(<span class="s">'Time (s)'</span>); plt.ylabel(<span class="s">'Displacement (mm)'</span>)
+plt.title(<span class="s">f'SDOF Free Decay — fn={wn/(2*np.pi):.2f} Hz, ζ={zeta}'</span>)
+plt.legend(); plt.grid(<span class="k">True</span>, alpha=<span class="n">0.25</span>); plt.tight_layout(); plt.show()</div>
+</div>

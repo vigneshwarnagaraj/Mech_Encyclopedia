@@ -1,0 +1,79 @@
+<div class="page-hd">
+  <div class="kicker">Calculators · 39</div>
+  <div class="page-title">Structural &amp; Solid Mechanics Calculators</div>
+  <p class="page-desc">Beam bending stress, torsion angle, Euler buckling, and von Mises stress.</p>
+</div>
+
+<div class="sec">
+  <h3>Beam Bending Stress</h3>
+  <p>\(\sigma = My/I\)</p>
+  <div class="calc-box">
+    <h4>Bending Stress &amp; Factor of Safety</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Moment M (N·m)</label><input id="bb_m" type="number" value="5000" step="any"></div>
+      <div class="calc-field"><label>y — dist from NA (m)</label><input id="bb_y" type="number" value="0.05" step="any"></div>
+      <div class="calc-field"><label>I — 2nd moment (m⁴)</label><input id="bb_i" type="number" value="8.33e-6" step="any"></div>
+      <div class="calc-field"><label>Yield stress σ_y (MPa)</label><input id="bb_sy" type="number" value="250" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcBeam()">Calculate</button>
+    <div class="calc-result" id="bb_result">Press Calculate to see result.</div>
+  </div>
+  <div class="note"><strong>Rectangle I = bh³/12:</strong> b=0.1 m, h=0.1 m → I = 8.33×10⁻⁶ m⁴. Set y = h/2 = 0.05 m for maximum stress.</div>
+</div>
+
+<div class="sec">
+  <h3>Shaft Torsion</h3>
+  <p>\(\tau = Tr/J\) and \(\theta = TL/(GJ)\)</p>
+  <div class="calc-box">
+    <h4>Torsion — Shear Stress &amp; Angle of Twist</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Torque T (N·m)</label><input id="tor_t" type="number" value="200" step="any"></div>
+      <div class="calc-field"><label>Length L (m)</label><input id="tor_l" type="number" value="1" step="any"></div>
+      <div class="calc-field"><label>Outer radius r_o (m)</label><input id="tor_ro" type="number" value="0.03" step="any"></div>
+      <div class="calc-field"><label>Inner radius r_i (m) — 0 for solid</label><input id="tor_ri" type="number" value="0" step="any"></div>
+      <div class="calc-field"><label>Shear modulus G (GPa)</label><input id="tor_g" type="number" value="79" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcTorsion()">Calculate</button>
+    <div class="calc-result" id="tor_result">Press Calculate to see result.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Euler Column Buckling</h3>
+  <p>\(P_{cr} = \pi^2 EI / (KL)^2\)</p>
+  <div class="calc-box">
+    <h4>Critical Buckling Load</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>E (GPa)</label><input id="buck_e" type="number" value="200" step="any"></div>
+      <div class="calc-field"><label>I — 2nd moment (m⁴)</label><input id="buck_i" type="number" value="8.33e-6" step="any"></div>
+      <div class="calc-field"><label>Length L (m)</label><input id="buck_l" type="number" value="3" step="any"></div>
+      <div class="calc-field">
+        <label>End condition K</label>
+        <select id="buck_k">
+          <option value="1">K=1.0 — Both ends pinned</option>
+          <option value="0.7">K=0.7 — Fixed-pinned</option>
+          <option value="0.5">K=0.5 — Both ends fixed</option>
+          <option value="2">K=2.0 — Cantilever (fixed-free)</option>
+        </select>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcBuckling()">Calculate</button>
+    <div class="calc-result" id="buck_result">Press Calculate to see result.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Von Mises Stress (2D Plane Stress)</h3>
+  <p>\(\sigma_v = \sqrt{\sigma_x^2 - \sigma_x\sigma_y + \sigma_y^2 + 3\tau_{xy}^2}\)</p>
+  <div class="calc-box">
+    <h4>Von Mises Equivalent Stress</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>σ_x (MPa)</label><input id="vm_sx" type="number" value="100" step="any"></div>
+      <div class="calc-field"><label>σ_y (MPa)</label><input id="vm_sy" type="number" value="50" step="any"></div>
+      <div class="calc-field"><label>τ_xy (MPa)</label><input id="vm_txy" type="number" value="30" step="any"></div>
+      <div class="calc-field"><label>Yield strength σ_y (MPa)</label><input id="vm_yield" type="number" value="250" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcVonMises()">Calculate</button>
+    <div class="calc-result" id="vm_result">Press Calculate to see result.</div>
+  </div>
+</div>

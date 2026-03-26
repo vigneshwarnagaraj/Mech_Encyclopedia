@@ -1,0 +1,77 @@
+<div class="page-hd">
+  <div class="kicker">Vibrations · 30</div>
+  <div class="page-title">Advanced Vibrations</div>
+  <p class="page-desc">Logarithmic decrement, base excitation, rotordynamics, random vibration and PSD, and continuous systems.</p>
+</div>
+
+<div class="sec">
+  <h3>Logarithmic decrement — damping from free decay</h3>
+  <div class="fc">
+    <div class="formula">\[ \delta=\ln\!\left(\frac{x_1}{x_2}\right)=\frac{2\pi\zeta}{\sqrt{1-\zeta^2}}\approx2\pi\zeta\;\text{(light damping)} \]</div>
+    <div class="def"><strong>Log decrement \(\delta\):</strong> Natural log of ratio of successive peak amplitudes in a free decay signal. Gives \(\zeta\) from experimental data without knowing \(m\), \(k\), or \(c\) individually. Approximate formula \(\delta\approx2\pi\zeta\) is valid for \(\zeta &lt; 0.1\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \delta=\frac{1}{n}\ln\!\left(\frac{x_1}{x_{n+1}}\right),\quad\zeta=\frac{\delta}{\sqrt{4\pi^2+\delta^2}} \]</div>
+    <div class="def"><strong>Multi-cycle averaging (exact):</strong> \(n\) = number of cycles between measured peaks. More accurate than single-cycle method — averages out measurement noise. Use at least 5 cycles for \(\zeta &lt; 0.02\); fewer cycles for heavily damped systems.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Base excitation</h3>
+  <div class="fc">
+    <div class="formula">\[ m\ddot{z}+c\dot{z}+kz=-m\ddot{y},\quad z=x-y \]</div>
+    <div class="def"><strong>Base excitation model (relative motion):</strong> \(y(t)\) = base displacement, \(x(t)\) = mass absolute displacement, \(z=x-y\) = relative (rattle space) displacement. The equation has the same form as forced vibration with \(-m\ddot{y}\) as the forcing. Used for vehicle suspension, seismic analysis, and equipment on vibrating platforms.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{X}{Y}=TR=\sqrt{\frac{1+(2\zeta r)^2}{(1-r^2)^2+(2\zeta r)^2}} \]</div>
+    <div class="def"><strong>Displacement transmissibility:</strong> Ratio of absolute mass amplitude to base amplitude. For isolation (\(r &gt; \sqrt{2}\)): less than 1. For \(r \gg \sqrt{2}\): \(TR \approx 1/r^2\) — mass moves very little compared to the vibrating base.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Random vibration and Power Spectral Density</h3>
+  <div class="fc">
+    <div class="formula">\[ S_{xx}(f)=\lim_{T\to\infty}\frac{|X_T(f)|^2}{T},\quad\sigma_x^2=\int_0^\infty S_{xx}(f)\,df \]</div>
+    <div class="def"><strong>Power Spectral Density (PSD):</strong> \(S_{xx}(f)\) [m²/Hz or g²/Hz]. Describes how mean-square response distributes across frequency. Total mean-square response = area under the PSD curve. \(\sigma_x\) = RMS value [m or g] = standard deviation for zero-mean signal.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ S_{yy}(f)=|H(f)|^2\,S_{xx}(f) \]</div>
+    <div class="def"><strong>Response PSD from input PSD:</strong> The output PSD = magnitude squared of the FRF × input PSD. Peak in \(S_{yy}\) at resonance is amplified by \(1/(2\zeta)^2\) relative to away-from-resonance. This is the basis of ANSYS Random Vibration analysis: input a base excitation PSD, ANSYS computes the response PSD and RMS stress/displacement.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sigma^2_{response}=\int_0^\infty S_{yy}(f)\,df\approx\frac{\pi}{2}\,S_0\,\omega_n\,Q \]</div>
+    <div class="def"><strong>Miles' equation (white noise approximation):</strong> \(S_0\) = PSD level at resonance [g²/Hz], \(Q=1/(2\zeta)\) = quality factor. Gives a quick RMS response estimate for a lightly damped SDOF system excited by flat-spectrum random input. Used extensively in aerospace qualification testing.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Rotordynamics basics</h3>
+  <div class="fc">
+    <div class="formula">\[ \omega_{cr}=\sqrt{\frac{k}{m}},\quad r=\frac{\omega}{\omega_{cr}} \]</div>
+    <div class="def"><strong>Critical speed:</strong> Shaft speed at which the excitation frequency (1× running speed) coincides with a bending natural frequency. At \(r=1\): resonance — large lateral deflections (whirl). Subcritical operation: \(r &lt; 0.7\); supercritical: \(r &gt; 1.4\) (must pass through resonance to reach operating speed).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ e_{residual}=\frac{U}{m}\quad[\text{m}],\quad U=m_u\,e \]</div>
+    <div class="def"><strong>Residual imbalance:</strong> \(U\) = imbalance [kg·m], \(e\) = eccentricity [m], \(m_u\) = imbalance mass [kg]. ISO 1940 specifies balance quality grades: G6.3 for general machinery, G2.5 for electric motors, G0.4 for precision spindles. Balancing quality grade: \(G = e\,\omega_{max}/1000\) [mm/s].</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Continuous systems — natural frequencies</h3>
+  <div class="fc">
+    <div class="formula">\[ f_n=\frac{\beta_n^2}{2\pi L^2}\sqrt{\frac{EI}{\rho A}}\quad\text{(Euler-Bernoulli beam)} \]</div>
+    <div class="def"><strong>Beam natural frequencies:</strong> \(\beta_n L\) values from boundary conditions:
+      <table class="tbl" style="margin-top:0.4rem;">
+        <tr><th>Boundary condition</th><th>Mode 1 (\(\beta_1 L\))</th><th>Mode 2 (\(\beta_2 L\))</th></tr>
+        <tr><td>Free-free or Fixed-fixed</td><td class="const-val">4.730</td><td class="const-val">7.853</td></tr>
+        <tr><td>Simply supported</td><td class="const-val">π = 3.142</td><td class="const-val">2π = 6.283</td></tr>
+        <tr><td>Fixed-free (cantilever)</td><td class="const-val">1.875</td><td class="const-val">4.694</td></tr>
+        <tr><td>Fixed-pinned</td><td class="const-val">3.927</td><td class="const-val">7.069</td></tr>
+      </table>
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ f_n=\frac{n}{2L}\sqrt{\frac{E}{\rho}}\quad\text{(longitudinal rod, mode }n\text{)} \]</div>
+    <div class="def"><strong>Longitudinal bar natural frequencies:</strong> Free-free or fixed-fixed: \(n=1,2,3,\ldots\). Fixed-free: \(n=1,3,5,\ldots\) (odd modes only). Speed of longitudinal waves: \(c_L=\sqrt{E/\rho}\). For steel: \(c_L\approx5100\) m/s.</def></div>
+  </div>
+</div>

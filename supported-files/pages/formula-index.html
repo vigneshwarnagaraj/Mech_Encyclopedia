@@ -1,0 +1,60 @@
+<div class="page-hd">
+  <div class="kicker">Reference · 35</div>
+  <div class="page-title">Formula Index</div>
+  <p class="page-desc">Quick lookup of the most frequently needed formulas across all domains in this manual.</p>
+</div>
+
+<div class="sec">
+  <h3>Mechanics &amp; Statics</h3>
+  <p>\(F=ma\) · \(\sigma=F/A\) · \(\tau=V/A\) · \(\varepsilon=\Delta L/L\) · \(\sigma=E\varepsilon\) · \(\tau=G\gamma\) · \(E=2G(1+\nu)\)</p>
+  <p>\(\sigma_{vM}=\sqrt{[(\sigma_1{-}\sigma_2)^2+(\sigma_2{-}\sigma_3)^2+(\sigma_3{-}\sigma_1)^2]/2}\)</p>
+  <p>\(\sigma=My/I\) · \(\tau_{max}=VQ/(Ib)\) · \(\tau=Tr/J\) · \(\theta=TL/(GJ)\) · \(P_{cr}=\pi^2EI/(KL)^2\)</p>
+  <p>Rectangle: \(I=bh^3/12\) · Circle: \(I=\pi d^4/64\) · \(J=\pi d^4/32\)</p>
+</div>
+
+<div class="sec">
+  <h3>Vibrations</h3>
+  <p>\(\omega_n=\sqrt{k/m}\) · \(f_n=\omega_n/(2\pi)\) · \(\zeta=c/c_c\) · \(c_c=2\sqrt{km}\) · \(\omega_d=\omega_n\sqrt{1-\zeta^2}\)</p>
+  <p>\(X=\dfrac{F_0/k}{\sqrt{(1-r^2)^2+(2\zeta r)^2}}\) · \(\delta=\ln(x_1/x_2)\approx 2\pi\zeta\)</p>
+  <p>\([M]\{\ddot{x}\}+[C]\{\dot{x}\}+[K]\{x\}=\{F\}\) · \([K-\omega^2 M]\{\phi\}=0\) · \([\Phi]^T[M][\Phi]=[I]\)</p>
+  <p>\(TR=\sqrt{[1+(2\zeta r)^2]/[(1-r^2)^2+(2\zeta r)^2]}\)</p>
+</div>
+
+<div class="sec">
+  <h3>Fluid mechanics</h3>
+  <p>\(p/\rho g+V^2/2g+z=H\) · \(A_1V_1=A_2V_2\) · \(\dot{m}=\rho AV\) · \(\rho=m/V\) · \(\nu=\mu/\rho\)</p>
+  <p>\(h_f=fLV^2/(2gD)\) · \(f_{lam}=64/Re\) · \(h_m=K_LV^2/(2g)\)</p>
+  <p>\(Re=\rho VL/\mu\) · \(Ma=V/a\) · \(Fr=V/\sqrt{gL}\) · \(\tau=\mu\,du/dy\)</p>
+  <p>\(\delta=5x/\sqrt{Re_x}\) · \(y^+=u_\tau y/\nu\) · \(u_\tau=\sqrt{\tau_w/\rho}\)</p>
+</div>
+
+<div class="sec">
+  <h3>Thermal / Heat Transfer</h3>
+  <p>\(Q=mc_p\Delta T\) · \(\dot{Q}=-kA\,dT/dx\) · \(\dot{Q}=hA\Delta T\) · \(\dot{Q}=\varepsilon\sigma A(T_s^4-T_{sur}^4)\)</p>
+  <p>\(R_{cond}=L/(kA)\) · \(R_{conv}=1/(hA)\) · \(R_{cyl}=\ln(r_2/r_1)/(2\pi kL)\)</p>
+  <p>\(Bi=hL_c/k\) · \(\alpha=k/(\rho c_p)\) · \(Fo=\alpha t/L^2\) · \(\sigma=5.67\times10^{-8}\) W/m²·K⁴</p>
+  <p>\(Nu=hL/k\) · \(Nu=0.664\,Re^{1/2}Pr^{1/3}\) (flat plate, lam.) · \(Nu=0.023\,Re^{0.8}Pr^n\) (pipe, turb.)</p>
+  <p>\(\dot{Q}=UA\Delta T_{lm}\) · \(\varepsilon=\dot{Q}/\dot{Q}_{max}\) · \(NTU=UA/C_{min}\)</p>
+</div>
+
+<div class="sec">
+  <h3>CFD governing equations</h3>
+  <p>Continuity: \(\partial\rho/\partial t+\nabla\cdot(\rho\vec{V})=0\) · Incompressible: \(\nabla\cdot\vec{V}=0\)</p>
+  <p>N-S: \(\rho(D\vec{V}/Dt)=-\nabla p+\mu\nabla^2\vec{V}+\rho\vec{g}\)</p>
+  <p>Energy: \(\rho c_p(DT/Dt)=\nabla\cdot(k\nabla T)+\dot{q}\)</p>
+  <p>Transport: \(\partial(\rho\phi)/\partial t+\nabla\cdot(\rho\vec{V}\phi)=\nabla\cdot(\Gamma\nabla\phi)+S_\phi\)</p>
+  <p>Eddy viscosity: \(\mu_t=\rho C_\mu k^2/\varepsilon\) · \(CFL=V\Delta t/\Delta x\leq1\)</p>
+</div>
+
+<div class="sec">
+  <h3>FEA</h3>
+  <p>\([K]\{u\}=\{F\}\) · \([k]^e=\int[B]^T[D][B]\,dV\) · \(\Pi=U-W\) · \(\partial\Pi/\partial\{u\}=0\)</p>
+  <p>Buckling: \([K_T]\{\Delta u\}=\{R\}=\{F_{ext}\}-\{F_{int}\}\)</p>
+  <p>Contact: Bonded (linear) → Frictionless → Frictional (nonlinear status)</p>
+</div>
+
+<div class="sec">
+  <h3>Aerodynamics &amp; Compressible flow</h3>
+  <p>\(L=\tfrac{1}{2}\rho V^2 SC_L\) · \(D=\tfrac{1}{2}\rho V^2 SC_D\) · \(C_{D,i}=C_L^2/(\pi e\,AR)\)</p>
+  <p>\(a=\sqrt{\gamma RT}\) · \(T_0/T=1+(\gamma-1)Ma^2/2\) · \(p_0/p=(T_0/T)^{\gamma/(\gamma-1)}\)</p>
+</div>

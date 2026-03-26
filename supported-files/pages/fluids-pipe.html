@@ -1,0 +1,65 @@
+<div class="page-hd">
+  <div class="kicker">Fluid Mechanics · 06</div>
+  <div class="page-title">Pipe Flow &amp; Head Losses</div>
+  <p class="page-desc">Internal flow, friction factors, velocity profiles, minor losses, and pipe network equations.</p>
+</div>
+
+<div class="sec">
+  <h3>Friction factor and major losses</h3>
+  <div class="fc">
+    <div class="formula">\[ h_f=f\frac{L}{D}\frac{V^2}{2g},\quad \Delta p_f = f\frac{L}{D}\frac{\rho V^2}{2} \]</div>
+    <div class="def"><strong>Darcy-Weisbach equation:</strong> \(h_f\) = head loss due to friction [m], \(f\) = Darcy friction factor [-], \(L\) = pipe length [m], \(D\) = pipe diameter [m], \(V\) = mean velocity [m/s]. Most general pipe friction formula — works for laminar and turbulent.</def></div>
+    <div class="tags"><span class="tag tag-use">Laminar and turbulent</span><span class="tag tag-unit">m (head) or Pa (pressure)</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ f_{laminar}=\frac{64}{Re} \]</div>
+    <div class="def"><strong>Laminar friction factor:</strong> Valid for \(Re &lt; 2300\). Exact analytical result derived from the Hagen-Poiseuille parabolic velocity profile. No roughness dependence in laminar flow.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{1}{\sqrt{f}}=-2\log\!\left(\frac{\varepsilon/D}{3.7}+\frac{2.51}{Re\sqrt{f}}\right) \]</div>
+    <div class="def"><strong>Colebrook-White equation:</strong> Implicit formula for turbulent friction factor. \(\varepsilon\) = absolute roughness [m] (steel pipe: \(\varepsilon \approx 0.046\) mm, drawn tubing: \(\varepsilon \approx 0.0015\) mm). Solved iteratively. The Moody chart is the graphical solution.</def></div>
+    <div class="tags"><span class="tag tag-assume">Turbulent, full-pipe flow, circular cross-section</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ f_{Blasius}\approx\frac{0.316}{Re^{0.25}}\quad (Re&lt;10^5,\text{ smooth pipe}) \]</div>
+    <div class="def"><strong>Blasius explicit approximation:</strong> Good to ±5% for smooth pipes and Re &lt; 10⁵. Useful for quick estimates without iteration.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Velocity profiles in pipes</h3>
+  <div class="fc">
+    <div class="formula">\[ u(r)=u_{max}\!\left(1-\frac{r^2}{R^2}\right),\quad u_{max}=2V_{avg} \]</div>
+    <div class="def"><strong>Hagen-Poiseuille profile (laminar):</strong> Parabolic. Maximum velocity at centreline = 2× average. \(R\) = pipe radius [m], \(r\) = radial position. Driven by pressure gradient: \(\Delta p / L = 128\mu Q/(\pi D^4)\).</def></div>
+    <div class="tags"><span class="tag tag-assume">Laminar · fully developed · circular pipe</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{u}{u_\tau}=\frac{u_\tau y}{\nu}\;\text{(viscous sublayer, }y^+&lt;5\text{)},\quad \frac{u}{u_\tau}=2.44\ln(y^+)+5.0\;\text{(log law, }y^+&gt;30\text{)} \]</div>
+    <div class="def"><strong>Law of the wall (turbulent):</strong> The velocity profile in a turbulent boundary layer is divided into: viscous sublayer (\(y^+&lt;5\)), buffer layer (5–30), and log-law region (\(y^+&gt;30\)). This profile structure is what CFD near-wall models are built on.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Minor (local) losses</h3>
+  <div class="fc">
+    <div class="formula">\[ h_m=K_L\frac{V^2}{2g},\quad \Delta p_m = K_L\frac{\rho V^2}{2} \]</div>
+    <div class="def"><strong>Minor head loss:</strong> \(K_L\) = loss coefficient for fittings, bends, valves, expansions, contractions.<br>
+      Typical values: sharp inlet entry \(\approx0.5\), re-entrant inlet \(\approx0.9\), 90° standard elbow \(\approx0.9\), gate valve (fully open) \(\approx0.2\), globe valve \(\approx10\), sudden expansion: \(K_L=(1-A_1/A_2)^2\).
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ h_L=\sum h_f + \sum h_m = \sum f_i\frac{L_i}{D_i}\frac{V_i^2}{2g}+\sum K_{L,j}\frac{V_j^2}{2g} \]</div>
+    <div class="def"><strong>Total head loss in a pipe system:</strong> Sum of all major (friction) and minor losses. Used in pump selection: pump head required \(H_{pump}=h_L+\Delta z+(p_2-p_1)/(\rho g)\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Flow measurement devices</h3>
+  <table class="tbl">
+    <tr><th>Device</th><th>Principle</th><th>Formula</th></tr>
+    <tr><td>Pitot tube</td><td>Stagnation vs static pressure</td><td>\(V=\sqrt{2(p_0-p)/\rho}\)</td></tr>
+    <tr><td>Venturi meter</td><td>Continuity + Bernoulli</td><td>\(Q=C_d A_2\sqrt{2\Delta p/\rho(1-(A_2/A_1)^2)}\)</td></tr>
+    <tr><td>Orifice plate</td><td>Contraction of flow, \(C_d\approx0.6\)</td><td>Same as venturi with \(C_d\approx0.6\)</td></tr>
+    <tr><td>Rotameter</td><td>Float equilibrium in tapered tube</td><td>Direct reading, calibrated</td></tr>
+  </table>
+</div>

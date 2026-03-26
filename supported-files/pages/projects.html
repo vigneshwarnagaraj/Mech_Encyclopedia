@@ -1,0 +1,48 @@
+<div class="page-hd">
+  <div class="kicker">Reference · 36</div>
+  <div class="page-title">Projects &amp; Professional Use</div>
+  <p class="page-desc">Using this manual in real engineering work — simulation validation, project workflow, and professional reporting standards.</p>
+</div>
+
+<div class="sec">
+  <h3>Simulation project workflow</h3>
+  <ol class="step-list">
+    <li><strong>Define the objective clearly:</strong> What quantity do you need? (pressure drop, max stress, natural frequency, heat transfer rate). This determines your mesh refinement focus, convergence monitor, and validation approach.</li>
+    <li><strong>Hand-calculate a sanity check:</strong> Before running any simulation, estimate the answer analytically or from a correlation. If your CFD result is 10× the hand calculation — investigate before spending compute time.</li>
+    <li><strong>Start simple:</strong> 2D before 3D. Coarse mesh before fine. Steady before transient. Laminar before turbulent. Add complexity only when the simpler model fails to capture the physics.</li>
+    <li><strong>Document your setup:</strong> Record all BCs, material properties, solver settings, mesh statistics, and turbulence model choice. Future you will thank present you.</li>
+    <li><strong>Run mesh independence:</strong> Three levels minimum. Report the GCI or percentage change. Never report a single-mesh result as validated.</li>
+    <li><strong>Validate against something:</strong> Analytical solution, published correlation, published experimental data, or a known benchmark case. At minimum, check mass and energy conservation.</li>
+    <li><strong>Report integrated quantities:</strong> Drag, pressure drop, peak stress, heat transfer rate — not just contour images. Tables of numbers allow comparison across cases.</li>
+  </ol>
+</div>
+
+<div class="sec">
+  <h3>Interview-ready formula list</h3>
+  <p>These are the formulas to write from memory in a technical interview — without looking them up:</p>
+  <ul>
+    <li>Newton's 2nd law · Bernoulli equation · continuity equation</li>
+    <li>Navier-Stokes (concept — not full tensor index form)</li>
+    <li>Fourier conduction law · Newton's law of cooling</li>
+    <li>Hooke's law · von Mises stress definition and physical meaning</li>
+    <li>Natural frequency SDOF · damping ratio definition</li>
+    <li>Reynolds number · Prandtl number · Nusselt number relation</li>
+    <li>Drag / lift force equation · FEA global equation [K]{u} = {F}</li>
+  </ul>
+  <div class="tip"><strong>Interview tip:</strong> Know what each formula tells you physically. "Reynolds number is the ratio of inertial to viscous forces" is worth more than reciting the formula alone.</div>
+</div>
+
+<div class="sec">
+  <h3>Simulation validation checklist</h3>
+  <ul class="checklist">
+    <li>Compare to an analytical solution, published experiment, or textbook benchmark problem.</li>
+    <li>Check mass balance (inlet = outlet ± 0.1%).</li>
+    <li>Check energy balance if thermal analysis is involved.</li>
+    <li>Run at least 3 mesh densities and confirm mesh independence.</li>
+    <li>Verify boundary conditions are physically correct — not just numerically stable.</li>
+    <li>Plot velocity or temperature profile through cross-sections — does the shape make physical sense?</li>
+    <li>Check reaction forces equal applied loads (FEA).</li>
+    <li>Report factor of safety with location and loading case (structural).</li>
+    <li>If something looks too smooth or too sharp — investigate before reporting it.</li>
+  </ul>
+</div>

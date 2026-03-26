@@ -1,0 +1,47 @@
+<div class="page-hd">
+  <div class="kicker">Fluid Mechanics · 08</div>
+  <div class="page-title">Dimensionless Numbers</div>
+  <p class="page-desc">These numbers tell you which physical effects dominate and which can be neglected. Knowing them physically — not just as formulas — is what separates engineering understanding from formula lookup.</p>
+</div>
+
+<div class="sec">
+  <h3>Core dimensionless numbers</h3>
+  <table class="tbl">
+    <tr><th>Number</th><th>Formula</th><th>Physical meaning</th><th>Key ranges</th></tr>
+    <tr><td><strong>Reynolds (Re)</strong></td><td>\(\dfrac{\rho VL}{\mu}=\dfrac{VL}{\nu}\)</td><td>Inertia / viscous forces</td><td>&lt;2300 laminar pipe; &gt;5×10⁵ turbulent flat plate</td></tr>
+    <tr><td><strong>Mach (Ma)</strong></td><td>\(\dfrac{V}{a}\)</td><td>Flow speed / speed of sound</td><td>&lt;0.3 incompressible; &gt;1 supersonic</td></tr>
+    <tr><td><strong>Froude (Fr)</strong></td><td>\(\dfrac{V}{\sqrt{gL}}\)</td><td>Inertia / gravity (surface waves)</td><td>Ship design, open channel flow</td></tr>
+    <tr><td><strong>Weber (We)</strong></td><td>\(\dfrac{\rho V^2 L}{\sigma}\)</td><td>Inertia / surface tension</td><td>Droplets, sprays, thin films</td></tr>
+    <tr><td><strong>Euler (Eu)</strong></td><td>\(\dfrac{\Delta p}{\rho V^2}\)</td><td>Pressure / inertia forces</td><td>Cavitation index: \(\sigma_c=(p-p_v)/q\)</td></tr>
+    <tr><td><strong>Prandtl (Pr)</strong></td><td>\(\dfrac{\nu}{\alpha}=\dfrac{\mu c_p}{k}\)</td><td>Momentum / thermal diffusivity</td><td>Air≈0.71, water≈7, oils≫1</td></tr>
+    <tr><td><strong>Nusselt (Nu)</strong></td><td>\(\dfrac{hL}{k}\)</td><td>Convection / conduction ratio</td><td>Higher Nu = more convection dominance</td></tr>
+    <tr><td><strong>Grashof (Gr)</strong></td><td>\(\dfrac{g\beta\Delta T L^3}{\nu^2}\)</td><td>Buoyancy / viscous (natural conv.)</td><td>Natural convection onset Gr &gt; 10⁴</td></tr>
+    <tr><td><strong>Rayleigh (Ra)</strong></td><td>\(Gr\cdot Pr\)</td><td>Combined for natural convection</td><td>Ra &gt; 10⁹ = turbulent natural conv.</td></tr>
+    <tr><td><strong>Strouhal (St)</strong></td><td>\(\dfrac{fL}{V}\)</td><td>Oscillation / convection time</td><td>Vortex shedding from cylinder ≈ 0.2</td></tr>
+    <tr><td><strong>Biot (Bi)</strong></td><td>\(\dfrac{hL_c}{k_{solid}}\)</td><td>External convection / internal conduction</td><td>&lt;0.1 → lumped capacitance valid</td></tr>
+    <tr><td><strong>Fourier (Fo)</strong></td><td>\(\dfrac{\alpha t}{L^2}\)</td><td>Dimensionless time for heat diffusion</td><td>Fo &gt; 0.2 → Heisler chart region</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Physical interpretation — interview standard</h3>
+  <div class="note"><strong>Interview tip:</strong> Know what each number means as a ratio of forces, timescales, or diffusivities. "Reynolds number is the ratio of inertial to viscous forces" is worth more than reciting the formula.</div>
+  <table class="tbl">
+    <tr><th>Number</th><th>Plain English interpretation</th></tr>
+    <tr><td>Re</td><td>How hard the flow pushes (inertia) versus how hard the fluid resists shearing (viscosity). High Re → turbulent.</td></tr>
+    <tr><td>Ma</td><td>How fast you move relative to sound. Ma &gt; 0.3 → density changes matter → incompressible assumption breaks down.</td></tr>
+    <tr><td>Pr</td><td>Which diffuses faster — momentum or heat? Pr ≪ 1 (liquid metals): heat diffuses quickly. Pr ≫ 1 (oils): momentum diffuses quickly, thermal BL is thin inside velocity BL.</td></tr>
+    <tr><td>Nu</td><td>How many times more heat is transferred by convection than would be by conduction alone in the same fluid layer. Nu = 1 → pure conduction.</td></tr>
+    <tr><td>St</td><td>Ratio of oscillation period to flow-through time. St ≈ 0.2 for vortex shedding from a cylinder — used to predict shedding frequency \(f = StV/D\).</td></tr>
+    <tr><td>Bi</td><td>External resistance to heat removal versus internal resistance to heat conduction. Small Bi → body temperature nearly uniform → lumped model valid.</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Buckingham π theorem</h3>
+  <div class="fc">
+    <div class="formula">\[ \text{Number of } \pi\text{ groups} = n - m \]</div>
+    <div class="def"><strong>Buckingham π theorem:</strong> \(n\) = number of variables in the problem, \(m\) = number of independent fundamental dimensions (usually 3: M, L, T; or 4 if temperature included). Each \(\pi\) group is a dimensionless combination of the original variables. Used to design scale model experiments and correlate empirical data.</def></div>
+  </div>
+  <div class="tip"><strong>Practical use:</strong> If your CFD or experiment has 5 variables and 3 dimensions → 2 dimensionless groups → plot one vs. the other to get a universal correlation.</div>
+</div>

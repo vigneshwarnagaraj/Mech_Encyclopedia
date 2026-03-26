@@ -1,0 +1,83 @@
+<div class="page-hd">
+  <div class="kicker">Fluid Mechanics · 05</div>
+  <div class="page-title">Flow Equations</div>
+  <p class="page-desc">Continuity, Bernoulli, Euler, Navier-Stokes, and the integral momentum equation.</p>
+</div>
+
+<div class="sec">
+  <h3>Continuity equation — mass conservation</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial\rho}{\partial t}+\nabla\cdot(\rho\vec{V})=0 \]</div>
+    <div class="def"><strong>General continuity (compressible, unsteady):</strong> Conservation of mass in differential form. Rate of change of density + net mass flux out = 0. Every CFD solver solves this at every cell every iteration.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \nabla\cdot\vec{V}=0 \quad\text{(incompressible steady)} \]</div>
+    <div class="def"><strong>Incompressible continuity:</strong> Density is constant, so the divergence of velocity is zero. Valid for Ma &lt; 0.3 in gases, and almost always for liquids.</def></div>
+    <div class="tags"><span class="tag tag-assume">ρ = constant</span><span class="tag tag-assume">Steady or unsteady</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ A_1V_1=A_2V_2,\quad Q=AV,\quad\dot{m}=\rho AV \]</div>
+    <div class="def"><strong>1D steady incompressible continuity:</strong> \(Q\) = volumetric flow rate [m³/s], \(\dot{m}\) = mass flow rate [kg/s]. If cross-section halves, velocity doubles. Used for pipe networks, nozzles, and duct sizing.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Bernoulli equation</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{p}{\rho g}+\frac{V^2}{2g}+z=H=\text{const along a streamline} \]</div>
+    <div class="def"><strong>Bernoulli (head form):</strong> \(H\) = total head [m]. Three contributions: pressure head + velocity head + elevation head. Used for pipe flow, nozzles, orifices, Pitot tubes, and venturi meters.</def></div>
+    <div class="tags"><span class="tag tag-assume">Steady · incompressible · inviscid · along one streamline</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ p_1+\tfrac{1}{2}\rho V_1^2+\rho g z_1 = p_2+\tfrac{1}{2}\rho V_2^2+\rho g z_2 \]</div>
+    <div class="def"><strong>Pressure form:</strong> Dynamic pressure \(q=\tfrac{1}{2}\rho V^2\) [Pa]. Total pressure \(p_0 = p + q\) = stagnation pressure. Used in Pitot-static probes: \(V=\sqrt{2(p_0-p)/\rho}\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ p_1+\tfrac{1}{2}\rho V_1^2+\rho g z_1 = p_2+\tfrac{1}{2}\rho V_2^2+\rho g z_2 + \rho g h_L \]</div>
+    <div class="def"><strong>Bernoulli with head loss:</strong> \(h_L\) = head loss due to friction and minor losses [m]. This is the practical form for real pipe systems. The term \(\rho g h_L\) = pressure drop due to losses.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Euler equation (inviscid momentum)</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho\left(\frac{\partial\vec{V}}{\partial t}+\vec{V}\cdot\nabla\vec{V}\right)=-\nabla p+\rho\vec{g} \]</div>
+    <div class="def"><strong>Euler equation:</strong> Navier-Stokes without the viscous term. Suitable for ideal (inviscid) flow. The nonlinear convective term \(\vec{V}\cdot\nabla\vec{V}\) is the source of all the difficulty in CFD — it is responsible for turbulence, shock formation, and flow instability.</def></div>
+    <div class="tags"><span class="tag tag-assume">Inviscid flow (no viscosity)</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Navier-Stokes equations</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho\!\left(\frac{\partial\vec{V}}{\partial t}+\vec{V}\cdot\nabla\vec{V}\right)=-\nabla p+\mu\nabla^2\vec{V}+\rho\vec{g}+\vec{S} \]</div>
+    <div class="def"><strong>Navier-Stokes (incompressible):</strong>
+      <ul style="margin-top:0.4rem;">
+        <li>\(\rho\,\partial\vec{V}/\partial t\) = unsteady inertia</li>
+        <li>\(\rho(\vec{V}\cdot\nabla\vec{V})\) = convective inertia (nonlinear)</li>
+        <li>\(-\nabla p\) = pressure gradient driving the flow</li>
+        <li>\(\mu\nabla^2\vec{V}\) = viscous diffusion</li>
+        <li>\(\rho\vec{g}\) = gravitational body force</li>
+        <li>\(\vec{S}\) = other source terms (rotation, Coriolis, etc.)</li>
+      </ul>
+    </def></div>
+    <div class="tags"><span class="tag tag-assume">Newtonian · incompressible</span></div>
+  </div>
+  <div class="note"><strong>What CFD solves:</strong> Fluent solves the time-averaged (RANS) or spatially-filtered (LES) form of N-S, where turbulent fluctuations are modelled rather than resolved directly. The menu item "Viscous Model" selects how those fluctuations are handled.</div>
+</div>
+
+<div class="sec">
+  <h3>Material derivative</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{D\phi}{Dt}=\frac{\partial\phi}{\partial t}+\vec{V}\cdot\nabla\phi \]</div>
+    <div class="def"><strong>Material (substantial) derivative:</strong> Rate of change of property \(\phi\) following a fluid particle. First term = local change at a fixed point; second term = change due to the particle moving through a gradient. All governing equations are written in this form.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Integral momentum equation (control volume)</h3>
+  <div class="fc">
+    <div class="formula">\[ \sum\vec{F}=\frac{d}{dt}\int_{CV}\rho\vec{V}\,dV+\oint_{CS}\rho\vec{V}(\vec{V}\cdot\hat{n})\,dA \]</div>
+    <div class="def"><strong>Reynolds Transport Theorem for momentum:</strong> Used for control volume analysis — computing forces on nozzles, pipe bends, turbine blades, and vehicles without solving the full differential equations. In steady flow, the first term vanishes.</def></div>
+  </div>
+</div>

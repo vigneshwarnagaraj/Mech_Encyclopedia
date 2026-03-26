@@ -1,0 +1,74 @@
+<div class="page-hd">
+  <div class="kicker">FEA · 24</div>
+  <div class="page-title">FEA Formulation</div>
+  <p class="page-desc">The stiffness matrix, element types, shape functions, assembly, and boundary condition application.</p>
+</div>
+
+<div class="sec">
+  <h3>The global FEA system</h3>
+  <div class="fc">
+    <div class="formula">\[ [K]\{u\}=\{F\} \]</div>
+    <div class="def"><strong>Global stiffness equation:</strong> \([K]\) = global stiffness matrix [N/m], \(\{u\}\) = nodal displacement vector [m], \(\{F\}\) = nodal force vector [N]. This is the master equation that every structural FEA solver assembles and solves. For \(n\) DOFs, this is an \(n\times n\) linear system.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ [k]^e=\int_{V^e}[B]^T[D][B]\,dV \]</div>
+    <div class="def"><strong>Element stiffness matrix:</strong> \([B]\) = strain-displacement matrix (maps nodal displacements to strains), \([D]\) = constitutive matrix (maps strains to stresses). Integrated over element volume using Gauss quadrature. The global \([K]\) is assembled from all \([k]^e\) by adding contributions at shared nodes (direct stiffness method).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \{F\}^e=\int_{V^e}[N]^T\vec{b}\,dV+\int_{S^e}[N]^T\vec{t}\,dS \]</div>
+    <div class="def"><strong>Consistent nodal force vector:</strong> Body forces \(\vec{b}\) (gravity, centrifugal) and surface tractions \(\vec{t}\) (pressure, surface forces) are mapped to equivalent nodal forces using the shape function matrix \([N]\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Shape functions and interpolation</h3>
+  <div class="fc">
+    <div class="formula">\[ u(x)=\sum_{i=1}^n N_i(x)\,u_i = [N]\{u\}^e \]</div>
+    <div class="def"><strong>Shape function interpolation:</strong> \(N_i(x)\) = shape function for node \(i\). Displacement at any point inside an element is interpolated from nodal displacements. <strong>Linear elements</strong> (TET4, HEXA8): straight-sided, 1st-order interpolation. <strong>Quadratic elements</strong> (TET10, HEXA20): midside nodes, parabolic interpolation — more accurate for curved boundaries and bending.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ [B]=\frac{\partial[N]}{\partial x}\quad\text{(strain-displacement matrix)} \]</div>
+    <div class="def"><strong>B matrix:</strong> Differentiating the shape functions gives the strain-displacement relationship: \(\{\varepsilon\}=[B]\{u\}^e\). This is then substituted into the element stiffness integral. The accuracy of the element depends critically on how well \([B]\) represents the actual strain distribution.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Element types</h3>
+  <table class="tbl">
+    <tr><th>Element</th><th>Nodes</th><th>DOF/node</th><th>Order</th><th>Typical use</th></tr>
+    <tr><td>Bar/truss (1D)</td><td>2</td><td>1–3</td><td>Linear</td><td>Pin-jointed frames, trusses</td></tr>
+    <tr><td>Beam (1D)</td><td>2–3</td><td>3–6</td><td>Hermitian</td><td>Slender frames, shafts</td></tr>
+    <tr><td>PLANE42/PLANE182</td><td>4</td><td>2</td><td>Linear quad</td><td>2D plane stress/strain</td></tr>
+    <tr><td>PLANE183</td><td>8</td><td>2</td><td>Quadratic quad</td><td>2D, curved boundaries</td></tr>
+    <tr><td>SHELL181</td><td>4</td><td>6</td><td>Bilinear</td><td>Thin plates, pressure vessels</td></tr>
+    <tr><td>SHELL281</td><td>8</td><td>6</td><td>Quadratic</td><td>Shell with thickness variation</td></tr>
+    <tr><td>SOLID185 (HEXA8)</td><td>8</td><td>3</td><td>Linear hex</td><td>Regular 3D geometry</td></tr>
+    <tr><td>SOLID186 (HEXA20)</td><td>20</td><td>3</td><td>Quadratic hex</td><td>Accurate 3D, regular mesh</td></tr>
+    <tr><td>SOLID187 (TET10)</td><td>10</td><td>3</td><td>Quadratic tet</td><td>Complex CAD geometry — ANSYS default</td></tr>
+  </table>
+  <div class="tip"><strong>ANSYS default:</strong> For complex imported CAD geometry, ANSYS Mechanical automatically uses TET10 (SOLID187) — quadratic tetrahedra. This is a good choice: it fills complex geometry automatically and is second-order accurate. Avoid TET4 (linear tets) — they are overly stiff in bending (shear locking).</div>
+</div>
+
+<div class="sec">
+  <h3>Boundary conditions and constraints</h3>
+  <div class="fc">
+    <div class="formula">\[ [K_{ff}]\{u_f\}=\{F_f\}-[K_{fc}]\{u_c\} \]</div>
+    <div class="def"><strong>Partitioned stiffness system:</strong> Subscript \(f\) = free DOFs, \(c\) = constrained DOFs. Constrained displacements \(\{u_c\}\) are known (typically zero for fixed supports). The reduced system \([K_{ff}]\{u_f\}=\{F_f\}\) is solved for free displacements, then reactions are recovered.</def></div>
+  </div>
+  <div class="warn"><strong>Common mistakes in boundary conditions:</strong>
+    <ul style="margin-top:0.4rem;">
+      <li>Over-constraining: too many fixed DOFs prevent physical deformation modes → unrealistically high stiffness</li>
+      <li>Under-constraining: rigid body modes exist → singular stiffness matrix → solver fails</li>
+      <li>Symmetry BCs: apply zero normal displacement AND zero rotation on the symmetry plane — both are required</li>
+      <li>Point constraints: create stress singularities — distribute load over an area instead</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Minimum potential energy principle</h3>
+  <div class="fc">
+    <div class="formula">\[ \Pi=U-W_{ext}=\int\frac{1}{2}\{\varepsilon\}^T\{\sigma\}\,dV-\{u\}^T\{F\} \]</div>
+    <div class="def"><strong>Potential energy:</strong> \(U\) = strain energy stored in elastic deformation [J], \(W_{ext}\) = external work done [J]. The displacement field that minimises \(\Pi\) satisfies equilibrium. Setting \(\partial\Pi/\partial\{u\}=0\) gives \([K]\{u\}=\{F\}\) — the FEA equation.</def></div>
+  </div>
+</div>

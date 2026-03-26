@@ -1,0 +1,82 @@
+<div class="page-hd">
+  <div class="kicker">Foundation · 01</div>
+  <div class="page-title">Math Foundations</div>
+  <p class="page-desc">The mathematical tools underlying all engineering analysis — calculus, differential equations, vector operators, and linear algebra.</p>
+</div>
+
+<div class="sec">
+  <h3>Differential calculus</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{df}{dx},\quad \frac{\partial f}{\partial x},\quad \frac{d^2f}{dx^2} \]</div>
+    <div class="def"><strong>Ordinary vs partial derivative:</strong> Use \(\partial\) when a function depends on multiple variables and you differentiate with respect to one while holding others fixed. Used throughout fluid mechanics, heat transfer, and structural dynamics.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ a_n\frac{d^n y}{dt^n}+\cdots+a_1\frac{dy}{dt}+a_0 y = f(t) \]</div>
+    <div class="def"><strong>Linear ODE:</strong> Governs vibration (mass-spring-damper), transient heat transfer (lumped capacitance), and control systems. Solution form depends on the roots of the characteristic equation: real roots → exponential; complex roots → oscillatory.</div>
+  </div>
+  <h4>Chain rule and product rule</h4>
+  <div class="fc">
+    <div class="formula">\[ \frac{d}{dx}[f(g(x))] = f'(g(x))\cdot g'(x) \]</div>
+    <div class="def"><strong>Chain rule:</strong> Needed when differentiating composite functions — appears when deriving material derivative in fluid mechanics: \(D\phi/Dt = \partial\phi/\partial t + \vec{V}\cdot\nabla\phi\).</div>
+  </div>
+  <h4>Integration — practical forms</h4>
+  <div class="fc">
+    <div class="formula">\[ \int e^{ax}\,dx = \frac{e^{ax}}{a}+C,\quad \int \sin(\omega t)\,dt=-\frac{\cos(\omega t)}{\omega}+C \]</div>
+    <div class="def"><strong>Common integrals in dynamics:</strong> The exponential form appears in damped vibration and thermal decay. The trigonometric form appears in forced vibration and Fourier analysis.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Vector calculus operators</h3>
+  <div class="fc">
+    <div class="formula">\[ \nabla\phi = \operatorname{grad}\phi = \frac{\partial\phi}{\partial x}\hat{i}+\frac{\partial\phi}{\partial y}\hat{j}+\frac{\partial\phi}{\partial z}\hat{k} \]</div>
+    <div class="def"><strong>Gradient:</strong> Points in the direction of maximum increase of a scalar field \(\phi\). In CFD, \(-\nabla p\) is the pressure gradient driving the flow.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \nabla\cdot\vec{V} = \frac{\partial u}{\partial x}+\frac{\partial v}{\partial y}+\frac{\partial w}{\partial z} \]</div>
+    <div class="def"><strong>Divergence:</strong> Scalar measure of outward flux per unit volume. \(\nabla\cdot\vec{V}=0\) is the incompressible continuity equation — zero divergence means no net mass flux out of any fluid element.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \nabla^2\phi = \frac{\partial^2\phi}{\partial x^2}+\frac{\partial^2\phi}{\partial y^2}+\frac{\partial^2\phi}{\partial z^2} \]</div>
+    <div class="def"><strong>Laplacian:</strong> Appears in the diffusion terms of both the heat equation and the Navier-Stokes viscous term \(\mu\nabla^2\vec{V}\). If \(\nabla^2\phi=0\): Laplace equation (steady conduction with no heat generation).</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \nabla\times\vec{V} = \vec{\omega} = \operatorname{curl}\vec{V} \]</div>
+    <div class="def"><strong>Curl / vorticity:</strong> \(\vec{\omega}\) = vorticity vector [s⁻¹]. Irrotational flow: \(\nabla\times\vec{V}=0\). Used in potential flow theory and vortex dynamics.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Linear algebra — FEA and MDOF vibrations</h3>
+  <div class="fc">
+    <div class="formula">\[ [K]\{x\}=\{F\} \]</div>
+    <div class="def"><strong>Matrix system:</strong> \([K]\) = coefficient / stiffness matrix (\(n\times n\)), \(\{x\}\) = unknowns (\(n\times1\)), \(\{F\}\) = right-hand side. Solved by Gaussian elimination, LU decomposition, or iterative methods. Used in FEA, MDOF vibrations, and discretised CFD systems.</div>
+    <div class="tags"><span class="tag tag-use">FEA global system</span><span class="tag tag-use">MDOF vibration</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ [A]\{x\}=\lambda\{x\} \quad\Rightarrow\quad \det([A]-\lambda[I])=0 \]</div>
+    <div class="def"><strong>Eigenvalue problem:</strong> \(\lambda\) = eigenvalue (natural frequency squared in structural problems), \(\{x\}\) = eigenvector (mode shape). Non-trivial solution exists only when the determinant is zero.</div>
+    <div class="tags"><span class="tag tag-use">Modal analysis</span><span class="tag tag-use">Buckling</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \{x\}=[A]^{-1}\{b\} \quad\text{(if } [A] \text{ invertible)} \]</div>
+    <div class="def"><strong>Matrix inversion:</strong> In FEA, the global stiffness matrix is large and sparse — never literally inverted. Solvers use factored or iterative methods. In small MDOF problems, direct inversion is fine.</div>
+  </div>
+  <h4>Dot product, cross product</h4>
+  <div class="fc">
+    <div class="formula">\[ \vec{A}\cdot\vec{B}=|\vec{A}||\vec{B}|\cos\theta,\quad \vec{A}\times\vec{B}=|\vec{A}||\vec{B}|\sin\theta\,\hat{n} \]</div>
+    <div class="def"><strong>Products:</strong> Dot product gives work (\(\vec{F}\cdot d\vec{s}\)). Cross product gives moment (\(\vec{r}\times\vec{F}\)) and angular momentum. The direction of \(\vec{A}\times\vec{B}\) follows the right-hand rule.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Fourier series and transform</h3>
+  <div class="fc">
+    <div class="formula">\[ f(t)=\frac{a_0}{2}+\sum_{n=1}^\infty\left[a_n\cos(n\omega_0 t)+b_n\sin(n\omega_0 t)\right] \]</div>
+    <div class="def"><strong>Fourier series:</strong> Any periodic signal can be decomposed into harmonics. Used in vibration analysis to decompose a complex periodic excitation into its frequency components, each of which can be handled as a single-frequency forced vibration.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ X(f)=\int_{-\infty}^{\infty}x(t)\,e^{-j2\pi ft}\,dt \]</div>
+    <div class="def"><strong>Fourier transform:</strong> Converts a time-domain signal to frequency domain. In experimental modal analysis and signal processing, the FFT (Fast Fourier Transform) is the discrete implementation. Input is time history; output is frequency spectrum.</div>
+  </div>
+</div>

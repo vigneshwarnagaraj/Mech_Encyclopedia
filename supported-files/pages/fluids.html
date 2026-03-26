@@ -1,0 +1,68 @@
+<div class="page-hd">
+  <div class="kicker">Fluid Mechanics · 04</div>
+  <div class="page-title">Fluid Properties &amp; Pressure</div>
+  <p class="page-desc">Fundamental fluid properties, pressure relations, hydrostatics, and the ideal gas law.</p>
+</div>
+
+<div class="sec">
+  <h3>Fluid properties</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho=\frac{m}{V},\quad \gamma=\rho g,\quad \nu=\frac{\mu}{\rho},\quad SG=\frac{\rho}{\rho_{water}} \]</div>
+    <div class="def">
+      <strong>Symbols:</strong> \(\rho\) = density [kg/m³], \(\gamma\) = specific weight [N/m³], \(\mu\) = dynamic viscosity [Pa·s], \(\nu\) = kinematic viscosity [m²/s], \(SG\) = specific gravity (dimensionless).<br>
+      <strong>Reference values:</strong> \(\rho_{water,20°C} \approx 998\) kg/m³ · \(\rho_{air,15°C} \approx 1.225\) kg/m³.
+    </div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tau = \mu\frac{du}{dy} \]</div>
+    <div class="def"><strong>Newton's law of viscosity:</strong> \(\tau\) = shear stress [Pa], \(du/dy\) = velocity gradient normal to flow direction [s⁻¹]. This defines a <em>Newtonian fluid</em> — viscosity is constant. Non-Newtonian fluids (blood, polymer melts, ketchup) have viscosity that depends on shear rate.</div>
+    <div class="tags"><span class="tag tag-assume">Newtonian fluid</span><span class="tag tag-unit">Pa</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \beta = -\frac{1}{V}\frac{dV}{dp}\bigg|_T \quad\text{(bulk modulus: } K = 1/\beta\text{)} \]</div>
+    <div class="def"><strong>Compressibility:</strong> \(\beta\) = compressibility [Pa⁻¹], \(K\) = bulk modulus [Pa]. For water: \(K \approx 2.2\) GPa (nearly incompressible). For air at 1 atm: \(K = \gamma p \approx 142\) kPa (easily compressed). In CFD: incompressible assumption is valid when Ma &lt; 0.3.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Pressure — definitions and hydrostatics</h3>
+  <div class="fc">
+    <div class="formula">\[ p_{abs} = p_{gauge} + p_{atm},\quad p_{atm} = 101\,325\;\text{Pa} \]</div>
+    <div class="def"><strong>Absolute vs gauge pressure:</strong> CFD solvers (Fluent) work with gauge pressure (zero = atmospheric). Always clarify which is reported when comparing to measurements or hand calculations.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ p=p_0+\rho g h \]</div>
+    <div class="def"><strong>Hydrostatic pressure:</strong> \(p_0\) = surface pressure [Pa], \(h\) = depth below free surface [m]. Pressure increases linearly with depth. Valid for <em>static</em> fluid only — any flow requires the full Bernoulli or Navier-Stokes equation.</def></div>
+    <div class="tags"><span class="tag tag-assume">Static fluid only</span><span class="tag tag-unit">Pa</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ F_{hydro}=\rho g \bar{h}\, A,\quad y_{cp}-\bar{y}=\frac{I_{xx,c}}{\bar{y}A} \]</div>
+    <div class="def"><strong>Force on submerged plane surface:</strong> \(\bar{h}\) = depth of centroid [m], \(A\) = area [m²]. Force acts at the <em>centre of pressure</em> \(y_{cp}\), which is below the centroid. \(I_{xx,c}\) = second moment of area about centroidal axis.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ F_B = \rho g V_{submerged} \]</div>
+    <div class="def"><strong>Archimedes / buoyancy force:</strong> \(F_B\) [N]. Acts upward through the centre of buoyancy (centroid of displaced volume). In CFD with gravity enabled, buoyancy is applied through the body force term in N-S.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Ideal gas law</h3>
+  <div class="fc">
+    <div class="formula">\[ p = \rho R T,\quad R_{air}=287\;\text{J/kg·K},\quad pV=nR_uT \]</div>
+    <div class="def"><strong>Ideal gas law per unit mass:</strong> \(T\) = absolute temperature [K], \(R\) = specific gas constant [J/kg·K], \(R_u = 8.314\) J/mol·K = universal gas constant.<br>
+    <strong>When it fails:</strong> High pressure (dense gases), near condensation, or for real-gas effects in cryogenic or supercritical flows.</def></div>
+    <div class="tags"><span class="tag tag-assume">Ideal gas — no intermolecular forces</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ c_p - c_v = R,\quad \gamma=\frac{c_p}{c_v},\quad c_p=\frac{\gamma R}{\gamma-1} \]</div>
+    <div class="def"><strong>Specific heat relations for ideal gas:</strong> For air: \(\gamma=1.4\), \(c_p=1005\) J/kg·K, \(c_v=718\) J/kg·K. Used in compressible flow and thermodynamic cycle analysis.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Surface tension and capillarity</h3>
+  <div class="fc">
+    <div class="formula">\[ \Delta p = \frac{2\sigma}{r}\;\text{(bubble)},\quad \Delta p = \frac{4\sigma}{r}\;\text{(soap film)},\quad h=\frac{4\sigma\cos\theta}{\rho g d} \]</div>
+    <div class="def"><strong>Surface tension \(\sigma\) [N/m]:</strong> \(r\) = radius [m], \(h\) = capillary rise [m], \(\theta\) = contact angle [°], \(d\) = tube diameter [m]. Relevant in droplet dynamics, inkjet printing, microfluidics, and multiphase CFD (VOF model).</def></div>
+  </div>
+</div>

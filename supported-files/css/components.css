@@ -1,0 +1,98 @@
+/* ===================== CALCULATORS ===================== */
+.calc-box {
+  background: var(--bg-2);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem;
+  margin: 0.9rem 0;
+}
+.calc-box h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.calc-box h4::before { content: '⚙'; font-size: 1rem; }
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 0.65rem;
+  margin-bottom: 0.8rem;
+}
+.calc-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.calc-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--txt-lo);
+  font-family: 'Syne', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.calc-field input, .calc-field select {
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-3);
+  color: var(--txt);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.calc-field input:focus, .calc-field select:focus { border-color: var(--accent); }
+
+.calc-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+  letter-spacing: 0.03em;
+}
+.calc-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.calc-result {
+  margin-top: 0.75rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--accent2);
+  min-height: 2.2rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* ===================== CHECKLISTS ===================== */
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--txt-lo);
+  line-height: 1.65;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: '□';
+  color: var(--accent);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+.checklist li strong { color: var(--txt); }

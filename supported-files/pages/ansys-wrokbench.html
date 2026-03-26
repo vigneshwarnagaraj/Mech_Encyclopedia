@@ -1,0 +1,84 @@
+<div class="page-hd">
+  <div class="kicker">ANSYS · 31</div>
+  <div class="page-title">ANSYS Workbench Overview</div>
+  <p class="page-desc">What each cell in the Workbench schematic does, why it matters, and what breaks when you skip steps.</p>
+</div>
+
+<div class="sec">
+  <h3>Workbench project schematic</h3>
+  <table class="tbl">
+    <tr><th>Cell</th><th>What you control</th><th>Common mistake</th></tr>
+    <tr><td><strong>Engineering Data</strong></td><td>Material properties: E, ν, ρ, k, c_p, yield stress, fatigue data, CTE</td><td>Leaving default structural steel when analysis involves aluminium, titanium, or a polymer</td></tr>
+    <tr><td><strong>Geometry</strong></td><td>SpaceClaim or DesignModeler: CAD import, suppress small features, create enclosure for CFD, Boolean operations</td><td>Not creating a fluid domain enclosure; leaving internal voids; gaps between bodies that should share topology</td></tr>
+    <tr><td><strong>Model / Mechanical</strong></td><td>Named selections, contact detection, mesh method choices, coordinate systems, connections</td><td>Auto-generated contacts with wrong type; no named selections for BC application</td></tr>
+    <tr><td><strong>Setup / Analysis Settings</strong></td><td>Time stepping, substeps, large deflection on/off, output controls, solution method</td><td>Leaving default substeps for nonlinear problems — causes divergence</td></tr>
+    <tr><td><strong>Solution</strong></td><td>Results objects added before solving: deformation, stress, frequency, heat flux</td><td>Not inserting result objects before solving — cannot recover without re-solving</td></tr>
+    <tr><td><strong>Results</strong></td><td>Contour plots, probe values, path plots, animations, report generation</td><td>Reporting auto-scaled maximum values without checking if they are singularities or mesh artifacts</td></tr>
+  </table>
+  <div class="warn"><strong>Rule:</strong> If you cannot explain what would happen to your result if you changed a particular setting, you do not yet understand the simulation.</div>
+</div>
+
+<div class="sec">
+  <h3>Engineering Data — material input checklist</h3>
+  <ul class="checklist">
+    <li><strong>Density ρ:</strong> Required for any inertia, gravitational, or dynamic analysis. In kg/m³ for SI.</li>
+    <li><strong>Young's modulus E and Poisson's ratio ν:</strong> Required for all structural analyses. Enter E in Pa (not GPa): 200 GPa = 2×10¹¹ Pa.</li>
+    <li><strong>Thermal conductivity k and specific heat c_p:</strong> Required for thermal analyses. Check temperature dependence if operating above 200 °C.</li>
+    <li><strong>Coefficient of thermal expansion α_th:</strong> Required for thermal-structural coupled analyses.</li>
+    <li><strong>Yield strength σ_y:</strong> Required for failure assessment (FOS) and plasticity models.</li>
+    <li><strong>S-N curve data:</strong> Required for fatigue analysis in Fatigue Tool.</li>
+    <li><strong>Damping:</strong> Specified in Analysis Settings (constant damping ratio or Rayleigh α/β), not in Engineering Data.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Geometry preparation — SpaceClaim workflow</h3>
+  <ol class="step-list">
+    <li><strong>Import CAD:</strong> File → Open. Supported formats: STEP, IGES, Parasolid, ACIS, SolidWorks, CATIA, NX. Choose "Import" over "Attach" to avoid link dependencies.</li>
+    <li><strong>Defeaturing:</strong> Remove small holes, fillets, and chamfers irrelevant to the analysis. Use Repair → Find Faults to identify geometry issues automatically.</li>
+    <li><strong>Share topology:</strong> For bodies that share a face, use Share to create conformal mesh interfaces — avoids contact pairs at interior faces.</li>
+    <li><strong>Fluid enclosure (CFD):</strong> Design → Enclosure → create external flow domain. Use Fill for internal flow domain extraction. Subtract solid bodies from the enclosure.</li>
+    <li><strong>Named selections:</strong> Create named selections in SpaceClaim — they transfer to Mechanical and Fluent automatically. Name inlets, outlets, walls, symmetry planes.</li>
+  </ol>
+</div>
+
+<div class="sec">
+  <h3>Named selections — critical workflow habit</h3>
+  <p>Named selections are the single most important organisational habit in ANSYS. Create them for:</p>
+  <div class="grid2">
+    <div class="mini-card">
+      <h4>Structural</h4>
+      <p>Fixed supports, frictionless supports, force application surfaces, pressure faces, symmetry planes, contact target and contact bodies, result probes.</p>
+    </div>
+    <div class="mini-card">
+      <h4>CFD / Thermal</h4>
+      <p>Inlets, outlets, walls, symmetry planes, periodic boundaries, heat source faces, monitor surfaces, rotating domains.</p>
+    </div>
+  </div>
+  <div class="note"><strong>Why it matters:</strong> Named selections make BCs easy to verify, easy to modify, and easy for someone else to understand. A model without named selections requires reverse-engineering to identify what was applied where.</div>
+</div>
+
+<div class="sec">
+  <h3>Mesh quality metrics</h3>
+  <table class="tbl">
+    <tr><th>Metric</th><th>Definition</th><th>Target range</th><th>Bad value indicates</th></tr>
+    <tr><td>Element Quality</td><td>Ratio of volume to edge length normalised to ideal element</td><td>&gt; 0.5 (aim &gt; 0.7)</td><td>Distorted, non-ideal element</td></tr>
+    <tr><td>Skewness</td><td>Deviation of angles from ideal (0 = perfect)</td><td>&lt; 0.5 (aim &lt; 0.25)</td><td>Highly skewed — poor accuracy</td></tr>
+    <tr><td>Aspect Ratio</td><td>Longest to shortest dimension ratio</td><td>&lt; 10 for solids; &lt; 5 in stress concentration zones</td><td>Needle-like elements — directional error</td></tr>
+    <tr><td>Jacobian Ratio</td><td>Ratio of Jacobian at Gauss points (should be uniform)</td><td>&gt; 0.5</td><td>Curved elements with negative Jacobian → solver failure</td></tr>
+    <tr><td>Orthogonal Quality</td><td>Fluent metric: 0 = worst, 1 = best</td><td>&gt; 0.15 (aim &gt; 0.2)</td><td>Poor near-wall accuracy, convergence issues</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Connecting analysis systems</h3>
+  <table class="tbl">
+    <tr><th>Connection</th><th>What it transfers</th><th>Use case</th></tr>
+    <tr><td>Steady-State Thermal → Static Structural</td><td>Temperature field as thermal load</td><td>Thermal stress analysis — pipe, engine component, PCB</td></tr>
+    <tr><td>Modal → Harmonic Response (MSUP)</td><td>Mode shapes and frequencies</td><td>Fast harmonic response using mode superposition</td></tr>
+    <tr><td>Modal → Random Vibration</td><td>Mode shapes and frequencies</td><td>PSD-based fatigue and peak response</td></tr>
+    <tr><td>Static Structural → Modal</td><td>Pre-stress state for stress-stiffening</td><td>Pre-tensioned cables, rotating blades, centrifugal stiffening</td></tr>
+    <tr><td>Fluent → Static Structural</td><td>Pressure or temperature map on surfaces</td><td>Fluid-structure interaction (one-way)</td></tr>
+    <tr><td>Static Structural → Linear Buckling</td><td>Stress stiffness from pre-load</td><td>Compression members, thin shells</td></tr>
+  </table>
+</div>

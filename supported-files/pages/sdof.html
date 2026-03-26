@@ -1,0 +1,74 @@
+<div class="page-hd">
+  <div class="kicker">Vibrations · 27</div>
+  <div class="page-title">Single Degree of Freedom (SDOF)</div>
+  <p class="page-desc">The fundamental vibration model — free vibration, damped response, forced vibration, transmissibility, and rotating imbalance.</p>
+</div>
+
+<div class="sec">
+  <h3>Undamped free vibration</h3>
+  <div class="fc">
+    <div class="formula">\[ m\ddot{x}+kx=0,\quad\omega_n=\sqrt{\frac{k}{m}},\quad f_n=\frac{\omega_n}{2\pi} \]</div>
+    <div class="def"><strong>Natural frequency:</strong> \(\omega_n\) [rad/s], \(f_n\) [Hz]. Depends only on stiffness and mass. Increasing stiffness raises \(f_n\); increasing mass lowers it. General solution: \(x(t)=A\cos\omega_n t+B\sin\omega_n t\), where \(A\) and \(B\) are set by initial conditions.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Damped free vibration</h3>
+  <div class="fc">
+    <div class="formula">\[ m\ddot{x}+c\dot{x}+kx=0 \]</div>
+    <div class="def"><strong>Equation of motion with damping:</strong> \(c\) = damping coefficient [N·s/m]. Solution depends on the damping ratio \(\zeta\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ c_c=2\sqrt{km}=2m\omega_n,\quad\zeta=\frac{c}{c_c} \]</div>
+    <div class="def"><strong>Critical damping and damping ratio:</strong> \(c_c\) = critical damping coefficient [N·s/m] — minimum damping for no oscillation. \(\zeta\) = damping ratio [dimensionless]:
+      <ul style="margin-top:0.35rem;">
+        <li>\(\zeta &lt; 1\): underdamped — oscillatory decay (most real structures)</li>
+        <li>\(\zeta = 1\): critically damped — returns to rest as fast as possible without oscillating</li>
+        <li>\(\zeta &gt; 1\): overdamped — slow exponential decay without oscillation</li>
+      </ul>
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \omega_d=\omega_n\sqrt{1-\zeta^2},\quad x(t)=Xe^{-\zeta\omega_n t}\sin(\omega_d t+\phi) \]</div>
+    <div class="def"><strong>Damped natural frequency \(\omega_d\):</strong> Always less than \(\omega_n\). For lightly damped systems (\(\zeta &lt; 0.1\)): \(\omega_d \approx \omega_n\). The exponential envelope \(Xe^{-\zeta\omega_n t}\) describes the amplitude decay.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Forced harmonic vibration</h3>
+  <div class="fc">
+    <div class="formula">\[ m\ddot{x}+c\dot{x}+kx=F_0\sin(\omega t) \]</div>
+    <div class="def"><strong>Equation of motion with sinusoidal forcing:</strong> Steady-state response has the same frequency as the forcing. The complete response = transient (free vibration) + steady state — for lightly damped systems, the transient decays after a few cycles.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ X=\frac{F_0/k}{\sqrt{(1-r^2)^2+(2\zeta r)^2}},\quad r=\frac{\omega}{\omega_n} \]</div>
+    <div class="def"><strong>Steady-state amplitude:</strong> \(r\) = frequency ratio. \(F_0/k\) = static deflection under \(F_0\). The denominator = dynamic magnification factor (DMF):
+      <ul style="margin-top:0.35rem;">
+        <li>\(r \ll 1\): \(X \approx F_0/k\) (quasi-static)</li>
+        <li>\(r = 1\): \(X = F_0/(2\zeta k)\) = resonance — amplitude limited only by damping</li>
+        <li>\(r \gg 1\): \(X \approx F_0/(m\omega^2)\) — mass-dominated, low response</li>
+      </ul>
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \phi=\arctan\!\left(\frac{2\zeta r}{1-r^2}\right) \]</div>
+    <div class="def"><strong>Phase angle \(\phi\):</strong> Response lags the force. \(\phi=0\) at \(r\ll1\) (in phase), \(\phi=90°\) at resonance (\(r=1\)), \(\phi\to180°\) at \(r\gg1\) (out of phase). The 90° phase shift at resonance is what identifies the natural frequency in experimental testing.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Transmissibility and vibration isolation</h3>
+  <div class="fc">
+    <div class="formula">\[ TR=\frac{F_{transmitted}}{F_{applied}}=\sqrt{\frac{1+(2\zeta r)^2}{(1-r^2)^2+(2\zeta r)^2}} \]</div>
+    <div class="def"><strong>Force transmissibility:</strong> At \(r=\sqrt{2}\): \(TR=1\) for all \(\zeta\). For \(r &gt; \sqrt{2}\): \(TR &lt; 1\) — isolation begins. For \(r \gg \sqrt{2}\): \(TR \approx 1/r^2\) — high-frequency isolation. <strong>Key insight:</strong> Adding damping reduces resonance peak but worsens high-frequency isolation — there is a trade-off.</def></div>
+  </div>
+  <div class="note"><strong>Design rule:</strong> To isolate a machine from a foundation, target \(r = \omega/\omega_n &gt; 2.5\) (i.e., natural frequency of the mount should be &lt; 0.4× the operating frequency). Use low-stiffness mounts (rubber, springs) to lower \(\omega_n\).</note>
+</div>
+
+<div class="sec">
+  <h3>Rotating imbalance</h3>
+  <div class="fc">
+    <div class="formula">\[ X=\frac{me\omega^2/k}{\sqrt{(1-r^2)^2+(2\zeta r)^2}}=\frac{(m_u/m)r^2}{\sqrt{(1-r^2)^2+(2\zeta r)^2}}\cdot e \]</div>
+    <div class="def"><strong>Rotating imbalance response:</strong> \(m_u\) = imbalance mass [kg], \(e\) = eccentricity [m] (distance of imbalance mass from rotation axis), \(m\) = total system mass. At high speed (\(r\gg1\)): amplitude \(X \to m_u e/m\) — system moves at the eccentricity of its centre of mass.</def></div>
+  </div>
+</div>

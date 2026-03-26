@@ -1,0 +1,60 @@
+<div class="page-hd">
+  <div class="kicker">Thermal · 09</div>
+  <div class="page-title">Thermal Basics</div>
+  <p class="page-desc">Temperature, heat, specific heat, thermodynamic laws, and thermal diffusivity — the foundation before conduction, convection, and radiation.</p>
+</div>
+
+<div class="sec">
+  <h3>Fundamental thermal quantities</h3>
+  <div class="fc">
+    <div class="formula">\[ Q=mc_p\Delta T \]</div>
+    <div class="def"><strong>Sensible heat:</strong> \(Q\) = heat energy [J], \(m\) = mass [kg], \(c_p\) = specific heat at constant pressure [J/kg·K], \(\Delta T\) = temperature change [K or °C].<br>
+      Reference values: Air \(c_p \approx 1005\) J/kg·K · Water \(c_p \approx 4182\) J/kg·K · Steel \(c \approx 500\) J/kg·K · Aluminum \(c \approx 900\) J/kg·K.
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ Q=mL \]</div>
+    <div class="def"><strong>Latent heat:</strong> Energy for phase change at constant temperature. \(L\) = latent heat [J/kg]. For water: \(L_{vap}\approx 2.26\times10^6\) J/kg (evaporation at 100 °C), \(L_{fus}\approx 3.34\times10^5\) J/kg (melting at 0 °C).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}=\frac{dQ}{dt}\quad[\text{W}] \]</div>
+    <div class="def"><strong>Heat transfer rate:</strong> \(\dot{Q}\) [W = J/s]. Power form used in steady-state thermal analysis. In ANSYS, thermal loads are specified as heat flux [W/m²] or heat generation rate [W/m³] or total heat [W] on a surface.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Temperature scales and conversions</h3>
+  <div class="fc">
+    <div class="formula">\[ T[\text{K}]=T[°\text{C}]+273.15,\quad T[°\text{C}]=\tfrac{5}{9}(T[°\text{F}]-32) \]</div>
+    <div class="def"><strong>Always use Kelvin [K]</strong> in radiation equations (\(T^4\)) and ideal gas law. Temperature differences \(\Delta T\) are numerically identical in K and °C. In ANSYS, specify whether input temperatures are in K or °C in the unit system settings.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Laws of thermodynamics (engineering application)</h3>
+  <div class="fc">
+    <div class="formula">\[ \Delta U = Q - W \quad\text{(first law)} \]</div>
+    <div class="def"><strong>First law:</strong> \(\Delta U\) = change in internal energy, \(Q\) = heat added to system, \(W\) = work done by system. Energy is conserved. In steady-flow devices: \(\dot{Q}-\dot{W}=\dot{m}[(h_2-h_1)+\tfrac{1}{2}(V_2^2-V_1^2)+g(z_2-z_1)]\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ dS\geq\frac{dQ}{T}\;\text{(second law)},\quad \eta_{Carnot}=1-\frac{T_L}{T_H} \]</div>
+    <div class="def"><strong>Second law:</strong> Entropy of an isolated system never decreases. The Carnot efficiency sets the maximum possible efficiency for any heat engine operating between \(T_H\) and \(T_L\) (both in Kelvin).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Thermal diffusivity</h3>
+  <div class="fc">
+    <div class="formula">\[ \alpha=\frac{k}{\rho c_p}\quad[\text{m}^2/\text{s}] \]</div>
+    <div class="def"><strong>Thermal diffusivity:</strong> Ratio of heat conducted through a material to heat stored per unit volume. High \(\alpha\) = fast thermal response (copper: \(\alpha\approx1.17\times10^{-4}\) m²/s). Low \(\alpha\) = slow response (brick: \(\alpha\approx5\times10^{-7}\) m²/s). Used in transient conduction Fourier number: \(Fo=\alpha t/L^2\).</def></div>
+  </div>
+  <table class="tbl">
+    <tr><th>Material</th><th>k (W/m·K)</th><th>ρ (kg/m³)</th><th>c_p (J/kg·K)</th><th>α (×10⁻⁶ m²/s)</th></tr>
+    <tr><td>Copper</td><td class="const-val">390</td><td class="const-val">8900</td><td class="const-val">390</td><td class="const-val">112</td></tr>
+    <tr><td>Aluminum</td><td class="const-val">200</td><td class="const-val">2700</td><td class="const-val">900</td><td class="const-val">82.4</td></tr>
+    <tr><td>Steel</td><td class="const-val">50</td><td class="const-val">7850</td><td class="const-val">500</td><td class="const-val">12.7</td></tr>
+    <tr><td>Glass</td><td class="const-val">1.05</td><td class="const-val">2500</td><td class="const-val">840</td><td class="const-val">0.50</td></tr>
+    <tr><td>Water (20 °C)</td><td class="const-val">0.598</td><td class="const-val">998</td><td class="const-val">4182</td><td class="const-val">0.143</td></tr>
+    <tr><td>Air (15 °C)</td><td class="const-val">0.0257</td><td class="const-val">1.225</td><td class="const-val">1005</td><td class="const-val">20.9</td></tr>
+  </table>
+</div>

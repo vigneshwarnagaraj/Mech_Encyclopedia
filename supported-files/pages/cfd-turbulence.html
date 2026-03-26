@@ -1,0 +1,53 @@
+<div class="page-hd">
+  <div class="kicker">CFD · 19</div>
+  <div class="page-title">Turbulence Models</div>
+  <p class="page-desc">Model selection rationale, RANS equations, turbulent kinetic energy, and when LES is necessary.</p>
+</div>
+
+<div class="sec">
+  <h3>The closure problem and turbulence modelling</h3>
+  <div class="fc">
+    <div class="formula">\[ \vec{V}=\bar{V}+\vec{v}',\quad -\rho\overline{v_i'v_j'}=\mu_t\!\left(\frac{\partial\bar{V}_i}{\partial x_j}+\frac{\partial\bar{V}_j}{\partial x_i}\right)-\frac{2}{3}\rho k\delta_{ij} \]</div>
+    <div class="def"><strong>Reynolds decomposition and Boussinesq hypothesis:</strong> RANS solves for mean \(\bar{V}\). Fluctuations \(\vec{v}'\) produce Reynolds stresses. The Boussinesq hypothesis models these stresses using eddy viscosity \(\mu_t\) — an additional, flow-dependent viscosity computed by the turbulence model.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \mu_t = \rho C_\mu \frac{k^2}{\varepsilon}\;\text{(k-}\varepsilon\text{)},\quad \mu_t = \rho\frac{k}{\omega}\;\text{(k-}\omega\text{)} \]</div>
+    <div class="def"><strong>Turbulent (eddy) viscosity:</strong> \(k\) = turbulent kinetic energy [m²/s²], \(\varepsilon\) = dissipation rate [m²/s³], \(\omega\) = specific dissipation rate [1/s], \(C_\mu=0.09\). \(\mu_t\) can be 10–1000× larger than \(\mu\) in fully turbulent regions.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>k-ε model transport equations</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial(\rho k)}{\partial t}+\nabla\cdot(\rho\vec{V}k)=\nabla\cdot\!\left[\left(\mu+\frac{\mu_t}{\sigma_k}\right)\nabla k\right]+P_k-\rho\varepsilon \]</div>
+    <div class="def"><strong>k-equation:</strong> \(P_k\) = turbulence production by mean shear. Production minus dissipation = net change in turbulent energy. Near walls, production peaks in the buffer layer. \(\sigma_k=1.0\) (standard k-ε).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial(\rho\varepsilon)}{\partial t}+\nabla\cdot(\rho\vec{V}\varepsilon)=\nabla\cdot\!\left[\left(\mu+\frac{\mu_t}{\sigma_\varepsilon}\right)\nabla\varepsilon\right]+C_1\frac{\varepsilon}{k}P_k-C_2\rho\frac{\varepsilon^2}{k} \]</div>
+    <div class="def"><strong>ε-equation:</strong> Models the rate at which turbulent kinetic energy is dissipated into heat. Constants: \(C_1=1.44\), \(C_2=1.92\), \(\sigma_\varepsilon=1.3\). The k-ε model is calibrated against simple shear flows — it loses accuracy in flows with strong curvature, separation, or adverse pressure gradients.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Model comparison and selection</h3>
+  <table class="tbl">
+    <tr><th>Model</th><th>Strengths</th><th>Weaknesses</th><th>Typical use</th></tr>
+    <tr><td><strong>Standard k-ε</strong></td><td>Robust, fast convergence, good for fully turbulent attached flows</td><td>Poor in adverse pressure gradient, separation, near-wall regions</td><td>Internal duct flows, simple external flows</td></tr>
+    <tr><td><strong>RNG k-ε</strong></td><td>Better for high-strain, swirling flows</td><td>Still wall-function dependent</td><td>Swirl, moderate curvature</td></tr>
+    <tr><td><strong>Realizable k-ε</strong></td><td>Satisfies mathematical constraints on normal stresses; better for jets, wakes</td><td>Over-predicts production in rotating/impinging flows</td><td>Jets, round holes, impingement</td></tr>
+    <tr><td><strong>Standard k-ω</strong></td><td>Accurate near-wall, good for low-Re</td><td>Sensitive to freestream ω specification</td><td>Attached boundary layers</td></tr>
+    <tr><td><strong>SST k-ω</strong></td><td>Best for separation and adverse pressure gradients; blends k-ω near wall and k-ε in freestream</td><td>Slightly more expensive than k-ε</td><td>External aerodynamics, automotive, turbomachinery</td></tr>
+    <tr><td><strong>LES</strong></td><td>Resolves large turbulent structures; high accuracy for noise, combustion, unsteady separation</td><td>Very high cost, needs fine mesh throughout, long run time</td><td>Acoustic noise, combustion, fundamental research</td></tr>
+    <tr><td><strong>DES / SAS</strong></td><td>RANS near wall, LES-like away from wall — compromise</td><td>Interface region behaviour complex</td><td>Bluff bodies, massively separated flows</td></tr>
+  </table>
+  <div class="note"><strong>Default recommendation:</strong> Use SST k-ω for most external aerodynamics and separated internal flows. Use Realizable k-ε for fully enclosed turbulent duct flows without separation.</div>
+</div>
+
+<div class="sec">
+  <h3>Turbulence inlet boundary conditions</h3>
+  <div class="fc">
+    <div class="formula">\[ I=\frac{u'}{U}\approx0.16\,Re_{D_h}^{-1/8},\quad k=\frac{3}{2}(UI)^2,\quad \varepsilon=C_\mu^{3/4}\frac{k^{3/2}}{l},\quad l=0.07D_h \]</div>
+    <div class="def"><strong>Turbulence inlet specification:</strong> Intensity \(I\) (turbulence intensity): ratio of velocity fluctuation to mean velocity [%]. Typical values: 0.1–1% (clean freestream), 3–5% (pipe flow), 5–10% (after bends/fittings). Hydraulic diameter \(D_h = 4A/P\) for non-circular ducts. Fluent accepts: I + hydraulic diameter, or I + viscosity ratio \(\mu_t/\mu\).</def></div>
+  </div>
+  <div class="warn"><strong>y+ and model compatibility:</strong> SST k-ω with automatic wall treatment: target y⁺ ≈ 1. Standard k-ε with standard wall functions: y⁺ = 30–300. Using y⁺ = 1 with standard wall functions wastes resolution without improving accuracy — and vice versa.</div>
+</div>

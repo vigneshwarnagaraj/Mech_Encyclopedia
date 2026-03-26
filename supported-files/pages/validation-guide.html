@@ -1,0 +1,71 @@
+<div class="page-hd">
+  <div class="kicker">Guides · 43</div>
+  <div class="page-title">Result Validation &amp; Interpretation</div>
+  <p class="page-desc">How to decide whether your simulation result is trustworthy — before you report it.</p>
+</div>
+
+<div class="sec">
+  <h3>How to validate a CFD result</h3>
+  <ol class="step-list">
+    <li><strong>Check mass conservation:</strong> Inlet mass flow = outlet ± 0.1%. Use Flux Reports. Any imbalance &gt; 0.5% indicates a leak, a BC error, or a poorly converged solution.</li>
+    <li><strong>Check convergence monitors:</strong> Residuals AND a physical quantity (drag, ΔP, T_outlet) must stabilise. Residuals alone are not convergence.</li>
+    <li><strong>Run mesh independence:</strong> Three meshes (coarse → medium → fine). If target output changes &lt; 2–5% from medium to fine, medium is adequate. Compute GCI if a quantitative error estimate is required.</li>
+    <li><strong>Compare to theory:</strong> Pipe flow: does ΔP match Darcy-Weisbach? Flat plate: does BL thickness match Blasius? Cylinder drag: does C_D match published data at the same Re?</li>
+    <li><strong>Check velocity profiles:</strong> Laminar pipe: parabolic. Turbulent: fuller profile with thin high-gradient near-wall region. Inspect using XY plots across cross-sections.</li>
+    <li><strong>Check symmetry:</strong> Symmetric geometry + symmetric BCs → symmetric flow solution. Asymmetric result = setup error.</li>
+    <li><strong>Check y+ distribution:</strong> Must be consistent with your wall treatment choice. Plot y+ contour on all wall surfaces.</li>
+    <li><strong>Inspect streamlines near walls:</strong> Are separation and reattachment points where expected physically? Unexpected recirculation may indicate a mesh or BC error.</li>
+  </ol>
+  <div class="danger"><strong>The most dangerous CFD result is a converged, smooth, colorful one that is wrong. Always validate before reporting.</strong></div>
+</div>
+
+<div class="sec">
+  <h3>How to validate an FEA result</h3>
+  <ol class="step-list">
+    <li><strong>Check reaction forces:</strong> Sum of reaction forces = applied load. If not, the model has an error in constraints, contacts, or load application.</li>
+    <li><strong>Check deformation magnitude:</strong> Is the maximum deformation physically plausible? Compare to hand calculation: cantilever tip: δ = FL³/(3EI).</li>
+    <li><strong>Identify stress singularities:</strong> Stress at a sharp corner or point constraint that increases with mesh refinement = singularity. Add fillet radius to resolve.</li>
+    <li><strong>Mesh sensitivity at stress peaks:</strong> Refine at high-stress regions and confirm stress plateaus. If it keeps rising → singularity or insufficient resolution.</li>
+    <li><strong>Compare to analytical solution:</strong> Use beam theory, plate theory, or Lame equations for simple geometries before trusting complex FEA.</li>
+    <li><strong>Factor of safety reported correctly:</strong> FOS = σ_y / σ_vM. Report it separately — never just show the stress contour without context.</li>
+    <li><strong>Check contact status:</strong> Are contacts open/closed where physically expected? Unexpected openings indicate wrong contact type or insufficient load.</li>
+  </ol>
+</div>
+
+<div class="sec">
+  <h3>Detecting bad mesh behaviour</h3>
+  <div class="two-col">
+    <div class="col-card">
+      <h5>In CFD</h5>
+      <ul>
+        <li>High skewness near walls → non-physical near-wall velocities</li>
+        <li>Insufficient inflation layers → y+ out of range → wrong wall shear and heat transfer</li>
+        <li>Very high aspect ratio cells in the flow direction → excessive numerical diffusion</li>
+        <li>Residuals oscillate and do not converge → often poor mesh quality or a physical instability</li>
+        <li>Non-conformal interfaces with large size jumps → interpolation errors</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <h5>In FEA</h5>
+      <ul>
+        <li>Stress grows without bound under refinement → singularity, not mesh convergence</li>
+        <li>Large aspect-ratio elements in bending → shear locking → artificially stiff</li>
+        <li>Linear TET4 elements in bending → overly stiff → use TET10</li>
+        <li>Unconnected nodes at interfaces → gap in load path → unrealistic deformation</li>
+        <li>Very high skewness tet elements → inaccurate Gauss point integration</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>When a contour plot is misleading</h3>
+  <ul>
+    <li><strong>Auto-scaled colour range:</strong> If set to min/max automatically, one tiny high-stress region dominates the entire colour scale. Set manual limits to see the real distribution.</li>
+    <li><strong>Exaggerated deformation scale factor:</strong> ANSYS defaults to a large scale factor (sometimes 1000×). Set "True Scale" before interpreting deflection shape.</li>
+    <li><strong>Nodal vs. element-averaged stress:</strong> Averaged stresses hide jumps at element boundaries. Unaveraged stress shows raw element results — use both to assess mesh quality at interfaces.</li>
+    <li><strong>Maximum at a sharp corner:</strong> May be a singularity. Add a fillet and re-check. If the peak disappears — it was artificial.</li>
+    <li><strong>Streamlines vs vectors near walls:</strong> Streamlines show mean flow direction but can miss recirculation. Use velocity vectors near walls to see the actual near-wall flow direction.</li>
+    <li><strong>Residual convergence plot only:</strong> Never show only the residual plot as proof of convergence. Always include a physical monitor convergence plot.</li>
+  </ul>
+</div>

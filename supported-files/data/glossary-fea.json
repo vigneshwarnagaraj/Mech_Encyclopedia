@@ -1,0 +1,15 @@
+{
+  "terms": [
+    {"term": "DOF",          "definition": "Degree of Freedom. Independent displacement/rotation at a node. Solid node: 3 translational. Shell node: 5-6."},
+    {"term": "Singularity",  "definition": "Stress that increases without bound under mesh refinement. Caused by sharp corners, point loads, point constraints. Not physical."},
+    {"term": "Stiffness matrix", "definition": "Global [K] from assembled element matrices. [K]{u}={F} gives displacements. Singular if rigid body motion possible."},
+    {"term": "Large Deflection", "definition": "Geometric nonlinearity in ANSYS. Enables strain on deformed geometry. Required when δ/L > 5%."},
+    {"term": "Contact status","definition": "Open (no load transfer) or Closed (contact pressure active). Status changes = contact nonlinearity."},
+    {"term": "TET10",        "definition": "10-node quadratic tetrahedron (SOLID187). Midside nodes; accurate for bending and curved boundaries. ANSYS default for CAD geometry."},
+    {"term": "Von Mises",    "definition": "Equivalent stress for ductile failure: σ_v = √[((σ1-σ2)²+(σ2-σ3)²+(σ3-σ1)²)/2]. ANSYS reports as Equivalent Stress."},
+    {"term": "FOS",          "definition": "Factor of Safety = σ_yield / σ_vonMises. FOS < 1: yielding predicted. FOS = 1: at limit. FOS = 2: 50% margin."},
+    {"term": "Shear locking", "definition": "Artificial stiffness in linear elements under bending. Resolved by higher-order elements (TET10, HEXA20) or reduced integration."},
+    {"term": "Shape function","definition": "N_i(x): interpolates displacement between nodes. Linear elements: straight; quadratic: parabolic interpolation."},
+    {"term": "B matrix",     "definition": "Strain-displacement matrix: {ε}=[B]{u}^e. Derivative of shape functions. Used in element stiffness: [k]=∫[B]ᵀ[D][B]dV."}
+  ]
+}

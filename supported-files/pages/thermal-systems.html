@@ -1,0 +1,62 @@
+<div class="page-hd">
+  <div class="kicker">Thermal · 13</div>
+  <div class="page-title">Thermal Systems &amp; Heat Exchangers</div>
+  <p class="page-desc">Overall heat transfer coefficient, LMTD method, NTU-effectiveness method, and combined mode analysis.</p>
+</div>
+
+<div class="sec">
+  <h3>Overall heat transfer coefficient</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{1}{UA}=\frac{1}{h_1A_1}+\frac{\ln(r_2/r_1)}{2\pi kL}+\frac{1}{h_2A_2}\quad\text{(cylindrical)} \]</div>
+    <div class="def"><strong>Overall U-value:</strong> \(U\) [W/m²·K]. Combines convection on both sides with wall conduction in series. For a flat wall: \(1/(UA)=1/(h_1A)+L/(kA)+1/(h_2A)\). Used in heat exchanger design: \(\dot{Q}=UA\Delta T_{lm}\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{1}{U}=\frac{1}{h_i}+\frac{t_{wall}}{k_{wall}}+R_{fouling}+\frac{1}{h_o} \]</div>
+    <div class="def"><strong>U-value with fouling:</strong> \(R_{fouling}\) = fouling resistance [m²·K/W]. TEMA standards give fouling factors for different fluids. Typical: cooling water \(\approx 2\times10^{-4}\) m²·K/W, seawater \(\approx 1\times10^{-4}\) m²·K/W.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>LMTD method</h3>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}=UA\Delta T_{lm},\quad \Delta T_{lm}=\frac{\Delta T_1-\Delta T_2}{\ln(\Delta T_1/\Delta T_2)} \]</div>
+    <div class="def"><strong>Log Mean Temperature Difference:</strong> \(\Delta T_1\) and \(\Delta T_2\) = temperature differences between hot and cold streams at each end of the HX. For counterflow: \(\Delta T_1 = T_{h,in}-T_{c,out}\), \(\Delta T_2 = T_{h,out}-T_{c,in}\). Apply correction factor \(F\) for non-counterflow configurations: \(\dot{Q}=UAF\Delta T_{lm,cf}\).</def></div>
+  </div>
+  <div class="note"><strong>Use LMTD when:</strong> All four terminal temperatures are known. <strong>Use NTU-ε when:</strong> Outlet temperatures are unknown — you know the HX geometry (UA) and want to find performance.</div>
+</div>
+
+<div class="sec">
+  <h3>NTU-effectiveness method</h3>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon=\frac{\dot{Q}}{\dot{Q}_{max}},\quad \dot{Q}_{max}=C_{min}(T_{h,in}-T_{c,in}) \]</div>
+    <div class="def"><strong>Effectiveness:</strong> \(\varepsilon\) = [0–1]. \(C_{min}=(\dot{m}c_p)_{min}\) = smaller heat capacity rate of the two streams [W/K]. Maximum possible heat transfer if the HX were infinitely long.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ NTU=\frac{UA}{C_{min}},\quad C_r=\frac{C_{min}}{C_{max}} \]</div>
+    <div class="def"><strong>Number of Transfer Units:</strong> NTU is the dimensionless HX size. \(C_r\) = capacity ratio [0–1]. For a counterflow HX: \(\varepsilon = [1-\exp(-NTU(1-C_r))]\,/\,[1-C_r\exp(-NTU(1-C_r))]\). For a condenser/evaporator (\(C_r=0\)): \(\varepsilon=1-\exp(-NTU)\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Energy balance on fluid streams</h3>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}=\dot{m}c_p(T_{out}-T_{in})\quad\text{(per stream)} \]</div>
+    <div class="def"><strong>Stream energy balance:</strong> Hot side loses heat, cold side gains heat (plus losses to surroundings, if any). This equation applied to both streams gives the two-equation system needed to find all temperatures given \(\dot{Q}\). In CFD validation: check that this is satisfied at the inlet and outlet planes using surface integrals.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \dot{m}_h c_{p,h}(T_{h,in}-T_{h,out})=\dot{m}_c c_{p,c}(T_{c,out}-T_{c,in})\quad\text{(no heat loss to surroundings)} \]</div>
+    <div class="def"><strong>Heat balance across the HX:</strong> Used to verify both LMTD and NTU calculations. Any imbalance indicates either measurement error, heat loss to surroundings, or phase change.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Heat exchanger types summary</h3>
+  <table class="tbl">
+    <tr><th>Type</th><th>Configuration</th><th>Effectiveness vs size</th><th>Typical use</th></tr>
+    <tr><td>Double-pipe counterflow</td><td>Two concentric pipes, fluids flow opposite directions</td><td>Highest ε for given area</td><td>Small duties, lab scale</td></tr>
+    <tr><td>Shell-and-tube</td><td>Tubes inside shell; baffles direct shell-side flow</td><td>Good; apply F correction</td><td>Process industry standard</td></tr>
+    <tr><td>Plate HX</td><td>Corrugated plates, very high surface area density</td><td>Very high</td><td>HVAC, food processing</td></tr>
+    <tr><td>Crossflow</td><td>Fluids flow perpendicular</td><td>Moderate; apply F correction</td><td>Air-cooled radiators, gas heating</td></tr>
+    <tr><td>Condenser / evaporator</td><td>One fluid changes phase (\(C_r=0\))</td><td>\(\varepsilon=1-e^{-NTU}\)</td><td>Refrigeration, power cycles</td></tr>
+  </table>
+</div>

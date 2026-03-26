@@ -1,0 +1,62 @@
+<div class="page-hd">
+  <div class="kicker">Vibrations · 28</div>
+  <div class="page-title">Multiple Degree of Freedom Systems</div>
+  <p class="page-desc">Matrix equations of motion, eigenvalue problem, mode shape orthogonality, and modal superposition.</p>
+</div>
+
+<div class="sec">
+  <h3>Matrix equation of motion</h3>
+  <div class="fc">
+    <div class="formula">\[ [M]\{\ddot{x}\}+[C]\{\dot{x}\}+[K]\{x\}=\{F(t)\} \]</div>
+    <div class="def"><strong>MDOF equation of motion:</strong> \([M]\) = mass matrix (\(n\times n\)), \([C]\) = damping matrix, \([K]\) = stiffness matrix, all symmetric positive definite (or semi-definite). \(\{x\}\) = displacement vector (\(n\times1\)). The system is coupled — motion of one mass affects all others.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ [M]=\begin{bmatrix}m_1&0\\0&m_2\end{bmatrix},\quad [K]=\begin{bmatrix}k_1+k_2&-k_2\\-k_2&k_2+k_3\end{bmatrix}\quad\text{(2DOF example)} \]</div>
+    <div class="def"><strong>2-DOF system matrices:</strong> The off-diagonal terms in \([K]\) represent coupling springs — they create the coupled differential equations that must be solved simultaneously. The mass matrix is diagonal for lumped mass systems.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Eigenvalue problem — natural frequencies and mode shapes</h3>
+  <div class="fc">
+    <div class="formula">\[ \bigl([K]-\omega^2[M]\bigr)\{\phi\}=\{0\} \]</div>
+    <div class="def"><strong>Eigenvalue problem:</strong> Non-trivial solution requires \(\det([K]-\omega^2[M])=0\). This yields \(n\) eigenvalues \(\omega_i^2\) (natural frequencies squared) and \(n\) eigenvectors \(\{\phi\}_i\) (mode shapes). Each eigenvalue-eigenvector pair is a natural mode of the system.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \det([K]-\omega^2[M])=0\quad\Rightarrow\quad\omega^{2n}+a_{n-1}\omega^{2(n-1)}+\cdots+a_0=0 \]</div>
+    <div class="def"><strong>Characteristic polynomial:</strong> For 2-DOF: quadratic in \(\omega^2\), giving two natural frequencies \(\omega_1 &lt; \omega_2\). For large \(n\): solved by iterative eigenvalue algorithms (Lanczos method in ANSYS — efficient for sparse structural matrices).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Mode shape orthogonality</h3>
+  <div class="fc">
+    <div class="formula">\[ \{\phi_r\}^T[M]\{\phi_s\}=0\quad(r\neq s),\quad\{\phi_r\}^T[K]\{\phi_s\}=0\quad(r\neq s) \]</div>
+    <div class="def"><strong>Orthogonality relations:</strong> Mode shapes are mutually orthogonal with respect to both mass and stiffness matrices. This is the mathematical property that allows uncoupling of the equations of motion into independent SDOF equations.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ M_r=\{\phi_r\}^T[M]\{\phi_r\},\quad K_r=\{\phi_r\}^T[K]\{\phi_r\},\quad\omega_r^2=\frac{K_r}{M_r} \]</div>
+    <div class="def"><strong>Modal mass and stiffness:</strong> Scalar quantities for the \(r\)th mode. If mode shapes are mass-normalised: \(M_r=1\), \(K_r=\omega_r^2\). Modal damping ratio: \(\zeta_r=C_r/(2M_r\omega_r)\) where \(C_r=\{\phi_r\}^T[C]\{\phi_r\}\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Modal transformation and uncoupling</h3>
+  <div class="fc">
+    <div class="formula">\[ \{x\}=[\Phi]\{q\},\quad[\Phi]=[\{\phi_1\}|\{\phi_2\}|\cdots|\{\phi_n\}] \]</div>
+    <div class="def"><strong>Modal superposition:</strong> Physical displacements are expressed as a linear combination of mode shapes. \(\{q\}\) = modal (generalised) coordinates. Substituting into the equation of motion and using orthogonality yields \(n\) uncoupled SDOF equations in \(q_r(t)\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \ddot{q}_r+2\zeta_r\omega_r\dot{q}_r+\omega_r^2 q_r=\frac{\{\phi_r\}^T\{F(t)\}}{M_r}=f_r(t) \]</div>
+    <div class="def"><strong>Uncoupled modal equation:</strong> Each modal coordinate satisfies an SDOF equation with its own natural frequency \(\omega_r\), damping ratio \(\zeta_r\), and modal forcing \(f_r(t)\). Solved using SDOF formulas (Duhamel integral for arbitrary forcing). This is the basis of Mode Superposition (MSUP) in ANSYS harmonic and transient analysis.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Mode truncation</h3>
+  <div class="fc">
+    <div class="formula">\[ \{x(t)\}\approx\sum_{r=1}^m q_r(t)\{\phi_r\},\quad m\ll n \]</div>
+    <div class="def"><strong>Mode truncation:</strong> In practice, only the first \(m\) modes (\(m \ll n\)) are needed to represent the response accurately — provided the excitation frequency content is below \(\omega_m\). ANSYS MSUP uses this principle: solve for enough modes to capture &gt;80–90% of the effective mass in the excitation direction.</def></div>
+  </div>
+  <div class="tip"><strong>How many modes to include:</strong> Check the ANSYS Modal analysis output for "Effective Mass Fraction". Sum of all mode effective masses in each direction should reach 80–90% of the total system mass before truncating.</tip>
+</div>

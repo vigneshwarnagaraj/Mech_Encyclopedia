@@ -1,0 +1,36 @@
+{
+  "universal": [
+    {"name": "Gravitational acceleration", "symbol": "g", "value": 9.81, "unit": "m/s²", "notes": "Standard value"},
+    {"name": "Universal gas constant", "symbol": "R_u", "value": 8.314, "unit": "J/mol·K"},
+    {"name": "Boltzmann constant", "symbol": "k_B", "value": 1.381e-23, "unit": "J/K"},
+    {"name": "Stefan-Boltzmann constant", "symbol": "sigma", "value": 5.67e-8, "unit": "W/m²·K⁴"},
+    {"name": "Speed of light", "symbol": "c", "value": 3.0e8, "unit": "m/s"},
+    {"name": "Standard atmosphere", "symbol": "p_atm", "value": 101325, "unit": "Pa"},
+    {"name": "Avogadro number", "symbol": "N_A", "value": 6.022e23, "unit": "mol⁻¹"}
+  ],
+  "air_standard": {
+    "temperature_C": 15,
+    "pressure_Pa": 101325,
+    "density_kg_m3": 1.225,
+    "dynamic_viscosity_Pa_s": 1.789e-5,
+    "kinematic_viscosity_m2_s": 1.46e-5,
+    "thermal_conductivity_W_mK": 0.0257,
+    "specific_heat_cp_J_kgK": 1005,
+    "prandtl_number": 0.713,
+    "specific_gas_constant_J_kgK": 287,
+    "speed_of_sound_m_s": 340,
+    "gamma": 1.4
+  },
+  "water_20C": {
+    "temperature_C": 20,
+    "pressure_Pa": 101325,
+    "density_kg_m3": 998,
+    "dynamic_viscosity_Pa_s": 1.002e-3,
+    "kinematic_viscosity_m2_s": 1.004e-6,
+    "thermal_conductivity_W_mK": 0.598,
+    "specific_heat_cp_J_kgK": 4182,
+    "prandtl_number": 7.01,
+    "surface_tension_N_m": 0.0728,
+    "vapour_pressure_Pa": 2338
+  }
+}

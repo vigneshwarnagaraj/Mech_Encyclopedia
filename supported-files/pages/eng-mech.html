@@ -1,0 +1,69 @@
+<div class="page-hd">
+  <div class="kicker">Core · 03</div>
+  <div class="page-title">Engineering Mechanics</div>
+  <p class="page-desc">Static and dynamic equilibrium, rotation, inertia, and friction — the direct prerequisites for structural FEA and vibration analysis.</p>
+</div>
+
+<div class="sec">
+  <h3>Static equilibrium</h3>
+  <div class="fc">
+    <div class="formula">\[ \sum F_x=0,\quad\sum F_y=0,\quad\sum M_O=0 \]</div>
+    <div class="def"><strong>2D rigid body equilibrium:</strong> Three independent equations. Sum of forces in each direction and sum of moments about any point must all equal zero. In 3D: 6 equations (\(\sum F_x, \sum F_y, \sum F_z, \sum M_x, \sum M_y, \sum M_z\)).</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ M=F\,d_\perp = F r\sin\theta \]</div>
+    <div class="def"><strong>Moment of a force:</strong> \(M\) [N·m], \(d_\perp\) = perpendicular distance from line of action to pivot [m], \(\theta\) = angle between force and moment arm. Sign convention: counterclockwise positive (unless stated otherwise).</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sum M_A = 0 \quad\Rightarrow\quad R_B = \frac{\sum F_i \cdot x_i}{L} \]</div>
+    <div class="def"><strong>Simply supported beam reactions:</strong> Take moments about one support to find the other. A classic first step before computing shear force and bending moment diagrams.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Friction</h3>
+  <div class="fc">
+    <div class="formula">\[ F_f \leq \mu_s N \quad\text{(static)},\quad F_f = \mu_k N \quad\text{(kinetic)} \]</div>
+    <div class="def"><strong>Coulomb friction:</strong> \(\mu_s\) = static friction coefficient, \(\mu_k\) = kinetic friction coefficient, \(N\) = normal force [N]. Typical values: steel on steel dry: \(\mu_s \approx 0.74\). In FEA contact: friction coefficient is a required input for frictional contact pairs.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Rotation and inertia</h3>
+  <div class="fc">
+    <div class="formula">\[ \sum M = I\alpha,\quad KE_{rot}=\tfrac{1}{2}I\omega^2,\quad P_{rot}=T\omega \]</div>
+    <div class="def"><strong>Rotational dynamics:</strong> \(I\) = mass moment of inertia [kg·m²], \(\alpha\) = angular acceleration [rad/s²], \(\omega\) = angular velocity [rad/s], \(T\) = torque [N·m]. Analogy with translational: \(I\leftrightarrow m\), \(\omega\leftrightarrow v\), \(T\leftrightarrow F\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ I=\int r^2\,dm,\quad I_{parallel} = I_{cm}+md^2 \]</div>
+    <div class="def"><strong>Moment of inertia and parallel axis theorem:</strong> \(I_{cm}\) = inertia about centroidal axis, \(d\) = distance to parallel axis, \(m\) = mass. Used to shift the reference axis for compound bodies.</def></div>
+  </div>
+
+  <h4>Common moments of inertia</h4>
+  <table class="tbl">
+    <tr><th>Body</th><th>Axis</th><th>\(I\)</th></tr>
+    <tr><td>Solid disk / cylinder</td><td>Rotation axis (axial)</td><td>\(\dfrac{1}{2}mr^2\)</td></tr>
+    <tr><td>Thin rod</td><td>Centroidal (perpendicular)</td><td>\(\dfrac{1}{12}mL^2\)</td></tr>
+    <tr><td>Thin rod</td><td>End (perpendicular)</td><td>\(\dfrac{1}{3}mL^2\)</td></tr>
+    <tr><td>Solid sphere</td><td>Any diameter</td><td>\(\dfrac{2}{5}mr^2\)</td></tr>
+    <tr><td>Hollow cylinder</td><td>Rotation axis</td><td>\(\dfrac{1}{2}m(r_o^2+r_i^2)\)</td></tr>
+    <tr><td>Rectangular plate</td><td>Centroidal (in-plane, width b)</td><td>\(\dfrac{1}{12}mb^2\)</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Virtual work principle</h3>
+  <div class="fc">
+    <div class="formula">\[ \delta W = \sum \vec{F}_i \cdot \delta\vec{r}_i = 0 \quad\text{(equilibrium)} \]</div>
+    <div class="def"><strong>Principle of virtual work:</strong> A system is in equilibrium if the total virtual work done by all applied forces through any virtual displacement is zero. This is the theoretical foundation of the finite element method — the weak form of the governing equations is derived from this principle.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Second moments of area (for beams)</h3>
+  <div class="fc">
+    <div class="formula">\[ I_{xx}=\int y^2\,dA,\quad I_{yy}=\int x^2\,dA,\quad J=I_{xx}+I_{yy} \]</div>
+    <div class="def"><strong>Second moment of area:</strong> \(I\) [m⁴]. Used in bending stress \(\sigma=My/I\) and deflection formulas. \(J\) = polar second moment of area [m⁴] — used in torsion \(\tau=Tr/J\).<br>
+    <strong>Rectangle (b×h):</strong> \(I_{xx}=bh^3/12\). <strong>Circle (diameter d):</strong> \(I=\pi d^4/64\). <strong>Hollow circle:</strong> \(I=\pi(d_o^4-d_i^4)/64\).</def></div>
+  </div>
+</div>

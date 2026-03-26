@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {"term": "y+",           "definition": "Dimensionless wall distance: y⁺ = u_τy/ν. Controls near-wall model validity. y⁺≈1: wall-resolved; y⁺=30-300: log-law (wall functions)."},
+    {"term": "RANS",         "definition": "Reynolds-Averaged Navier-Stokes. Solves for time-mean flow; models turbulent fluctuations via eddy viscosity closure."},
+    {"term": "LES",          "definition": "Large Eddy Simulation. Resolves large eddies; models subgrid scales. High accuracy but very high cost."},
+    {"term": "SST k-ω",      "definition": "Menter's Shear Stress Transport model. Blends k-ω (near wall) and k-ε (freestream). Best for adverse pressure gradient and separation."},
+    {"term": "Residual",     "definition": "Imbalance in discretised governing equations. Dropping 3-4 orders is necessary but not sufficient for convergence."},
+    {"term": "Inflation",    "definition": "Thin prismatic cells normal to wall. Required for y+ control, wall shear, and heat transfer accuracy."},
+    {"term": "GCI",          "definition": "Grid Convergence Index. Richardson extrapolation estimate of discretisation error between mesh refinement levels."},
+    {"term": "SIMPLE",       "definition": "Semi-Implicit Method for Pressure-Linked Equations. Segregated p-V coupling. Default for steady incompressible flow."},
+    {"term": "CFL",          "definition": "Courant-Friedrichs-Lewy: V·Δt/Δx. Explicit stability condition: CFL ≤ 1."},
+    {"term": "Turbulence intensity", "definition": "I = u'/U [%]. Inlet BC for turbulence models. Pipe flow: 3-5%; clean freestream: 0.1-1%."},
+    {"term": "Wall function", "definition": "Semi-empirical formula bridging viscous sublayer to log-law. Requires y⁺=30-300. Used with k-ε models."},
+    {"term": "Boussinesq",   "definition": "Models Reynolds stresses proportional to mean strain rate via eddy viscosity μ_t. Assumption of all two-equation RANS models."}
+  ]
+}

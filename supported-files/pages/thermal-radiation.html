@@ -1,0 +1,59 @@
+<div class="page-hd">
+  <div class="kicker">Thermal · 12</div>
+  <div class="page-title">Thermal Radiation</div>
+  <p class="page-desc">Blackbody emission, Stefan-Boltzmann law, emissivity, view factors, and radiation between surfaces.</p>
+</div>
+
+<div class="sec">
+  <h3>Blackbody radiation</h3>
+  <div class="fc">
+    <div class="formula">\[ E_b=\sigma T^4,\quad \sigma=5.67\times10^{-8}\;\text{W/m}^2\text{·K}^4 \]</div>
+    <div class="def"><strong>Stefan-Boltzmann law:</strong> \(E_b\) = blackbody emissive power [W/m²]. Maximum possible emission from any surface at temperature \(T\) [K]. <strong>Must use absolute temperature (Kelvin).</strong></def></div>
+    <div class="tags"><span class="tag tag-unit">W/m²</span><span class="tag tag-assume">T in Kelvin — never Celsius</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \lambda_{max}T=2898\;\mu\text{m·K}\quad\text{(Wien's displacement law)} \]</div>
+    <div class="def"><strong>Wien's displacement law:</strong> Wavelength of peak emission × temperature = constant. At room temperature (300 K): \(\lambda_{max}\approx9.7\;\mu\)m (infrared). At the sun surface (5800 K): \(\lambda_{max}\approx0.5\;\mu\)m (visible yellow-green).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Real surfaces — emissivity</h3>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}_{rad}=\varepsilon\sigma A(T_s^4-T_{sur}^4) \]</div>
+    <div class="def"><strong>Radiation heat transfer from a real surface:</strong> \(\varepsilon\) = emissivity [0–1], \(T_s\) = surface temperature [K], \(T_{sur}\) = surroundings temperature [K], \(A\) = surface area [m²].<br>
+      Typical emissivity values: polished aluminium \(\approx0.05\), polished copper \(\approx0.03\), oxidised steel \(\approx0.7\), black paint \(\approx0.95\), human skin \(\approx0.95\).
+    </def></div>
+  </div>
+  <div class="warn"><strong>Important:</strong> Radiation heat transfer depends on \(T^4\) — not on \(\Delta T\). At low temperatures (&lt;200 °C), radiation is usually negligible compared to convection. At furnace/combustion temperatures (&gt;800 °C), radiation dominates.</div>
+</div>
+
+<div class="sec">
+  <h3>View factors</h3>
+  <div class="fc">
+    <div class="formula">\[ F_{12}=\frac{1}{A_1}\int_{A_1}\int_{A_2}\frac{\cos\theta_1\cos\theta_2}{\pi r^2}\,dA_2\,dA_1 \]</div>
+    <div class="def"><strong>View factor \(F_{ij}\):</strong> Fraction of radiation leaving surface \(i\) that reaches surface \(j\) directly. Key properties:
+      <ul style="margin-top:0.35rem;">
+        <li>Reciprocity: \(A_i F_{ij} = A_j F_{ji}\)</li>
+        <li>Summation: \(\sum_{j=1}^N F_{ij}=1\) (all radiation must go somewhere)</li>
+        <li>Flat or convex surface: \(F_{ii}=0\) (cannot see itself)</li>
+      </ul>
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}_{1\to2}=\frac{\sigma(T_1^4-T_2^4)}{\dfrac{1-\varepsilon_1}{\varepsilon_1 A_1}+\dfrac{1}{A_1 F_{12}}+\dfrac{1-\varepsilon_2}{\varepsilon_2 A_2}} \]</div>
+    <div class="def"><strong>Radiation exchange between two gray surfaces:</strong> Each term in the denominator is a resistance: surface 1 emission resistance + space resistance + surface 2 emission resistance. For two large parallel plates: \(\dot{Q}/A=\sigma(T_1^4-T_2^4)/(1/\varepsilon_1+1/\varepsilon_2-1)\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Radiation in CFD</h3>
+  <table class="tbl">
+    <tr><th>Radiation model (Fluent)</th><th>When to use</th><th>Cost</th></tr>
+    <tr><td>P1</td><td>Optically thick media (combustion, high scattering)</td><td>Low</td></tr>
+    <tr><td>Discrete Ordinates (DO)</td><td>General: semi-transparent media, enclosures, solar loading</td><td>Moderate</td></tr>
+    <tr><td>Surface-to-Surface (S2S)</td><td>Radiation between opaque surfaces, no participating medium</td><td>High (view factor calculation)</td></tr>
+    <tr><td>DTRM</td><td>Simple, coarse discretisation</td><td>Low–moderate</td></tr>
+  </table>
+  <div class="note"><strong>When to enable radiation in CFD:</strong> If surface temperatures exceed ~400–500 °C or if you are simulating solar loading, furnace environments, building thermal comfort, or any situation where emissive power is comparable to convective flux.</div>
+</div>

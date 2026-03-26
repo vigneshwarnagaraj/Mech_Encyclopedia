@@ -1,0 +1,62 @@
+<div class="page-hd">
+  <div class="kicker">Fluid Mechanics · 07</div>
+  <div class="page-title">Boundary Layer &amp; Turbulence</div>
+  <p class="page-desc">Flat plate boundary layer, transition, wall units, and the fundamentals of turbulent flow structure.</p>
+</div>
+
+<div class="sec">
+  <h3>Flat plate boundary layer — laminar (Blasius)</h3>
+  <div class="fc">
+    <div class="formula">\[ \delta(x)\approx\frac{5x}{\sqrt{Re_x}},\quad Re_x=\frac{Vx}{\nu} \]</div>
+    <div class="def"><strong>Boundary layer thickness:</strong> \(\delta\) = thickness [m], \(x\) = distance from leading edge [m]. Grows as \(\sqrt{x}\). At the transition location (\(Re_x \approx 5\times10^5\)): \(\delta \approx 5x/707\).</def></div>
+    <div class="tags"><span class="tag tag-assume">Laminar · zero pressure gradient · flat plate</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \delta^*=\int_0^\infty\left(1-\frac{u}{U}\right)dy,\quad \theta=\int_0^\infty\frac{u}{U}\left(1-\frac{u}{U}\right)dy \]</div>
+    <div class="def"><strong>Displacement and momentum thicknesses:</strong> \(\delta^*\) [m] = effective reduction in flow area due to boundary layer. \(\theta\) [m] = measure of momentum deficit. Shape factor \(H=\delta^*/\theta\): laminar \(H\approx2.59\), turbulent \(H\approx1.3\)–1.5.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tau_w=\mu\frac{\partial u}{\partial y}\bigg|_{y=0},\quad C_f=\frac{\tau_w}{\tfrac{1}{2}\rho V^2} \]</div>
+    <div class="def"><strong>Wall shear stress and skin friction coefficient:</strong> \(\tau_w\) [Pa] = shear force per unit area on the wall. Laminar flat plate: \(C_f = 0.664/\sqrt{Re_x}\). Critical for drag estimation and near-wall mesh requirements in CFD.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Transition and turbulence</h3>
+  <div class="fc">
+    <div class="formula">\[ Re_{x,crit}\approx 5\times10^5\;\text{(flat plate)},\quad Re_{D,crit}\approx 2300\;\text{(pipe)} \]</div>
+    <div class="def"><strong>Critical Reynolds numbers:</strong> These are engineering rules of thumb. Actual transition depends on surface roughness, freestream turbulence intensity, and geometry. In CFD, the Gamma-ReTheta (γ-Reθ) transition model captures the transition region explicitly.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ u_\tau=\sqrt{\frac{\tau_w}{\rho}},\quad y^+=\frac{u_\tau y}{\nu} \]</div>
+    <div class="def"><strong>Wall units (friction velocity and y+):</strong> \(u_\tau\) = friction velocity [m/s]. \(y^+\) = dimensionless distance from wall. Controls which near-wall treatment is applied in CFD:
+      <ul style="margin-top:0.35rem;">
+        <li>Wall-resolved (k-ω, LES): target \(y^+ \approx 1\)</li>
+        <li>Standard wall functions (k-ε): \(y^+ = 30\)–300</li>
+        <li>Enhanced wall treatment: \(y^+ &lt; 5\)</li>
+      </ul>
+    </def></div>
+    <div class="tags"><span class="tag tag-use">CFD meshing — first cell height</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Turbulent boundary layer (turbulent flat plate)</h3>
+  <div class="fc">
+    <div class="formula">\[ \delta_{turb}\approx\frac{0.37x}{Re_x^{1/5}},\quad C_{f,turb}\approx\frac{0.074}{Re_x^{1/5}} \]</div>
+    <div class="def"><strong>Turbulent boundary layer growth:</strong> Grows faster than laminar (\(x^{0.8}\) vs \(x^{0.5}\)). Turbulent skin friction is also higher but the profile is fuller — less likely to separate under adverse pressure gradient.</def></div>
+    <div class="tags"><span class="tag tag-assume">Turbulent from leading edge · smooth flat plate</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Turbulence kinetic energy and energy cascade</h3>
+  <div class="fc">
+    <div class="formula">\[ k=\tfrac{1}{2}\overline{u_i'u_i'},\quad \varepsilon=\nu\overline{\frac{\partial u_i'}{\partial x_j}\frac{\partial u_i'}{\partial x_j}} \]</div>
+    <div class="def"><strong>Turbulent kinetic energy \(k\) [m²/s²]:</strong> Kinetic energy of velocity fluctuations per unit mass. Dissipation rate \(\varepsilon\) [m²/s³] = rate at which \(k\) is converted to thermal energy at the smallest scales (Kolmogorov scales). These are the two quantities transported in the k-ε model.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ l_K=\left(\frac{\nu^3}{\varepsilon}\right)^{1/4},\quad \tau_K=\left(\frac{\nu}{\varepsilon}\right)^{1/2} \]</div>
+    <div class="def"><strong>Kolmogorov microscales:</strong> \(l_K\) = smallest eddy length scale [m], \(\tau_K\) = smallest eddy time scale [s]. In LES, the mesh must resolve scales close to \(l_K\) to capture all turbulence. In RANS (k-ε, k-ω), all scales are modelled.</def></div>
+  </div>
+</div>

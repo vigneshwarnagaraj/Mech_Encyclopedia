@@ -1,0 +1,75 @@
+<div class="page-hd">
+  <div class="kicker">Foundation · 02</div>
+  <div class="page-title">Basic Physics Formulas</div>
+  <p class="page-desc">Core physical relationships behind all engineering calculations — from Newton's laws to energy conservation.</p>
+</div>
+
+<div class="sec">
+  <h3>Kinematics</h3>
+  <div class="fc">
+    <div class="formula">\[ v=\frac{dx}{dt},\quad a=\frac{dv}{dt}=\frac{d^2x}{dt^2} \]</div>
+    <div class="def"><strong>Symbols:</strong> \(x\) = displacement [m], \(v\) = velocity [m/s], \(a\) = acceleration [m/s²], \(t\) = time [s]. These are definitions, not assumptions.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ v=u+at,\quad s=ut+\tfrac{1}{2}at^2,\quad v^2=u^2+2as \]</div>
+    <div class="def"><strong>SUVAT equations:</strong> \(u\) = initial velocity [m/s], \(s\) = displacement [m], \(a\) = acceleration [m/s²]. <strong>Valid only for constant acceleration.</strong> Do not apply to variable-acceleration problems — use integration instead.</div>
+    <div class="tags"><span class="tag tag-assume">Constant acceleration only</span></div>
+  </div>
+  <h4>Circular / rotational kinematics</h4>
+  <div class="fc">
+    <div class="formula">\[ v=r\omega,\quad a_t=r\alpha,\quad a_n=\frac{v^2}{r}=r\omega^2 \]</div>
+    <div class="def"><strong>Symbols:</strong> \(r\) = radius [m], \(\omega\) = angular velocity [rad/s], \(\alpha\) = angular acceleration [rad/s²]. \(a_t\) = tangential acceleration, \(a_n\) = centripetal acceleration (directed inward).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Forces, Newton's Laws</h3>
+  <div class="fc">
+    <div class="formula">\[ \vec{F}=m\vec{a} \]</div>
+    <div class="def"><strong>Newton's second law:</strong> \(F\) [N], \(m\) [kg], \(a\) [m/s²]. This is the governing idea behind all dynamic structural and flow analysis — the Navier-Stokes equation is simply this law applied to a fluid element.</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \text{Every action has an equal and opposite reaction: }\vec{F}_{12}=-\vec{F}_{21} \]</div>
+    <div class="def"><strong>Newton's third law:</strong> In FEA, this is why reaction forces must equal applied loads in a static analysis — the structure exerts equal and opposite forces on the supports.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Work, Energy, Power</h3>
+  <div class="fc">
+    <div class="formula">\[ W=\int\vec{F}\cdot d\vec{s},\quad KE=\tfrac{1}{2}mv^2,\quad PE_{grav}=mgh \]</div>
+    <div class="def"><strong>Energy:</strong> \(W\) = work [J], \(KE\) = kinetic energy [J], \(PE\) = gravitational potential energy [J], \(g=9.81\) m/s², \(h\) = height above datum [m].</div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ PE_{spring}=\tfrac{1}{2}kx^2,\quad P=\frac{dW}{dt}=\vec{F}\cdot\vec{v} \]</div>
+    <div class="def"><strong>Spring potential energy and power:</strong> \(k\) = spring stiffness [N/m], \(x\) = deformation [m], \(P\) = power [W]. Spring PE is the basis of all FEA strain energy calculations.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ E_1+W_{12}=E_2 \quad\text{(energy conservation)} \]</div>
+    <div class="def"><strong>Conservation of energy:</strong> Total mechanical energy is conserved in the absence of friction and damping. In thermal systems, add heat transfer terms. In fluid systems, this becomes Bernoulli's equation.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Momentum and Impulse</h3>
+  <div class="fc">
+    <div class="formula">\[ \vec{p}=m\vec{v},\quad \vec{J}=\int\vec{F}\,dt=\Delta\vec{p} \]</div>
+    <div class="def"><strong>Linear momentum:</strong> \(\vec{p}\) [kg·m/s], \(\vec{J}\) = impulse [N·s]. In CFD, the integral momentum equation on a control volume is the basis for computing forces on bodies from the surrounding flow field.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \vec{L}=I\vec{\omega},\quad \vec{M}=\frac{d\vec{L}}{dt}=I\vec{\alpha} \]</div>
+    <div class="def"><strong>Angular momentum:</strong> \(\vec{L}\) [kg·m²/s], \(\vec{M}\) = moment / torque [N·m], \(I\) = mass moment of inertia [kg·m²]. Used in rotational dynamics and gyroscope analysis.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Waves and Oscillations</h3>
+  <div class="fc">
+    <div class="formula">\[ \lambda f = c,\quad T=\frac{1}{f},\quad \omega=2\pi f \]</div>
+    <div class="def"><strong>Wave relations:</strong> \(\lambda\) = wavelength [m], \(f\) = frequency [Hz], \(c\) = wave speed [m/s], \(T\) = period [s], \(\omega\) = angular frequency [rad/s]. Same relations used for mechanical vibrations, acoustic waves, and electromagnetic waves.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial^2 u}{\partial t^2} = c^2\frac{\partial^2 u}{\partial x^2} \]</div>
+    <div class="def"><strong>1D wave equation:</strong> \(u\) = displacement, \(c\) = wave speed. Governs longitudinal waves in rods (\(c=\sqrt{E/\rho}\)), transverse waves in strings, and acoustic pressure waves.</def></div>
+  </div>
+</div>

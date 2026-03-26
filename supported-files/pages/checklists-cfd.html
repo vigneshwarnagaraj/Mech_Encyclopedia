@@ -1,0 +1,56 @@
+<div class="page-hd">
+  <div class="kicker">Checklists · 41</div>
+  <div class="page-title">CFD Setup &amp; Validation Checklists</div>
+  <p class="page-desc">Use before running, after running, and before reporting any CFD result.</p>
+</div>
+
+<div class="sec">
+  <h3>Pre-Run CFD Setup Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Geometry clean:</strong> No sliver faces, gaps, overlapping volumes, or unnecessarily small features that will cause mesh quality issues.</li>
+    <li><strong>Fluid domain correct:</strong> Enclosure created (external flow) or internal volume extracted (internal flow); Boolean operations verified; no solid material inside fluid domain.</li>
+    <li><strong>Named selections assigned:</strong> All inlets, outlets, walls, symmetry planes, and rotating domains named before meshing — not after.</li>
+    <li><strong>Inflation layers present:</strong> Prism layers on all viscous walls; first-layer height calculated for target y+ using friction velocity estimate.</li>
+    <li><strong>Mesh quality verified:</strong> Minimum orthogonal quality &gt; 0.15; skewness &lt; 0.85; no negative volume cells.</li>
+    <li><strong>Growth rate acceptable:</strong> ≤ 1.2 in regions of interest; ≤ 1.3 globally.</li>
+    <li><strong>Turbulence model chosen intentionally:</strong> SST k-ω for separated/adverse pressure gradient flows; k-ε Realizable for enclosed turbulent ducts; Laminar for Re &lt; critical.</li>
+    <li><strong>Boundary conditions physically correct:</strong> Inlet BC type matches known quantity (velocity / mass flow / total pressure); outlet at 0 gauge static pressure for most cases.</li>
+    <li><strong>Fluid properties entered:</strong> Density, viscosity, thermal conductivity, Cp — constant at operating condition or temperature-dependent if ΔT &gt; 50 °C.</li>
+    <li><strong>Energy equation status correct:</strong> Enabled if temperature gradients, heat flux, buoyancy, or wall heating exists. Off for isothermal incompressible flows.</li>
+    <li><strong>Gravity enabled if needed:</strong> Natural convection, free surface, buoyant plumes — define direction vector correctly (−y for vertical down).</li>
+    <li><strong>Convergence monitors set:</strong> At least one physical monitor (ΔP, drag, T_out) in addition to residuals. Monitors saved to file.</li>
+    <li><strong>Iteration count sufficient:</strong> Minimum 500 iterations for simple steady; 1000–3000 for complex geometry or separated flow.</li>
+    <li><strong>Interpolation scheme:</strong> First Order Upwind for initial convergence; switch to Second Order Upwind for final result.</li>
+    <li><strong>Mesh independence study planned:</strong> Three mesh variants (coarse/medium/fine) identified; target output quantity chosen before running.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Post-Run CFD Validation Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Residuals dropped ≥ 3 orders of magnitude</strong> AND physical monitors have fully stabilised.</li>
+    <li><strong>Mass conservation:</strong> Inlet mass flow = outlet mass flow ± 0.1% (use Flux Reports in Fluent).</li>
+    <li><strong>Energy conservation (if thermal):</strong> Net heat in = net heat out ± 2%.</li>
+    <li><strong>Velocity profiles physically reasonable:</strong> Parabolic in laminar pipe; fuller log-law profile in turbulent boundary layer.</li>
+    <li><strong>Pressure distribution makes physical sense:</strong> Stagnation at leading edge; low pressure on suction surface; recovery in diffuser.</li>
+    <li><strong>No negative absolute pressure cells:</strong> Indicates cavitation risk or a boundary condition error.</li>
+    <li><strong>y+ in correct range for model:</strong> SST k-ω: y⁺ ≈ 1–5; k-ε wall functions: y⁺ = 30–300. Check using Contours → y+ on wall surfaces.</li>
+    <li><strong>Symmetry confirmed if used:</strong> Mirror-image results on both sides of symmetry plane.</li>
+    <li><strong>Mesh independence confirmed:</strong> &lt; 2–5% change in target output between medium and fine mesh.</li>
+    <li><strong>Result compared to theory or reference:</strong> Darcy-Weisbach for pipe flow; Blasius for flat plate BL thickness; published drag data for known geometry.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>CFD Reporting Checklist</h3>
+  <ul class="checklist">
+    <li>State turbulence model and justify the choice explicitly.</li>
+    <li>State mesh cell count, y+ distribution (min/max/average), and growth rate.</li>
+    <li>Show mesh independence plot: 3 mesh levels, target output vs. cell count.</li>
+    <li>Show residual convergence plot and physical monitor convergence plot.</li>
+    <li>Report integrated quantities (drag, ΔP, heat transfer rate) — not just contour images.</li>
+    <li>Compare at least one result to analytical solution, published experiment, or known correlation.</li>
+    <li>Identify limitations: geometry simplifications, turbulence model limitations, 2D vs 3D assumptions.</li>
+    <li>State operating conditions: fluid properties, inlet conditions, Re, Ma if relevant.</li>
+  </ul>
+</div>

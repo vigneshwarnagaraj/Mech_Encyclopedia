@@ -1,0 +1,80 @@
+<div class="page-hd">
+  <div class="kicker">FEA · 25</div>
+  <div class="page-title">Advanced FEA</div>
+  <p class="page-desc">Nonlinearity types, contact formulations, plasticity, dynamic analysis types, and result interpretation.</p>
+</div>
+
+<div class="sec">
+  <h3>Types of nonlinearity</h3>
+  <table class="tbl">
+    <tr><th>Type</th><th>Source</th><th>Engineering examples</th><th>Activated by</th></tr>
+    <tr><td><strong>Material nonlinearity</strong></td><td>Stress-strain curve beyond yield</td><td>Plastic deformation, rubber, creep</td><td>Bilinear or multilinear material model; hyperelastic (Neo-Hookean, Mooney-Rivlin)</td></tr>
+    <tr><td><strong>Geometric nonlinearity</strong></td><td>Large deformations, rotations, stress stiffening</td><td>Flexible cables, snap-through, post-buckling</td><td>Large Deflection ON in ANSYS Analysis Settings</td></tr>
+    <tr><td><strong>Contact nonlinearity</strong></td><td>Status change: open ↔ closed</td><td>Press fits, bolted joints, impact</td><td>Contact pairs with frictionless/frictional behaviour</td></tr>
+    <tr><td><strong>Boundary condition nonlinearity</strong></td><td>Load direction changes with deformation</td><td>Follower forces, pressure on deformed surface</td><td>Follower force option</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Newton-Raphson iteration (nonlinear solver)</h3>
+  <div class="fc">
+    <div class="formula">\[ [K_T]\{\Delta u\}=\{R\}=\{F_{ext}\}-\{F_{int}\} \]</div>
+    <div class="def"><strong>Incremental equilibrium:</strong> \([K_T]\) = tangent stiffness matrix (updated each iteration), \(\{R\}\) = residual force vector (out-of-balance force). Converges when \(|\{R\}|/|\{F_{ext}\}| &lt; \text{tolerance}\). ANSYS default tolerance: 0.5% of reaction forces. Divergence occurs when the load increment is too large — bisect the load step.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \{\sigma\}^{n+1}=\{\sigma\}^n+[D_{ep}]\{\Delta\varepsilon\} \]</div>
+    <div class="def"><strong>Incremental stress update (plasticity):</strong> \([D_{ep}]\) = elastic-plastic constitutive matrix — differs from the elastic \([D]\) when the stress state is on the yield surface. ANSYS uses a return-mapping algorithm to project trial elastic stresses back onto the yield surface.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Contact types in ANSYS</h3>
+  <table class="tbl">
+    <tr><th>Contact type</th><th>Separation</th><th>Sliding</th><th>Linearity</th><th>Use</th></tr>
+    <tr><td><strong>Bonded</strong></td><td>No</td><td>No</td><td>Linear</td><td>Glued interfaces, welds — simplest and fastest</td></tr>
+    <tr><td><strong>No separation</strong></td><td>No</td><td>Yes (frictionless)</td><td>Linear</td><td>Surfaces that stay together but can slide</td></tr>
+    <tr><td><strong>Frictionless</strong></td><td>Yes</td><td>Yes</td><td>Nonlinear (status)</td><td>Smooth surfaces that can separate and slide</td></tr>
+    <tr><td><strong>Rough</strong></td><td>Yes</td><td>No (infinite friction)</td><td>Nonlinear</td><td>Surfaces that grip — no relative sliding</td></tr>
+    <tr><td><strong>Frictional</strong></td><td>Yes</td><td>Yes (with μ)</td><td>Nonlinear</td><td>Most realistic — accounts for separation and friction</td></tr>
+  </table>
+  <div class="warn"><strong>Common mistake:</strong> Using bonded contact everywhere simplifies the model but prevents capturing real load paths. If surfaces can physically separate or slide, use frictionless or frictional contact — even if it costs more computation.</div>
+</div>
+
+<div class="sec">
+  <h3>Plasticity models</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_y(\bar{\varepsilon}_p)=\sigma_{y0}+H\bar{\varepsilon}_p\quad\text{(bilinear isotropic hardening)} \]</div>
+    <div class="def"><strong>Isotropic hardening:</strong> \(\sigma_{y0}\) = initial yield stress, \(H\) = tangent modulus (slope of plastic region), \(\bar{\varepsilon}_p\) = accumulated plastic strain. The yield surface expands uniformly. Use for monotonic loading.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sigma_y = \sigma_{y0}\quad\text{(yield surface translates — kinematic hardening)} \]</div>
+    <div class="def"><strong>Kinematic hardening:</strong> The yield surface translates in stress space rather than expanding. Models the Bauschinger effect (lower yield stress in compression after tensile yielding). Use for cyclic loading, fatigue, ratcheting.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>ANSYS analysis types — quick reference</h3>
+  <table class="tbl">
+    <tr><th>Analysis type</th><th>Solves for</th><th>Key settings</th><th>When to use</th></tr>
+    <tr><td>Static Structural</td><td>Deformation, stress under static load</td><td>Large deflection, substeps, contact</td><td>Loads change slowly relative to natural frequency</td></tr>
+    <tr><td>Modal</td><td>Natural frequencies + mode shapes</td><td>Number of modes, constraints</td><td>Always before harmonic or random vibration</td></tr>
+    <tr><td>Harmonic Response</td><td>Steady-state response to sinusoidal force</td><td>Frequency range, damping, number of points</td><td>Rotating machinery, acoustic excitation</td></tr>
+    <tr><td>Transient Structural</td><td>Time-history displacement/stress</td><td>Time step, load history, initial conditions</td><td>Impact, shock, time-varying loads</td></tr>
+    <tr><td>Linear Buckling</td><td>Load multiplier for buckling</td><td>Pre-stress from static, number of modes</td><td>Slender structures, thin shells under compression</td></tr>
+    <tr><td>Random Vibration</td><td>RMS stress/displacement under PSD input</td><td>PSD table, number of modes</td><td>Road loads, wind, aerospace vibration environments</td></tr>
+    <tr><td>Response Spectrum</td><td>Peak response to earthquake/shock</td><td>RS table, combination method (SRSS, CQC)</td><td>Seismic design, pyrotechnic shock</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Result interpretation — what to check</h3>
+  <ul class="checklist">
+    <li><strong>Reaction forces = applied loads</strong> (Newton's 3rd law — if not, model has an error)</li>
+    <li><strong>Maximum deformation is physically plausible</strong> — compare to hand calculation</li>
+    <li><strong>Von Mises stress distribution makes physical sense</strong> — highest stress at expected load-path locations</li>
+    <li><strong>Stress singularities identified</strong> — peak stress at sharp corners grows with mesh refinement → not physical</li>
+    <li><strong>Contact status verified</strong> — expected open/closed regions confirmed in contact results</li>
+    <li><strong>Mesh sensitivity checked</strong> — refine at stress peaks and confirm they plateau</li>
+    <li><strong>Deformation scale factor checked</strong> — ANSYS auto-scales by default; set to "True Scale" to check physical magnitudes</li>
+  </ul>
+</div>

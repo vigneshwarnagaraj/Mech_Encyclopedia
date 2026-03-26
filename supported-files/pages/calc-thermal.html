@@ -1,0 +1,54 @@
+<div class="page-hd">
+  <div class="kicker">Calculators · 38</div>
+  <div class="page-title">Thermal &amp; Heat Transfer Calculators</div>
+  <p class="page-desc">Wall conduction, convection heat loss, and Biot number check.</p>
+</div>
+
+<div class="sec">
+  <h3>1D Wall Conduction</h3>
+  <p>\(R_{cond} = L/(kA)\), \(\dot{Q} = \Delta T / R\)</p>
+  <div class="calc-box">
+    <h4>Conduction Resistance &amp; Heat Flow</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Thickness L (m)</label><input id="cd_l" type="number" value="0.05" step="any"></div>
+      <div class="calc-field"><label>Conductivity k (W/m·K)</label><input id="cd_k" type="number" value="0.04" step="any"></div>
+      <div class="calc-field"><label>Area A (m²)</label><input id="cd_a" type="number" value="1" step="any"></div>
+      <div class="calc-field"><label>T_hot (°C)</label><input id="cd_th" type="number" value="200" step="any"></div>
+      <div class="calc-field"><label>T_cold (°C)</label><input id="cd_tc" type="number" value="20" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcConduction()">Calculate</button>
+    <div class="calc-result" id="cd_result">Press Calculate to see result.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Convection Heat Loss</h3>
+  <p>\(\dot{Q} = hA(T_s - T_\infty)\)</p>
+  <div class="calc-box">
+    <h4>Newton's Law of Cooling</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>h (W/m²·K)</label><input id="cv_h" type="number" value="25" step="any"></div>
+      <div class="calc-field"><label>Area A (m²)</label><input id="cv_a" type="number" value="0.5" step="any"></div>
+      <div class="calc-field"><label>T_surface (°C)</label><input id="cv_ts" type="number" value="80" step="any"></div>
+      <div class="calc-field"><label>T_fluid (°C)</label><input id="cv_tf" type="number" value="20" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcConvection()">Calculate</button>
+    <div class="calc-result" id="cv_result">Press Calculate to see result.</div>
+  </div>
+  <div class="tip"><strong>Typical h:</strong> Free air 5–25 · Forced air 25–250 · Forced water 500–20 000 W/m²·K.</div>
+</div>
+
+<div class="sec">
+  <h3>Biot Number Check</h3>
+  <p>\(Bi = hL_c/k\). If Bi &lt; 0.1 → lumped capacitance is valid.</p>
+  <div class="calc-box">
+    <h4>Biot Number</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>h (W/m²·K)</label><input id="bi_h" type="number" value="50" step="any"></div>
+      <div class="calc-field"><label>L_c = V/A_s (m)</label><input id="bi_lc" type="number" value="0.01" step="any"></div>
+      <div class="calc-field"><label>k (W/m·K)</label><input id="bi_k" type="number" value="50" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcBiot()">Calculate</button>
+    <div class="calc-result" id="bi_result">Press Calculate to see result.</div>
+  </div>
+</div>

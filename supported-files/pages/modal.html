@@ -1,0 +1,62 @@
+<div class="page-hd">
+  <div class="kicker">Vibrations · 29</div>
+  <div class="page-title">Modal Analysis</div>
+  <p class="page-desc">Frequency response functions, modal participation factors, experimental modal analysis, and interpreting ANSYS modal results.</p>
+</div>
+
+<div class="sec">
+  <h3>Frequency response function (FRF)</h3>
+  <div class="fc">
+    <div class="formula">\[ H_{jk}(\omega)=\frac{X_j(\omega)}{F_k(\omega)}=\sum_{r=1}^n\frac{\phi_{jr}\phi_{kr}/M_r}{\omega_r^2-\omega^2+j2\zeta_r\omega_r\omega} \]</div>
+    <div class="def"><strong>FRF as sum of modal contributions:</strong> Response at DOF \(j\) per unit force at DOF \(k\). Each mode contributes a resonant peak. At resonance \(\omega=\omega_r\): the \(r\)th mode dominates, with amplitude scaled by \(\phi_{jr}\phi_{kr}/(2\zeta_r\omega_r^2 M_r)\). Phase shifts by 180° through each resonance.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ H(\omega)=\frac{1}{k-\omega^2 m+j\omega c}\quad\text{(SDOF)} \]</div>
+    <div class="def"><strong>SDOF receptance:</strong> Complex-valued — real part (co-quad) and imaginary part (quad). Magnitude: \(|H|=1/\sqrt{(k-\omega^2m)^2+(\omega c)^2}\). The imaginary part peaks at the natural frequency for lightly damped systems.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>FRF types</h3>
+  <table class="tbl">
+    <tr><th>FRF type</th><th>Output / Input</th><th>Symbol</th><th>Units</th></tr>
+    <tr><td>Receptance</td><td>Displacement / Force</td><td>\(H(\omega)\)</td><td>m/N</td></tr>
+    <tr><td>Mobility</td><td>Velocity / Force</td><td>\(Y(\omega)\)</td><td>(m/s)/N</td></tr>
+    <tr><td>Accelerance (inertance)</td><td>Acceleration / Force</td><td>\(A(\omega)\)</td><td>(m/s²)/N</td></tr>
+    <tr><td>Dynamic stiffness</td><td>Force / Displacement</td><td>\(1/H(\omega)\)</td><td>N/m</td></tr>
+  </table>
+  <div class="note"><strong>In practice:</strong> Accelerometers measure acceleration — so experimental FRFs are often accelerance. ANSYS Harmonic Response outputs displacement by default. Convert: velocity = displacement × \(j\omega\), acceleration = displacement × \((j\omega)^2=-\omega^2\).</note>
+</div>
+
+<div class="sec">
+  <h3>Modal participation factor</h3>
+  <div class="fc">
+    <div class="formula">\[ \Gamma_r=\frac{\{\phi_r\}^T[M]\{D\}}{M_r},\quad L_r=\{\phi_r\}^T[M]\{D\} \]</div>
+    <div class="def"><strong>Modal participation factor \(\Gamma_r\):</strong> \(\{D\}\) = direction vector (e.g., \(\{1,1,1,\ldots\}\) for uniform base excitation in one axis). Indicates how strongly mode \(r\) is excited by the loading pattern. <strong>Effective mass:</strong> \(m_{eff,r} = L_r^2/M_r\). Sum of all effective masses = total system mass.</def></div>
+  </div>
+  <div class="tip"><strong>ANSYS modal output:</strong> After running a Modal analysis, check the "Participation Factor Summary" in Solution Information. Sort by effective mass fraction in the loading direction. Modes with low effective mass contribute little to that direction's response but may matter for structural coupling or cross-axis response.</tip>
+</div>
+
+<div class="sec">
+  <h3>Experimental modal analysis (EMA)</h3>
+  <div class="fc">
+    <div class="formula">\[ \omega_r=\omega\bigg|_{\text{peak of }|H|}\approx\omega_{r,d},\quad \zeta_r=\frac{\Delta\omega}{2\omega_r}\;\text{(half-power method)} \]</div>
+    <div class="def"><strong>Half-power bandwidth method:</strong> \(\Delta\omega\) = frequency bandwidth between the two frequencies where \(|H|=|H_{max}|/\sqrt{2}\) (i.e., 3 dB below peak). Provides a quick estimate of damping from a measured FRF. More accurate: circle-fit (Nyquist plot) or LSCF (PolyMAX).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ MAC(r,s)=\frac{|\{\phi_r\}^T\{\phi_s^{exp}\}|^2}{(\{\phi_r\}^T\{\phi_r\})(\{\phi_s^{exp}\}^T\{\phi_s^{exp}\})} \]</div>
+    <div class="def"><strong>Modal Assurance Criterion (MAC):</strong> Compares analytical (FEA) and experimental mode shapes. MAC = 1: identical shapes. MAC = 0: orthogonal (completely different). MAC &gt; 0.9 typically indicates good correlation. Used in FEA model validation and updating.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>ANSYS modal analysis — practical guide</h3>
+  <table class="tbl">
+    <tr><th>Setting</th><th>What it controls</th><th>Guidance</th></tr>
+    <tr><td>Solver type</td><td>Eigenvalue extraction algorithm</td><td>Lanczos (default) — best for large structural models. Block Lanczos for many modes.</td></tr>
+    <tr><td>Number of modes</td><td>How many eigenvalues to extract</td><td>Extract enough so effective mass &gt;80% in all three translational directions</td></tr>
+    <tr><td>Frequency range</td><td>Restricts eigenvalue search</td><td>Leave upper limit as default unless you want only modes in a specific band</td></tr>
+    <tr><td>Constraints</td><td>Defines the boundary condition for the mode shapes</td><td>Free-free for suspension / substructure; fixed-base for grounded structure</td></tr>
+    <tr><td>Pre-stress effects</td><td>Stress stiffening (from static pre-load)</td><td>Link a Static Structural analysis when centrifugal stiffening or tensioned cables matter</td></tr>
+  </table>
+</div>

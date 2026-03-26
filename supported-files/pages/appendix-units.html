@@ -1,0 +1,94 @@
+<div class="page-hd">
+  <div class="kicker">Appendix · 46</div>
+  <div class="page-title">Units, Dimensions &amp; Conversions</div>
+  <p class="page-desc">SI base units, derived engineering units, pressure conversions, energy equivalences, temperature conversions, and SI prefixes.</p>
+</div>
+
+<div class="sec">
+  <h3>SI Base Units</h3>
+  <table class="tbl">
+    <tr><th>Quantity</th><th>Unit name</th><th>Symbol</th><th>Notes</th></tr>
+    <tr><td>Length</td><td>metre</td><td>m</td><td>Base unit of distance</td></tr>
+    <tr><td>Mass</td><td>kilogram</td><td>kg</td><td>Base unit of mass</td></tr>
+    <tr><td>Time</td><td>second</td><td>s</td><td>Base unit of time</td></tr>
+    <tr><td>Temperature</td><td>kelvin</td><td>K</td><td>Absolute temperature scale</td></tr>
+    <tr><td>Amount of substance</td><td>mole</td><td>mol</td><td>Used in gas laws</td></tr>
+    <tr><td>Electric current</td><td>ampere</td><td>A</td><td>Used in electromagnetic problems</td></tr>
+    <tr><td>Luminous intensity</td><td>candela</td><td>cd</td><td>Rarely used in mechanical engineering</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Derived SI Units — Engineering</h3>
+  <table class="tbl">
+    <tr><th>Quantity</th><th>Unit</th><th>Symbol</th><th>In base units</th></tr>
+    <tr><td>Force</td><td>newton</td><td>N</td><td>kg·m/s²</td></tr>
+    <tr><td>Pressure / stress</td><td>pascal</td><td>Pa</td><td>N/m² = kg/(m·s²)</td></tr>
+    <tr><td>Energy / work / heat</td><td>joule</td><td>J</td><td>N·m = kg·m²/s²</td></tr>
+    <tr><td>Power</td><td>watt</td><td>W</td><td>J/s = kg·m²/s³</td></tr>
+    <tr><td>Frequency</td><td>hertz</td><td>Hz</td><td>1/s = s⁻¹</td></tr>
+    <tr><td>Dynamic viscosity</td><td>pascal-second</td><td>Pa·s</td><td>kg/(m·s)</td></tr>
+    <tr><td>Kinematic viscosity</td><td>—</td><td>m²/s</td><td>m²/s</td></tr>
+    <tr><td>Thermal conductivity</td><td>—</td><td>W/(m·K)</td><td>kg·m/(s³·K)</td></tr>
+    <tr><td>Heat transfer coefficient</td><td>—</td><td>W/(m²·K)</td><td>kg/(s³·K)</td></tr>
+    <tr><td>Specific heat</td><td>—</td><td>J/(kg·K)</td><td>m²/(s²·K)</td></tr>
+    <tr><td>Torque / moment</td><td>newton-metre</td><td>N·m</td><td>kg·m²/s²</td></tr>
+    <tr><td>Angular velocity</td><td>radian per second</td><td>rad/s</td><td>s⁻¹</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Pressure Conversions</h3>
+  <table class="tbl">
+    <tr><th>Unit</th><th>In Pa</th><th>Engineering context</th></tr>
+    <tr><td>1 Pa</td><td class="const-val">1 N/m²</td><td>SI base; CFD residual scale</td></tr>
+    <tr><td>1 kPa</td><td class="const-val">1 000</td><td>Low pressure differentials</td></tr>
+    <tr><td>1 bar</td><td class="const-val">100 000</td><td>Industrial standard ≈ 1 atm</td></tr>
+    <tr><td>1 atm</td><td class="const-val">101 325</td><td>Standard atmosphere — pressure reference</td></tr>
+    <tr><td>1 psi</td><td class="const-val">6 894.76</td><td>US customary; 1 MPa ≈ 145 psi</td></tr>
+    <tr><td>1 mmHg (torr)</td><td class="const-val">133.32</td><td>Medical, vacuum systems</td></tr>
+    <tr><td>1 mbar</td><td class="const-val">100</td><td>Meteorology</td></tr>
+    <tr><td>1 MPa</td><td class="const-val">1 000 000</td><td>Structural stress; high-pressure lines</td></tr>
+    <tr><td>1 GPa</td><td class="const-val">10⁹</td><td>Material modulus (enter as Pa in ANSYS: 200 GPa = 2×10¹¹ Pa)</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Temperature Conversions</h3>
+  <div class="fc">
+    <div class="formula">\[ T[\text{K}]=T[°\text{C}]+273.15,\quad T[°\text{C}]=T[\text{K}]-273.15 \]</div>
+    <div class="def">Use K in: radiation (T⁴), ideal gas law, Carnot efficiency, thermal diffusivity equations. Use °C or K interchangeably for temperature differences ΔT.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ T[°\text{C}]=\tfrac{5}{9}(T[°\text{F}]-32),\quad T[°\text{F}]=\tfrac{9}{5}T[°\text{C}]+32 \]</div>
+    <div class="def">Fahrenheit used in US engineering, HVAC, and legacy standards. Convert to °C or K before any formula application.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Energy Unit Equivalences</h3>
+  <table class="tbl">
+    <tr><th>Unit</th><th>In Joules (J)</th><th>Context</th></tr>
+    <tr><td>1 cal (thermochemical)</td><td class="const-val">4.184</td><td>Chemistry, nutrition (kcal = 4184 J)</td></tr>
+    <tr><td>1 BTU</td><td class="const-val">1 055.06</td><td>US HVAC and heating systems</td></tr>
+    <tr><td>1 kWh</td><td class="const-val">3 600 000</td><td>Electrical energy billing</td></tr>
+    <tr><td>1 eV</td><td class="const-val">1.602×10⁻¹⁹</td><td>Particle physics, materials science</td></tr>
+    <tr><td>1 ft·lbf</td><td class="const-val">1.3558</td><td>US customary torque/energy</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>SI Prefixes</h3>
+  <table class="tbl">
+    <tr><th>Prefix</th><th>Symbol</th><th>Factor</th><th>Engineering example</th></tr>
+    <tr><td>tera</td><td>T</td><td>10¹²</td><td>TB storage</td></tr>
+    <tr><td>giga</td><td>G</td><td>10⁹</td><td>GPa (material stiffness); GHz</td></tr>
+    <tr><td>mega</td><td>M</td><td>10⁶</td><td>MPa (stress); MW (power)</td></tr>
+    <tr><td>kilo</td><td>k</td><td>10³</td><td>kN, kPa, kJ, km</td></tr>
+    <tr><td>hecto</td><td>h</td><td>10²</td><td>hPa (meteorological pressure)</td></tr>
+    <tr><td>milli</td><td>m</td><td>10⁻³</td><td>mm (geometry); ms (time)</td></tr>
+    <tr><td>micro</td><td>μ</td><td>10⁻⁶</td><td>μm (surface roughness, wavelength)</td></tr>
+    <tr><td>nano</td><td>n</td><td>10⁻⁹</td><td>nm (thin film coatings)</td></tr>
+    <tr><td>pico</td><td>p</td><td>10⁻¹²</td><td>pF (capacitance in sensors)</td></tr>
+  </table>
+</div>

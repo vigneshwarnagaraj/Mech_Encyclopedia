@@ -1,0 +1,70 @@
+<div class="page-hd">
+  <div class="kicker">Start Here</div>
+  <div class="page-title">Overview</div>
+  <p class="page-desc">How to use this manual, what it covers, and how to navigate it effectively.</p>
+</div>
+
+<div class="sec">
+  <h3>How to use this manual</h3>
+  <p>This is a structured engineering reference manual, not a collection of formulas pasted without context. Each section follows the pattern: concept → equation → symbol definitions → assumptions → practical interpretation.</p>
+  <p style="margin-top:0.6rem;">Use it for simulation setup, quick formula lookup, pre-interview revision, or as a sanity check when a solver returns something that does not feel right.</p>
+  <div class="tip"><strong>Tip:</strong> Use the search bar to filter chapters by keyword. Formulas re-render via MathJax after every page load. Hash-based navigation means you can bookmark any page directly.</div>
+</div>
+
+<div class="grid2">
+  <div class="mini-card">
+    <h4>Textbook-style equations</h4>
+    <p>All formulas render as proper mathematical notation with full symbol definitions, SI units, and assumptions clearly stated.</p>
+  </div>
+  <div class="mini-card">
+    <h4>Constants &amp; reference data</h4>
+    <p>Physical and engineering constants are embedded in every relevant section and collected on the dedicated reference page (00A).</p>
+  </div>
+  <div class="mini-card">
+    <h4>ANSYS workflow guide</h4>
+    <p>Workbench, Fluent, meshing options, and post-processing — explained with what each setting does and when to use it.</p>
+  </div>
+  <div class="mini-card">
+    <h4>Interactive calculators</h4>
+    <p>Reynolds number, pipe pressure drop, beam stress, torsion, buckling, von Mises, natural frequency, and more.</p>
+  </div>
+  <div class="mini-card">
+    <h4>Checklists &amp; guides</h4>
+    <p>Pre-run and post-run CFD and FEA checklists. Validation guides. Model selection tables. Interview preparation.</p>
+  </div>
+  <div class="mini-card">
+    <h4>Dark &amp; Light mode</h4>
+    <p>Toggle with the moon/sun button in the sidebar or mobile bar. Preference is saved across sessions.</p>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>What this manual covers</h3>
+  <table class="tbl">
+    <tr><th>Domain</th><th>Sections</th><th>Highlights</th></tr>
+    <tr><td><strong>Foundations</strong></td><td>00–03</td><td>Constants, maths, physics, engineering mechanics</td></tr>
+    <tr><td><strong>Fluid Mechanics</strong></td><td>04–08</td><td>Properties, Bernoulli, pipe flow, boundary layer, dimensionless numbers</td></tr>
+    <tr><td><strong>Thermal / Heat Transfer</strong></td><td>09–13</td><td>Conduction, convection, radiation, heat exchangers</td></tr>
+    <tr><td><strong>Aerodynamics</strong></td><td>14</td><td>Lift, drag, compressible flow basics</td></tr>
+    <tr><td><strong>Theory of Machines</strong></td><td>15</td><td>Gears, belts, angular kinematics</td></tr>
+    <tr><td><strong>CFD</strong></td><td>16–20</td><td>Governing equations, turbulence models, convergence, mesh</td></tr>
+    <tr><td><strong>FEA / Solid Mechanics</strong></td><td>21–25</td><td>Stress, failure criteria, beams, FEA formulation, nonlinear</td></tr>
+    <tr><td><strong>Vibrations</strong></td><td>26–30</td><td>SDOF, MDOF, modal analysis, random vibration</td></tr>
+    <tr><td><strong>ANSYS</strong></td><td>31–33</td><td>Workbench, Fluent meshing, post-processing, Python export</td></tr>
+    <tr><td><strong>Calculators</strong></td><td>37–40</td><td>Fluid, thermal, structural, vibration calculators</td></tr>
+    <tr><td><strong>Checklists &amp; Guides</strong></td><td>41–44</td><td>CFD/FEA checklists, validation, model selection</td></tr>
+    <tr><td><strong>Appendix</strong></td><td>46–48</td><td>Units, glossary, automation &amp; Python workflows</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Navigation tips</h3>
+  <ul>
+    <li>Click any sidebar item to load its page — the URL hash updates so you can bookmark or share it.</li>
+    <li>Use the search bar to filter sidebar items by keyword.</li>
+    <li>Use <strong>↑ ↓</strong> arrow keys to scroll the sidebar; <strong>Home / End</strong> jump to top/bottom.</li>
+    <li>The browser back/forward buttons work with the hash router.</li>
+    <li>On mobile, tap ☰ Menu to open the sidebar.</li>
+  </ul>
+  <div class="note"><strong>GitHub Pages deployment:</strong> This site works as a static site hosted on GitHub Pages. All pages are plain HTML partials loaded via fetch(). No build step, no Node, no bundler required.</div>
+</div>

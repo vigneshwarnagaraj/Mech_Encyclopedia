@@ -1,0 +1,62 @@
+/* ===================== DESIGN TOKENS ===================== */
+:root {
+  --sidebar-w: 300px;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.45);
+  --shadow-md: 0 8px 28px rgba(0,0,0,0.28);
+}
+
+/* ===== DARK THEME ===== */
+[data-theme="dark"] {
+  --bg-base:    #080c12;
+  --bg-1:       #0e1420;
+  --bg-2:       #131a28;
+  --bg-3:       #1a2336;
+  --bg-panel:   #0b1019;
+  --border:     #1e2d44;
+  --border-hi:  #2a3d5a;
+  --txt:        #e8eef8;
+  --txt-lo:     #8fa3be;
+  --txt-dim:    #4d6280;
+  --accent:     #4da3ff;
+  --accent-glow:rgba(77,163,255,0.18);
+  --accent2:    #36e8b0;
+  --accent3:    #ff6b8a;
+  --gold:       #ffc96b;
+  --purple:     #a78bfa;
+  --formula-bg: #060a10;
+  --code-bg:    #050911;
+  --tip-bg:     rgba(54,232,176,0.07);
+  --warn-bg:    rgba(255,201,107,0.08);
+  --note-bg:    rgba(77,163,255,0.07);
+  --danger-bg:  rgba(255,107,138,0.08);
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg-base:    #f4f6fb;
+  --bg-1:       #ffffff;
+  --bg-2:       #eef1f8;
+  --bg-3:       #e4e9f4;
+  --bg-panel:   #ffffff;
+  --border:     #d0d9eb;
+  --border-hi:  #b8c5dd;
+  --txt:        #0f1923;
+  --txt-lo:     #3d5169;
+  --txt-dim:    #7a92ad;
+  --accent:     #1a7eff;
+  --accent-glow:rgba(26,126,255,0.12);
+  --accent2:    #00b886;
+  --accent3:    #e63a5e;
+  --gold:       #d4800a;
+  --purple:     #7c3aed;
+  --formula-bg: #f0f4fc;
+  --code-bg:    #edf0f8;
+  --tip-bg:     rgba(0,184,134,0.08);
+  --warn-bg:    rgba(212,128,10,0.08);
+  --note-bg:    rgba(26,126,255,0.08);
+  --danger-bg:  rgba(230,58,94,0.08);
+}

@@ -1,0 +1,107 @@
+<div class="page-hd">
+  <div class="kicker">Appendix · 48</div>
+  <div class="page-title">Export, Automation &amp; Python Workflows</div>
+  <p class="page-desc">How to export simulation data, process it with Python and pandas, and build reusable reporting workflows.</p>
+</div>
+
+<div class="sec">
+  <h3>Fluent data export workflow</h3>
+  <ol class="step-list">
+    <li><strong>Surface monitors:</strong> Reports → Surface Integrals → select surface and quantity (area-weighted average, mass-flow average, total flux) → enable "Write to File" before running. Produces .out file with iteration history.</li>
+    <li><strong>XY plot data:</strong> Plots → XY Plot → select axes (position, pressure, velocity component) and surface → Write → saves .csv.</li>
+    <li><strong>Residual history:</strong> Monitors → Residuals → Write → residuals.csv with all residuals vs. iteration number.</li>
+    <li><strong>Force report:</strong> Reports → Forces → select wall zones → specify direction vector → Write → forces.csv with pressure and viscous components.</li>
+    <li><strong>Full ASCII surface export:</strong> File → Export → ASCII → select surface and variables → .csv for external Python analysis.</li>
+    <li><strong>Case summary:</strong> File → Export → Case Summary — records all BCs, solver settings, and model choices in a text report.</li>
+  </ol>
+</div>
+
+<div class="sec">
+  <h3>Python: mesh independence study automation</h3>
+  <div class="code"><span class="c"># Load pressure drop data from three mesh levels and plot GCI</span>
+<span class="k">import</span> numpy <span class="k">as</span> np
+<span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+
+<span class="c"># Mesh study results — manually entered or loaded from CSV</span>
+meshes = {
+    <span class="s">'Coarse'</span>:  {<span class="s">'cells'</span>: <span class="n">250e3</span>,  <span class="s">'dp'</span>: <span class="n">1425.0</span>},
+    <span class="s">'Medium'</span>:  {<span class="s">'cells'</span>: <span class="n">1e6</span>,    <span class="s">'dp'</span>: <span class="n">1381.0</span>},
+    <span class="s">'Fine'</span>:    {<span class="s">'cells'</span>: <span class="n">4e6</span>,    <span class="s">'dp'</span>: <span class="n">1364.0</span>},
+}
+
+cells  = [v[<span class="s">'cells'</span>] <span class="k">for</span> v <span class="k">in</span> meshes.values()]
+dp     = [v[<span class="s">'dp'</span>]    <span class="k">for</span> v <span class="k">in</span> meshes.values()]
+labels = list(meshes.keys())
+
+<span class="c"># GCI calculation (Richardson extrapolation)</span>
+r  = (cells[<span class="n">2</span>]/cells[<span class="n">1</span>])**(<span class="n">1</span>/<span class="n">3</span>)   <span class="c"># refinement ratio</span>
+p  = <span class="n">2</span>                              <span class="c"># formal order of accuracy</span>
+Fs = <span class="n">1.25</span>                            <span class="c"># safety factor</span>
+GCI_med_fine = Fs * abs(dp[<span class="n">1</span>]-dp[<span class="n">2</span>])/dp[<span class="n">2</span>] / (r**p - <span class="n">1</span>)
+<span class="k">print</span>(<span class="s">f"GCI (medium→fine) = {GCI_med_fine*100:.2f}%"</span>)
+<span class="k">print</span>(<span class="s">f"% change medium→fine: {abs(dp[1]-dp[2])/dp[2]*100:.2f}%"</span>)
+
+fig, ax = plt.subplots(figsize=(<span class="n">7</span>, <span class="n">4</span>))
+ax.semilogx(cells, dp, <span class="s">'o-'</span>, color=<span class="s">'#4da3ff'</span>, lw=<span class="n">2</span>, ms=<span class="n">8</span>)
+<span class="k">for</span> i, (x, y, l) <span class="k">in</span> enumerate(zip(cells, dp, labels)):
+    ax.annotate(l, (x, y), textcoords=<span class="s">'offset points'</span>, xytext=(<span class="n">0</span>,<span class="n">10</span>),
+                ha=<span class="s">'center'</span>, fontsize=<span class="n">9</span>, color=<span class="s">'#8fa3be'</span>)
+ax.set_xlabel(<span class="s">'Mesh cell count'</span>); ax.set_ylabel(<span class="s">'Pressure drop (Pa)'</span>)
+ax.set_title(<span class="s">'Mesh Independence Study'</span>); ax.grid(<span class="k">True</span>, alpha=<span class="n">0.3</span>)
+plt.tight_layout(); plt.savefig(<span class="s">'mesh_independence.png'</span>, dpi=<span class="n">150</span>); plt.show()</div>
+</div>
+
+<div class="sec">
+  <h3>Python: parametric study summary report</h3>
+  <div class="code"><span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+<span class="k">from</span> pathlib <span class="k">import</span> Path
+
+data_dir = Path(<span class="s">'simulation_exports/'</span>)
+records = []
+
+<span class="k">for</span> csv_file <span class="k">in</span> sorted(data_dir.glob(<span class="s">'*.csv'</span>)):
+    df = pd.read_csv(csv_file)
+    records.append({
+        <span class="s">'Run'</span>:            csv_file.stem,
+        <span class="s">'Max_Temp_C'</span>:    df[<span class="s">'T_max_K'</span>].iloc[-<span class="n">1</span>] - <span class="n">273.15</span>,
+        <span class="s">'Pressure_Drop'</span>: df[<span class="s">'dP_Pa'</span>].iloc[-<span class="n">1</span>],
+        <span class="s">'Drag_N'</span>:        df[<span class="s">'Drag_N'</span>].iloc[-<span class="n">1</span>],
+        <span class="s">'Converged'</span>:     df[<span class="s">'residual'</span>].iloc[-<span class="n">1</span>] &lt; <span class="n">1e-4</span>,
+    })
+
+summary = pd.DataFrame(records)
+summary.to_csv(<span class="s">'summary_report.csv'</span>, index=<span class="k">False</span>)
+<span class="k">print</span>(summary.to_string(index=<span class="k">False</span>))
+
+fig, ax = plt.subplots(figsize=(<span class="n">10</span>, <span class="n">4</span>))
+ax.bar(summary[<span class="s">'Run'</span>], summary[<span class="s">'Pressure_Drop'</span>], color=<span class="s">'#4da3ff'</span>, ec=<span class="s">'#2a3d5a'</span>)
+ax.set_ylabel(<span class="s">'Pressure Drop (Pa)'</span>); ax.set_title(<span class="s">'Parametric Study — ΔP by Run'</span>)
+plt.xticks(rotation=<span class="n">30</span>, ha=<span class="s">'right'</span>); plt.tight_layout()
+plt.savefig(<span class="s">'parametric_dp.png'</span>, dpi=<span class="n">150</span>); plt.show()</div>
+</div>
+
+<div class="sec">
+  <h3>Python: ANSYS harmonic response post-processing</h3>
+  <div class="code"><span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+
+df = pd.read_csv(<span class="s">'harmonic_response.csv'</span>)
+<span class="c"># Expected columns: Frequency_Hz, Amplitude_mm, Phase_deg</span>
+
+fig, (ax1, ax2) = plt.subplots(<span class="n">2</span>, <span class="n">1</span>, figsize=(<span class="n">9</span>, <span class="n">6</span>), sharex=<span class="k">True</span>)
+
+ax1.semilogy(df[<span class="s">'Frequency_Hz'</span>], df[<span class="s">'Amplitude_mm'</span>], color=<span class="s">'#4da3ff'</span>, lw=<span class="n">2</span>)
+ax1.set_ylabel(<span class="s">'Amplitude (mm)'</span>); ax1.set_title(<span class="s">'Harmonic Response'</span>)
+ax1.grid(<span class="k">True</span>, alpha=<span class="n">0.3</span>)
+
+ax2.plot(df[<span class="s">'Frequency_Hz'</span>], df[<span class="s">'Phase_deg'</span>], color=<span class="s">'#36e8b0'</span>, lw=<span class="n">2</span>)
+ax2.set_ylabel(<span class="s">'Phase (°)'</span>); ax2.set_xlabel(<span class="s">'Frequency (Hz)'</span>)
+ax2.grid(<span class="k">True</span>, alpha=<span class="n">0.3</span>)
+
+plt.tight_layout(); plt.savefig(<span class="s">'harmonic_plot.png'</span>, dpi=<span class="n">150</span>); plt.show()
+
+idx = df[<span class="s">'Amplitude_mm'</span>].idxmax()
+<span class="k">print</span>(<span class="s">f"Resonance ≈ {df.loc[idx,'Frequency_Hz']:.2f} Hz  |  Peak = {df.loc[idx,'Amplitude_mm']:.4f} mm"</span>)</div>
+</div>

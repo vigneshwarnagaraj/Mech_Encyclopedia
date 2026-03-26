@@ -1,0 +1,33 @@
+{
+  "thermal_diffusivity": [
+    {"material": "Copper",     "k": 390,   "rho": 8900,  "cp": 390,  "alpha_m2_s": 1.17e-4},
+    {"material": "Aluminum",   "k": 200,   "rho": 2700,  "cp": 900,  "alpha_m2_s": 8.24e-5},
+    {"material": "Steel",      "k": 50,    "rho": 7850,  "cp": 500,  "alpha_m2_s": 1.27e-5},
+    {"material": "Glass",      "k": 1.05,  "rho": 2500,  "cp": 840,  "alpha_m2_s": 5.0e-7},
+    {"material": "Water (20C)","k": 0.598, "rho": 998,   "cp": 4182, "alpha_m2_s": 1.43e-7},
+    {"material": "Air (15C)",  "k": 0.0257,"rho": 1.225, "cp": 1005, "alpha_m2_s": 2.09e-5}
+  ],
+  "latent_heat": {
+    "water_vaporisation_J_kg": 2.26e6,
+    "water_fusion_J_kg": 3.34e5,
+    "aluminium_fusion_J_kg": 3.97e5,
+    "steel_fusion_J_kg": 2.72e5
+  },
+  "typical_convection_h_W_m2K": {
+    "free_convection_air": "5-25",
+    "forced_convection_air": "25-250",
+    "forced_convection_water": "500-20000",
+    "boiling_water": "2500-100000",
+    "condensing_steam": "5000-100000"
+  },
+  "typical_emissivity": {
+    "polished_aluminum": "0.04-0.06",
+    "polished_copper": "0.02-0.05",
+    "oxidised_steel": "0.6-0.8",
+    "black_paint": "0.92-0.97",
+    "white_paint": "0.88-0.96",
+    "human_skin": "0.95",
+    "concrete": "0.88-0.95",
+    "glass_window": "0.84-0.90"
+  }
+}

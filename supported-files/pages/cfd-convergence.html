@@ -1,0 +1,59 @@
+<div class="page-hd">
+  <div class="kicker">CFD · 20</div>
+  <div class="page-title">Convergence &amp; Mesh Independence</div>
+  <p class="page-desc">How to know when your simulation is actually converged, and how to verify your mesh is adequate.</p>
+</div>
+
+<div class="sec">
+  <h3>Residual convergence</h3>
+  <p>Residuals measure the imbalance in the governing equations across all cells. A drop of 3–4 orders of magnitude is often cited as convergence, but this is a necessary condition, not a sufficient one.</p>
+  <table class="tbl">
+    <tr><th>Residual behaviour</th><th>What it means</th><th>Action</th></tr>
+    <tr><td>Steady decline to 10⁻⁴ or lower</td><td>Good convergence progress</td><td>Check that physical monitors have also stabilised</td></tr>
+    <tr><td>Levelling off at 10⁻³</td><td>May indicate a physically unsteady region</td><td>Consider transient solver; check if physics monitor is still changing</td></tr>
+    <tr><td>Oscillation that does not reduce</td><td>Unsteady physics, or numerical instability</td><td>Check BCs, mesh quality, reduce relaxation factors</td></tr>
+    <tr><td>Divergence / blow-up</td><td>Numerical instability — solver cannot stabilise</td><td>Reduce relaxation, check mesh, check BC signs</td></tr>
+  </table>
+  <div class="danger"><strong>Never judge convergence only by residuals.</strong> Monitor a physical output — pressure drop, lift, drag, outlet temperature. If it has stopped changing, you are converged in a useful engineering sense.</div>
+</div>
+
+<div class="sec">
+  <h3>Setting up physical monitors</h3>
+  <ul class="checklist">
+    <li><strong>Pressure drop:</strong> Difference between inlet and outlet area-weighted average pressure. Should stabilise to a constant value.</li>
+    <li><strong>Drag force:</strong> Reports → Forces → choose wall zones → plot total force vs. iteration.</li>
+    <li><strong>Outlet temperature:</strong> Surface integrals → area-weighted average temperature at outlet plane.</li>
+    <li><strong>Lift coefficient:</strong> For external aerodynamics — monitors the primary output of the simulation.</li>
+    <li><strong>Mass flow imbalance:</strong> (Mass flow in − mass flow out)/mass flow in × 100%. Target: &lt; 0.1%.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Mesh independence study</h3>
+  <div class="fc">
+    <div class="formula">\[ GCI_{fine}=F_s\left|\frac{\phi_1-\phi_2}{\phi_2}\right|\frac{1}{r^p-1} \]</div>
+    <div class="def"><strong>Grid Convergence Index (Richardson extrapolation):</strong> \(\phi_1\) = fine mesh result, \(\phi_2\) = coarse mesh result, \(r\) = mesh refinement ratio (\(\geq1.3\)), \(p\) = formal order of accuracy (typically 2), \(F_s\) = safety factor (1.25 for 3 meshes). GCI &lt; 5% is typically acceptable. Quantifies discretisation error.</def></div>
+  </div>
+  <div class="note"><strong>Practical procedure:</strong> Run coarse, medium, fine mesh (each ≈3× the previous in cell count). Compare a key scalar output (pressure drop, drag, \(T_{outlet}\)). If medium → fine changes &lt; 2–5%, medium mesh is adequate. Report the GCI or the % change.</div>
+  <table class="tbl">
+    <tr><th>Refinement level</th><th>Cells (example)</th><th>ΔP (Pa)</th><th>% change vs. finer</th></tr>
+    <tr><td>Coarse</td><td class="const-val">250 000</td><td class="const-val">1 425</td><td>—</td></tr>
+    <tr><td>Medium</td><td class="const-val">1 000 000</td><td class="const-val">1 381</td><td class="const-val">3.1%</td></tr>
+    <tr><td>Fine</td><td class="const-val">4 000 000</td><td class="const-val">1 364</td><td class="const-val">1.2% ✅</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>y+ targeting</h3>
+  <table class="tbl">
+    <tr><th>Wall treatment</th><th>Target y+</th><th>Turbulence model</th><th>First cell height guide</th></tr>
+    <tr><td>Wall-resolved</td><td class="const-val">y⁺ ≈ 1</td><td>SST k-ω, LES</td><td>\(\Delta y_1 = y^+\mu/(\rho u_\tau)\)</td></tr>
+    <tr><td>Standard wall functions</td><td class="const-val">30–300</td><td>Standard k-ε</td><td>30× wall-resolved spacing</td></tr>
+    <tr><td>Enhanced wall treatment</td><td class="const-val">y⁺ &lt; 5</td><td>Realizable k-ε + EWT</td><td>~5× wall-resolved spacing</td></tr>
+    <tr><td>Automatic wall treatment</td><td class="const-val">y⁺ ≈ 1–5</td><td>SST k-ω</td><td>Wall-resolved, blended</td></tr>
+  </table>
+  <div class="fc">
+    <div class="formula">\[ \Delta y_1=\frac{y^+\,\nu}{u_\tau},\quad u_\tau=\sqrt{\frac{\tau_w}{\rho}},\quad \tau_w\approx\frac{1}{2}\rho V^2 C_f \]</div>
+    <div class="def"><strong>First cell height calculation:</strong> Estimate \(C_f\) from flat plate or pipe correlations. For a flat plate: \(C_f\approx0.037\,Re_L^{-0.2}/2\). Then compute \(u_\tau\) and set \(\Delta y_1\) to achieve target \(y^+\). Use an online y+ calculator or Fluent's pre-solver mesh advisor for complex geometries.</def></div>
+  </div>
+</div>

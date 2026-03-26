@@ -1,0 +1,60 @@
+<div class="page-hd">
+  <div class="kicker">Checklists · 42</div>
+  <div class="page-title">FEA Setup &amp; Validation Checklists</div>
+  <p class="page-desc">Static structural, modal, harmonic response, and transient analysis checklists.</p>
+</div>
+
+<div class="sec">
+  <h3>Static Structural Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Material properties complete:</strong> E, ν, ρ for every body. Yield strength if checking failure. CTE if thermal loading.</li>
+    <li><strong>Contact types verified:</strong> Bonded only where surfaces are truly joined; frictional/frictionless where separation or sliding is physically possible.</li>
+    <li><strong>Mesh adequate at stress concentrations:</strong> Refine at fillets, holes, and notches. Minimum 3–5 elements through the thickness in bending regions.</li>
+    <li><strong>Mesh quality checked:</strong> Element quality, skewness, Jacobian ratio in Mesh Metrics panel.</li>
+    <li><strong>Boundary conditions physically correct:</strong> No rigid body motion possible (under-constrained); no over-constraint that artificially stiffens the model.</li>
+    <li><strong>Loads applied correctly:</strong> Pressure [Pa] not force — check total resultant force matches expectation. Force direction and magnitude verified.</li>
+    <li><strong>Large Deflection setting:</strong> ON if δ/L &gt; 5% or if buckling, snap-through, or large rotation is possible.</li>
+    <li><strong>Substeps sufficient for nonlinear:</strong> Initial substeps 10–20; allow bisection; maximum substeps 100–200 for strongly nonlinear problems.</li>
+    <li><strong>Results objects inserted before solving:</strong> Total deformation, equivalent stress, principal stresses, reaction forces.</li>
+    <li><strong>Reaction forces checked:</strong> Sum must equal applied loads (Newton's 3rd law). Any discrepancy indicates a model error.</li>
+    <li><strong>Stress singularities identified:</strong> Sharp corners with increasing stress under mesh refinement → singularity, not physical stress.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Modal Analysis Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Constraints physically correct:</strong> Free-free for suspended structure; fixed-base for grounded structure. Constraints fundamentally change mode shapes.</li>
+    <li><strong>Sufficient modes extracted:</strong> Enough to cover the frequency range of interest plus 2–3 extra. Check effective mass fraction &gt; 80–90% in loading directions.</li>
+    <li><strong>Mode shapes visually inspected:</strong> First mode: largest motion, fewest nodes. Higher modes: more node lines. Shapes should respect geometry symmetry.</li>
+    <li><strong>Frequency matches order-of-magnitude estimate:</strong> Use \(f_n \approx \sqrt{k/m}/(2\pi)\) with estimated stiffness and mass as a sanity check.</li>
+    <li><strong>Pre-stress modal if applicable:</strong> Link Static Structural for centrifugal stiffening, tension-stiffened cables, or pressurised vessels.</li>
+    <li><strong>Participation factor summary reviewed:</strong> Identify dominant modes in each excitation direction.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Harmonic Response Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Frequency range covers all resonances of interest</strong> (confirmed from modal result).</li>
+    <li><strong>Frequency resolution adequate near resonances:</strong> Use cluster points or fine frequency steps (≤ 0.1 Hz) near each natural frequency to resolve the peak accurately.</li>
+    <li><strong>Damping specified:</strong> Constant damping ratio, Rayleigh damping, or material damping — must be specified or response at resonance will be infinite.</li>
+    <li><strong>Force application location and direction correct.</strong></li>
+    <li><strong>Phase angle interpretation understood:</strong> 0° = in phase with force; 180° = out of phase (above resonance).</li>
+    <li><strong>Peak amplitude cross-checked:</strong> Should be ≈ F₀/(k·2ζ) for SDOF approximation near resonance.</li>
+    <li><strong>Solver method appropriate:</strong> Full method for accurate results; MSUP for large models (requires prior modal solve).</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h3>Transient Structural Checklist</h3>
+  <ul class="checklist">
+    <li><strong>Time step small enough:</strong> Δt ≤ T_min/20 where T_min = 1/f_max. ANSYS default is conservative — verify for your frequency content.</li>
+    <li><strong>Total simulation time covers the event of interest</strong> including settling time for transient effects to decay.</li>
+    <li><strong>Load history correctly defined:</strong> Step change, ramp, impulse, or periodic — verify the load-time curve in Tabular Data.</li>
+    <li><strong>Initial conditions defined</strong> if structure starts from a non-zero state.</li>
+    <li><strong>Integration method appropriate:</strong> Newmark (ANSYS default) for general dynamics; HHT-α for stiff problems.</li>
+    <li><strong>Output frequency set:</strong> Store every Nth step — storing every step for long transients generates unmanageable file sizes.</li>
+    <li><strong>Full transient vs MSUP:</strong> Mode Superposition is faster but cannot handle contact nonlinearity, large deflection, or plasticity.</li>
+  </ul>
+</div>

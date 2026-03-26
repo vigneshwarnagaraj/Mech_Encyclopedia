@@ -1,0 +1,77 @@
+{
+  "structural": [
+    {
+      "name": "Structural Steel",
+      "E_GPa": 200,
+      "nu": 0.30,
+      "density_kg_m3": 7850,
+      "yield_stress_MPa": "250-350",
+      "CTE_per_K": 12e-6,
+      "k_W_mK": 50,
+      "cp_J_kgK": 500
+    },
+    {
+      "name": "Stainless Steel 316",
+      "E_GPa": 193,
+      "nu": 0.28,
+      "density_kg_m3": 7990,
+      "yield_stress_MPa": "170-310",
+      "CTE_per_K": 16e-6,
+      "k_W_mK": 14,
+      "cp_J_kgK": 500
+    },
+    {
+      "name": "Aluminum 6061-T6",
+      "E_GPa": 69,
+      "nu": 0.33,
+      "density_kg_m3": 2700,
+      "yield_stress_MPa": 276,
+      "CTE_per_K": 23.6e-6,
+      "k_W_mK": 167,
+      "cp_J_kgK": 896
+    },
+    {
+      "name": "Titanium Grade 5 (Ti-6Al-4V)",
+      "E_GPa": 114,
+      "nu": 0.34,
+      "density_kg_m3": 4430,
+      "yield_stress_MPa": 880,
+      "CTE_per_K": 8.6e-6,
+      "k_W_mK": 6.7,
+      "cp_J_kgK": 526
+    },
+    {
+      "name": "Cast Iron (grey)",
+      "E_GPa": "120-170",
+      "nu": 0.26,
+      "density_kg_m3": 7200,
+      "yield_stress_MPa": "200-400",
+      "CTE_per_K": 10.8e-6,
+      "k_W_mK": 46,
+      "cp_J_kgK": 460
+    },
+    {
+      "name": "Copper (annealed)",
+      "E_GPa": 120,
+      "nu": 0.34,
+      "density_kg_m3": 8960,
+      "yield_stress_MPa": "70-340",
+      "CTE_per_K": 17e-6,
+      "k_W_mK": 390,
+      "cp_J_kgK": 385
+    }
+  ],
+  "thermal_conductivity_reference": [
+    {"material": "Copper",              "k_W_mK": "385-400"},
+    {"material": "Aluminum",            "k_W_mK": "150-240"},
+    {"material": "Structural steel",    "k_W_mK": 50},
+    {"material": "Stainless steel",     "k_W_mK": "13-16"},
+    {"material": "Glass",               "k_W_mK": "0.8-1.4"},
+    {"material": "Concrete",            "k_W_mK": "1.0-1.8"},
+    {"material": "Water (20°C)",        "k_W_mK": 0.598},
+    {"material": "Engine oil",          "k_W_mK": "0.14-0.15"},
+    {"material": "Air (15°C)",          "k_W_mK": 0.0257},
+    {"material": "Polyurethane foam",   "k_W_mK": "0.022-0.028"},
+    {"material": "Aerogel",             "k_W_mK": "0.015-0.020"}
+  ]
+}

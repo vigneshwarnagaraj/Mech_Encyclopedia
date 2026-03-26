@@ -1,0 +1,58 @@
+<div class="page-hd">
+  <div class="kicker">Aerodynamics · 14</div>
+  <div class="page-title">Lift, Drag &amp; Aerodynamic Forces</div>
+  <p class="page-desc">Lift and drag equations, drag breakdown, compressible flow basics, and aerodynamics for aircraft and automobiles.</p>
+</div>
+
+<div class="sec">
+  <h3>Lift and drag forces</h3>
+  <div class="fc">
+    <div class="formula">\[ L=\tfrac{1}{2}\rho V^2 S\,C_L,\quad D=\tfrac{1}{2}\rho V^2 S\,C_D \]</div>
+    <div class="def"><strong>Lift and drag:</strong> \(\rho\) = air density [kg/m³], \(V\) = freestream velocity [m/s], \(S\) = reference area [m²] (wing planform area for aircraft, frontal area for cars), \(C_L\) = lift coefficient [-], \(C_D\) = drag coefficient [-]. Dynamic pressure: \(q_\infty=\tfrac{1}{2}\rho V^2\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ C_{D,total}=C_{D,friction}+C_{D,pressure}+C_{D,induced}+C_{D,wave} \]</div>
+    <div class="def"><strong>Total drag breakdown:</strong>
+      <ul style="margin-top:0.35rem;">
+        <li><strong>Friction drag:</strong> Skin friction from boundary layer — dominated by wetted area and surface finish.</li>
+        <li><strong>Pressure (form) drag:</strong> Pressure difference between front and rear — dominated by body shape, separation.</li>
+        <li><strong>Induced drag:</strong> Arises from lift generation — wing tip vortices. Increases with \(C_L^2\).</li>
+        <li><strong>Wave drag:</strong> Compressibility effect at Ma &gt; 0.8 — shock waves.</li>
+      </ul>
+    </def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ C_{D,i}=\frac{C_L^2}{\pi\,e\,AR},\quad AR=\frac{b^2}{S} \]</div>
+    <div class="def"><strong>Induced drag coefficient:</strong> \(e\) = Oswald span efficiency factor (0.8–0.95 for practical wings), \(AR\) = aspect ratio, \(b\) = wing span [m]. High aspect ratio → low induced drag. Gliders: AR ≈ 30. Fighter jets: AR ≈ 2–3.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Typical aerodynamic coefficients</h3>
+  <table class="tbl">
+    <tr><th>Vehicle</th><th>C_D</th><th>C_L</th><th>Notes</th></tr>
+    <tr><td>Modern passenger car</td><td class="const-val">0.25–0.35</td><td class="const-val">0.05–0.20</td><td>Positive C_L = lift (bad for high speed)</td></tr>
+    <tr><td>SUV / van</td><td class="const-val">0.35–0.45</td><td class="const-val">0.10–0.30</td><td>Bluff body, large frontal area</td></tr>
+    <tr><td>Formula 1 car</td><td class="const-val">0.9–1.1</td><td class="const-val">−3.0 to −4.0</td><td>Negative C_L = downforce</td></tr>
+    <tr><td>Commercial aircraft (cruise)</td><td class="const-val">0.025–0.030</td><td class="const-val">0.5–0.6</td><td>Wing reference area</td></tr>
+    <tr><td>Sphere</td><td class="const-val">0.47</td><td class="const-val">0</td><td>Turbulent transition: C_D drops to 0.1</td></tr>
+    <tr><td>Flat plate (perpendicular)</td><td class="const-val">1.17–1.28</td><td class="const-val">0</td><td>Bluff body baseline</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Compressible flow basics</h3>
+  <div class="fc">
+    <div class="formula">\[ a=\sqrt{\gamma RT},\quad Ma=\frac{V}{a},\quad \gamma_{air}=1.4,\quad R_{air}=287\;\text{J/kg·K} \]</div>
+    <div class="def"><strong>Speed of sound:</strong> At 15 °C: \(a\approx340\) m/s. At 50 °C: \(a\approx361\) m/s. Compressibility effects become significant at Ma &gt; 0.3 (density change &gt; 5%).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{T_0}{T}=1+\frac{\gamma-1}{2}Ma^2,\quad \frac{p_0}{p}=\left(1+\frac{\gamma-1}{2}Ma^2\right)^{\gamma/(\gamma-1)} \]</div>
+    <div class="def"><strong>Isentropic stagnation relations:</strong> \(T_0, p_0\) = total (stagnation) conditions. In high-speed CFD (Fluent with compressible ideal gas), these relations govern the thermodynamic state at boundaries. For Ma &gt; 0.3, use mass flow inlet BC specified with total pressure and temperature.</def></div>
+    <div class="tags"><span class="tag tag-assume">Isentropic · ideal gas · no heat transfer or friction</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{A}{A^*}=\frac{1}{Ma}\left[\frac{2}{\gamma+1}\left(1+\frac{\gamma-1}{2}Ma^2\right)\right]^{(\gamma+1)/[2(\gamma-1)]} \]</div>
+    <div class="def"><strong>Area-Mach number relation (isentropic nozzle):</strong> \(A^*\) = throat area (Ma=1). For a converging-diverging nozzle, the throat must be choked (Ma=1) before supersonic flow develops in the diverging section.</def></div>
+  </div>
+</div>

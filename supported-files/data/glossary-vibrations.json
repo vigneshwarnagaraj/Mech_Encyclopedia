@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {"term": "ωₙ",           "definition": "Undamped natural frequency [rad/s]. ωₙ = √(k/m). Depends only on mass and stiffness."},
+    {"term": "ζ (zeta)",     "definition": "Damping ratio = c/c_c. ζ<1: underdamped; ζ=1: critically damped; ζ>1: overdamped. Typical structures: 0.01-0.05."},
+    {"term": "FRF",          "definition": "Frequency Response Function H(ω)=X(ω)/F(ω). Complex. Magnitude peaks at natural frequencies; phase shifts 180° through resonance."},
+    {"term": "Mode shape",   "definition": "Eigenvector {φ} of [K-ω²M]{φ}=0. Deformation pattern at natural frequency. Orthogonal w.r.t. [M] and [K]."},
+    {"term": "EMA",          "definition": "Experimental Modal Analysis. Extracts f_n, ζ, and mode shapes from measured FRFs. Used to validate FEA models."},
+    {"term": "PSD",          "definition": "Power Spectral Density [m²/Hz or g²/Hz]. Mean-square response per unit frequency. Area = variance = σ²."},
+    {"term": "Log decrement","definition": "δ = ln(x₁/x₂). Damping estimate from free decay. ζ ≈ δ/(2π) for light damping."},
+    {"term": "Transmissibility", "definition": "TR = |output/input|. TR < 1 at r > √2: isolation region. Crossover at r = √2 for all ζ."},
+    {"term": "MAC",          "definition": "Modal Assurance Criterion. Compares two mode shapes: 0=orthogonal, 1=identical. MAC > 0.9: good FEA-test correlation."},
+    {"term": "Miles equation","definition": "σ² ≈ (π/2)·S₀·ωₙ·Q. RMS SDOF response under white noise PSD S₀. Q = 1/(2ζ) = quality factor."},
+    {"term": "Critical speed","definition": "Shaft speed where 1× running frequency = bending natural frequency. Causes large lateral deflection (whirl)."},
+    {"term": "Rayleigh quotient", "definition": "ω² = Σk_i·x_i² / Σm_i·x_i². Upper bound on fundamental frequency. Accurate when assumed shape is close to true mode."}
+  ]
+}

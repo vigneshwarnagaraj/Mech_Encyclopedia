@@ -1,0 +1,126 @@
+/* ===================== RESET & BASE ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg-base);
+  color: var(--txt);
+  min-height: 100vh;
+  line-height: 1.7;
+  transition: background var(--transition), color var(--transition);
+}
+
+code, pre, .mono { font-family: 'Space Mono', ui-monospace, monospace; }
+h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+/* ===================== PAGE ANIMATION ===================== */
+.page-content {
+  animation: pageIn 0.25s ease;
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ===================== KICKER / LABELS ===================== */
+.kicker {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  margin-bottom: 0.6rem;
+}
+
+/* ===================== PAGE HEADER ===================== */
+.page-hd { margin-bottom: 1.5rem; }
+.page-hd .kicker { margin-bottom: 0.4rem; }
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-family: 'Syne', sans-serif;
+  color: var(--txt);
+}
+.page-desc {
+  color: var(--txt-lo);
+  margin-top: 0.6rem;
+  font-size: 0.93rem;
+  line-height: 1.78;
+  max-width: 780px;
+}
+
+/* ===================== SECTION BLOCK ===================== */
+.sec {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  margin-bottom: 1.1rem;
+  box-shadow: var(--shadow-md);
+  transition: background var(--transition), border-color var(--transition);
+}
+.sec h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  color: var(--txt);
+  margin-bottom: 0.75rem;
+}
+.sec h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  color: var(--accent2);
+  margin: 0.9rem 0 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.sec p, .sec li { color: var(--txt-lo); line-height: 1.78; font-size: 0.93rem; }
+.sec ul, .sec ol { padding-left: 1.2rem; }
+.sec li { margin-bottom: 0.3rem; }
+
+/* ===================== DIVIDER ===================== */
+.divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+/* ===================== GRIDS ===================== */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; margin: 0.75rem 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 0.75rem; margin: 0.75rem 0; }
+
+.mini-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+}
+.mini-card h4 { color: var(--txt); font-size: 0.9rem; margin-bottom: 0.35rem; }
+.mini-card p { font-size: 0.85rem; color: var(--txt-lo); line-height: 1.6; }
+
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.7rem 0; }
+@media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+.col-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.9rem;
+}
+.col-card h5 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--txt);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.col-card p, .col-card li { font-size: 0.85rem; color: var(--txt-lo); line-height: 1.65; }
+.col-card ul { padding-left: 1rem; }
+
+/* BADGES */
+.badge-good { background: rgba(54,232,176,0.12); color: var(--accent2); border: 1px solid rgba(54,232,176,0.3); padding: 0.15rem 0.5rem; border-radius: 99px; font-size: 0.7rem; font-family: 'Space Mono',monospace; font-weight: 700; }
+.badge-bad  { background: rgba(255,107,138,0.12); color: var(--accent3); border: 1px solid rgba(255,107,138,0.3); padding: 0.15rem 0.5rem; border-radius: 99px; font-size: 0.7rem; font-family: 'Space Mono',monospace; font-weight: 700; }
+.badge-ok   { background: rgba(255,201,107,0.12); color: var(--gold);    border: 1px solid rgba(255,201,107,0.3); padding: 0.15rem 0.5rem; border-radius: 99px; font-size: 0.7rem; font-family: 'Space Mono',monospace; font-weight: 700; }

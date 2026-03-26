@@ -1,0 +1,62 @@
+<div class="page-hd">
+  <div class="kicker">CFD · 18</div>
+  <div class="page-title">Numerical Methods &amp; Discretisation</div>
+  <p class="page-desc">How PDEs become algebraic equations — the core trick behind all CFD, and what discretisation choices mean for accuracy.</p>
+</div>
+
+<div class="sec">
+  <h3>Finite difference approximations</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial u}{\partial x}\bigg|_i\approx\frac{u_{i+1}-u_i}{\Delta x}\;\text{(forward, }O(\Delta x)\text{)},\quad\frac{u_{i+1}-u_{i-1}}{2\Delta x}\;\text{(central, }O(\Delta x^2)\text{)} \]</div>
+    <div class="def"><strong>Truncation error:</strong> Forward difference: 1st order (\(O(\Delta x)\)). Central difference: 2nd order (\(O(\Delta x^2)\)) — more accurate for the same mesh size. Fluent uses finite volume but the accuracy concepts are identical.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial^2u}{\partial x^2}\bigg|_i\approx\frac{u_{i+1}-2u_i+u_{i-1}}{\Delta x^2}\quad O(\Delta x^2) \]</div>
+    <div class="def"><strong>Second-order central difference:</strong> Used for viscous/diffusion terms. Has \(O(\Delta x^2)\) accuracy. In Fluent: choose "Second Order Upwind" for convective terms and "Second Order" for pressure to get 2nd-order accuracy overall.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Interpolation schemes in Fluent</h3>
+  <table class="tbl">
+    <tr><th>Scheme</th><th>Order</th><th>When to use</th><th>Risk</th></tr>
+    <tr><td>First Order Upwind</td><td>1st</td><td>Initialisation, convergence startup</td><td>High numerical diffusion — smears gradients</td></tr>
+    <tr><td>Second Order Upwind</td><td>2nd</td><td>All final runs</td><td>May introduce oscillations if mesh is poor</td></tr>
+    <tr><td>QUICK</td><td>3rd</td><td>Quadrilateral/hex meshes, rotating flows</td><td>Can be unstable on tet meshes</td></tr>
+    <tr><td>MUSCL</td><td>3rd</td><td>Complex flows requiring high accuracy</td><td>More computationally expensive</td></tr>
+    <tr><td>Central Differencing</td><td>2nd (unbounded)</td><td>LES only — pure diffusion limit</td><td>Unstable for convection-dominated flows</td></tr>
+  </table>
+  <div class="tip"><strong>Workflow:</strong> Start with First Order Upwind to get convergence, then switch to Second Order Upwind and re-converge for the final result. Never report First Order results as final.</div>
+</div>
+
+<div class="sec">
+  <h3>Time marching — transient simulations</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{u^{n+1}-u^n}{\Delta t}=RHS^n\;\text{(explicit)},\quad \frac{u^{n+1}-u^n}{\Delta t}=RHS^{n+1}\;\text{(implicit)} \]</div>
+    <div class="def"><strong>Time integration:</strong> <strong>Explicit</strong>: updates depend on current values — conditionally stable, requires small \(\Delta t\) (CFL ≤ 1). <strong>Implicit</strong>: updates depend on new values — unconditionally stable, larger \(\Delta t\) allowed but requires solving a system of equations per step. Fluent transient uses implicit time integration by default.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ CFL=\frac{V\Delta t}{\Delta x}\leq 1\quad\text{(explicit stability)} \]</div>
+    <div class="def"><strong>CFL (Courant-Friedrichs-Lewy) condition:</strong> For explicit methods, the information must not travel more than one cell per time step. Fluent's pseudo-transient solver adjusts this internally. For transient LES: target CFL ≈ 0.5–1 near walls.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Pressure-velocity coupling</h3>
+  <table class="tbl">
+    <tr><th>Algorithm</th><th>Description</th><th>Use when</th></tr>
+    <tr><td><strong>SIMPLE</strong></td><td>Sequential update of p, then V. Standard segregated solver.</td><td>Steady incompressible, general use</td></tr>
+    <tr><td><strong>SIMPLEC</strong></td><td>Corrected SIMPLE — faster convergence, larger relaxation allowed.</td><td>Steady incompressible flows</td></tr>
+    <tr><td><strong>PISO</strong></td><td>Pressure-Implicit Split Operator. Two corrections per step.</td><td>Transient incompressible flows</td></tr>
+    <tr><td><strong>Coupled</strong></td><td>Solves p and V simultaneously. More robust for complex/high-Re flows.</td><td>High Ma, strongly coupled problems, difficult convergence</td></tr>
+  </table>
+  <div class="note"><strong>Relaxation factors:</strong> SIMPLE typically uses 0.3 for pressure and 0.7 for momentum. If divergence occurs, reduce to 0.2/0.5. If convergence is too slow, try Coupled solver or SIMPLEC. Do not increase relaxation factors beyond defaults unless the simulation is very stable.</div>
+</div>
+
+<div class="sec">
+  <h3>Numerical diffusion and its control</h3>
+  <div class="fc">
+    <div class="formula">\[ \phi_{face} = \phi_{upwind} + \nabla\phi\cdot\vec{r}\quad\text{(2nd order reconstruction)} \]</div>
+    <div class="def"><strong>Face value reconstruction:</strong> In first-order upwind, the face value = upstream cell centre value — this is equivalent to adding extra diffusion (numerical diffusion) proportional to the cell size. Second-order upwind reconstructs a gradient and extrapolates to the face — dramatically reducing numerical diffusion at the cost of potential oscillations at sharp gradients.</def></div>
+  </div>
+</div>

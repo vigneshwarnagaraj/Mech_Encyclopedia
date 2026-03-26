@@ -1,0 +1,92 @@
+<div class="page-hd">
+  <div class="kicker">Interview &amp; Revision · 45</div>
+  <div class="page-title">Interview Preparation &amp; Quick Revision</div>
+  <p class="page-desc">Formulas to memorise, model selection questions with strong answers, common interview traps, and plain-English concept summaries.</p>
+</div>
+
+<div class="sec">
+  <h3>Top formulas to know from memory</h3>
+  <div class="two-col">
+    <div class="col-card">
+      <h5>Fluid / CFD</h5>
+      <ul>
+        <li>\(Re = \rho V L / \mu\)</li>
+        <li>Bernoulli: \(p/\rho g + V^2/2g + z = H\)</li>
+        <li>Darcy-Weisbach: \(h_f = f(L/D)(V^2/2g)\)</li>
+        <li>N-S: \(\rho D\vec{V}/Dt = -\nabla p + \mu\nabla^2\vec{V}\)</li>
+        <li>Continuity: \(\nabla\cdot\vec{V}=0\)</li>
+        <li>y+: \(y^+=u_\tau y/\nu\)</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <h5>Thermal</h5>
+      <ul>
+        <li>Fourier: \(\dot{Q}=-kA\,dT/dx\)</li>
+        <li>Convection: \(\dot{Q}=hA\Delta T\)</li>
+        <li>Radiation: \(\dot{Q}=\varepsilon\sigma AT^4\) · \(\sigma=5.67\times10^{-8}\)</li>
+        <li>Biot: \(Bi=hL_c/k\) — lumped if Bi &lt; 0.1</li>
+        <li>Nusselt: \(Nu=hL/k\)</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <h5>Solid Mechanics</h5>
+      <ul>
+        <li>Hooke: \(\sigma=E\varepsilon\), \(\tau=G\gamma\)</li>
+        <li>Von Mises failure criterion</li>
+        <li>Bending: \(\sigma=My/I\)</li>
+        <li>Torsion: \(\tau=Tr/J\), \(\theta=TL/(GJ)\)</li>
+        <li>Buckling: \(P_{cr}=\pi^2EI/(KL)^2\)</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <h5>Vibrations</h5>
+      <ul>
+        <li>\(\omega_n=\sqrt{k/m}\), \(f_n=\omega_n/(2\pi)\)</li>
+        <li>\(\zeta=c/c_c\), \(c_c=2\sqrt{km}\)</li>
+        <li>Forced amplitude formula with \(r\) and \(\zeta\)</li>
+        <li>Log decrement: \(\delta\approx2\pi\zeta\)</li>
+        <li>MDOF: \([K-\omega^2M]\{\phi\}=0\)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Model selection questions — strong answers</h3>
+  <table class="tbl">
+    <tr><th>Question</th><th>Strong answer</th></tr>
+    <tr><td>"Which turbulence model did you use and why?"</td><td>"SST k-ω because the flow has adverse pressure gradients and possible separation near the trailing edge. It uses k-ω near walls — accurate in the sublayer — and switches to k-ε in the freestream for stability. For a fully enclosed turbulent duct I would have used Realizable k-ε instead."</td></tr>
+    <tr><td>"Why did you use static structural and not transient?"</td><td>"The load varies slowly relative to the system's natural frequency — the dynamic amplification factor is approximately 1. Inertia effects are negligible, so static analysis is appropriate and conservative in the sense that it avoids the complexity of time-stepping without losing accuracy."</td></tr>
+    <tr><td>"Why is the energy equation turned off?"</td><td>"The flow is isothermal — no temperature gradients, heat transfer, or buoyancy effects. Enabling it would add transported scalar equations for temperature and turbulent heat flux without changing the velocity or pressure field."</td></tr>
+    <tr><td>"What is the difference between k-ε and SST k-ω?"</td><td>"Standard k-ε uses wall functions and performs well for fully turbulent attached flows but over-predicts eddy viscosity in adverse pressure gradients, causing it to delay separation. SST k-ω blends k-ω accuracy in the near-wall region with k-ε stability in the freestream, making it better for flows with significant separation — external aerodynamics, automotive, turbomachinery."</td></tr>
+    <tr><td>"When would you use lumped capacitance?"</td><td>"When Bi &lt; 0.1, meaning the internal conduction resistance is much less than the external convection resistance, so the object is approximately isothermal throughout. For Bi ≥ 0.1, I would use Heisler charts or solve the full unsteady diffusion equation numerically."</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Common interview traps</h3>
+  <table class="tbl">
+    <tr><th>Trap question</th><th>Wrong answer</th><th>Correct answer</th></tr>
+    <tr><td>"Residuals at 10⁻⁴ — is it converged?"</td><td>"Yes, that's converged."</td><td>"Residuals dropping is necessary but not sufficient. I also check that physical monitors (drag, ΔP, T_outlet) have stabilised independently."</td></tr>
+    <tr><td>"FEA shows 800 MPa at a corner — is the part failing?"</td><td>"Yes, it exceeds yield."</td><td>"That peak is likely a stress singularity at a sharp corner — a mesh artifact. I need to add a fillet radius and recheck. Singularities grow monotonically with mesh refinement."</td></tr>
+    <tr><td>"What does a high Biot number mean?"</td><td>"Good thermal resistance."</td><td>"Bi &gt; 0.1 means internal conduction resistance is significant — the body has a non-uniform temperature field. Lumped capacitance is no longer valid; I must solve the full diffusion equation."</td></tr>
+    <tr><td>"What does mode shape tell you?"</td><td>"How much the structure vibrates."</td><td>"Mode shape shows the deformation pattern at a natural frequency — where nodes (zero motion) and antinodes (maximum motion) are. It tells me where to add stiffness or damping to shift or damp that mode most effectively."</td></tr>
+    <tr><td>"Is a small residual proof of a correct CFD result?"</td><td>"Yes."</td><td>"No. Residuals measure the imbalance in discretised equations. A wrongly set up model with consistent but incorrect BCs can converge to a wrong solution with perfect residuals. Validation against theory or experiment is always required."</td></tr>
+    <tr><td>"Why did you add inflation layers?"</td><td>"Because everyone does it."</td><td>"To resolve the steep velocity gradient normal to the wall, control y+, and obtain accurate wall shear stress and heat transfer. Without them, the near-wall physics is poorly resolved regardless of how fine the rest of the mesh is."</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Plain English summaries</h3>
+  <table class="tbl">
+    <tr><th>Concept</th><th>Plain English</th></tr>
+    <tr><td>Reynolds number</td><td>How hard the flow is pushing (inertia) versus how hard the fluid resists shearing (viscosity). High Re = turbulent; low Re = laminar.</td></tr>
+    <tr><td>Nusselt number</td><td>How many times more heat is removed by convection than would be by conduction alone through the same fluid layer. Nu = 1 = pure conduction; Nu = 100 = convection is 100× more effective.</td></tr>
+    <tr><td>Von Mises stress</td><td>A single number that combines all stress components and answers: "Would this stress state cause a ductile metal to yield?" If it exceeds yield strength, plastic deformation begins.</td></tr>
+    <tr><td>Damping ratio ζ</td><td>How quickly vibration dies out. ζ = 0: oscillates forever. ζ = 1: returns to rest as fast as possible without overshooting. ζ = 0.05: typical lightly damped metal — takes about 10 cycles to decay significantly.</td></tr>
+    <tr><td>FEA stiffness matrix</td><td>A giant table of springs connecting all nodes. Each entry says "if you push node X in direction Y, how much does node Z move?" Solving [K]{u} = {F} finds all displacements simultaneously.</td></tr>
+    <tr><td>y+ (y-plus)</td><td>Dimensionless distance from the wall. It tells the CFD solver which region of the boundary layer the first cell is in — and whether the near-wall model is being used in its valid range.</td></tr>
+    <tr><td>Mesh independence</td><td>Proof that your answer does not depend on how finely you divided the domain. If making the mesh finer does not change your key result by more than ~2%, the answer is a property of the physics — not an artifact of the mesh.</td></tr>
+    <tr><td>Transmissibility TR</td><td>The ratio of vibration output to input. TR &lt; 1 means you are in the isolation region — the mount is doing its job. TR &gt; 1 means the mount is amplifying the vibration — you are near or below the isolation threshold.</td></tr>
+  </table>
+</div>

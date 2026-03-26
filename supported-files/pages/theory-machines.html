@@ -1,0 +1,64 @@
+<div class="page-hd">
+  <div class="kicker">Theory of Machines · 15</div>
+  <div class="page-title">Mechanisms &amp; Rotation</div>
+  <p class="page-desc">Angular kinematics, gear drives, belt and chain drives, and cam/follower basics.</p>
+</div>
+
+<div class="sec">
+  <h3>Angular kinematics</h3>
+  <div class="fc">
+    <div class="formula">\[ \omega=\frac{d\theta}{dt},\quad\alpha=\frac{d\omega}{dt},\quad v=r\omega,\quad a_t=r\alpha,\quad a_n=r\omega^2 \]</div>
+    <div class="def"><strong>Symbols:</strong> \(\theta\) = angular displacement [rad], \(\omega\) = angular velocity [rad/s], \(\alpha\) = angular acceleration [rad/s²], \(r\) = radius [m], \(a_t\) = tangential acceleration [m/s²], \(a_n\) = centripetal acceleration [m/s²] (directed inward).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \omega=\frac{2\pi N}{60},\quad\text{where }N=\text{rpm} \]</div>
+    <div class="def"><strong>rpm to rad/s conversion:</strong> Needed whenever motor speed in rpm must be converted for torque-power calculations or vibration analysis. \(P=T\omega\) [W] requires \(\omega\) in rad/s.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Gear drives</h3>
+  <div class="fc">
+    <div class="formula">\[ i=\frac{\omega_{in}}{\omega_{out}}=\frac{N_{out}}{N_{in}}=\frac{T_{out}}{T_{in}\cdot\eta} \]</div>
+    <div class="def"><strong>Gear ratio \(i\):</strong> \(N\) = number of teeth, \(\eta\) = mechanical efficiency. Gear increases torque at the cost of speed (and vice versa). Ideal: power in = power out (\(T\omega\) = const). Real: power out = \(\eta\) × power in.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ m_g=\frac{d}{N}\quad[\text{mm/tooth}] \]</div>
+    <div class="def"><strong>Module \(m_g\):</strong> Standard gear sizing parameter. \(d\) = pitch circle diameter [mm]. Two meshing gears must have the same module. Common metric modules: 1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ v_t=\frac{\pi d n}{60\,000}\;\text{m/s},\quad P=F_t\cdot v_t \]</div>
+    <div class="def"><strong>Pitch line velocity and transmitted power:</strong> \(d\) = pitch diameter [mm], \(n\) = speed [rpm], \(F_t\) = tangential tooth load [N], \(P\) = power [W]. The tangential load is used to size gear tooth strength (Lewis beam strength).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ F_t=\frac{2T}{d},\quad F_r=F_t\tan\phi,\quad F_a=0\;\text{(spur gear)} \]</div>
+    <div class="def"><strong>Gear tooth forces (spur gear):</strong> \(F_t\) = tangential force, \(F_r\) = radial force (separating force), \(\phi\) = pressure angle (standard: 20°). Helical gears also have \(F_a\) = axial (thrust) force.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Belt and chain drives</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{T_1}{T_2}=e^{\mu\theta} \]</div>
+    <div class="def"><strong>Euler-Eytelwein belt friction equation:</strong> \(T_1\) = tight side tension [N], \(T_2\) = slack side tension [N], \(\mu\) = coefficient of friction between belt and pulley, \(\theta\) = angle of wrap [rad]. Slipping starts when this ratio is exceeded.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ P=\left(T_1-T_2\right)v,\quad T_{initial}=\frac{T_1+T_2}{2} \]</div>
+    <div class="def"><strong>Power and initial tension:</strong> \(v\) = belt velocity [m/s], \(T_{initial}\) = tension when drive is at rest — used to size bearings. Centrifugal tension: \(T_c=mv^2\) where \(m\) = belt mass per unit length [kg/m].</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Four-bar linkage kinematics</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\omega_3}{\omega_2}=\frac{\vec{r}_2\times\vec{r}_{32}}{\vec{r}_3\times\vec{r}_{32}}\quad\text{(velocity ratio)} \]</div>
+    <div class="def"><strong>Four-bar mechanism:</strong> Links: crank (2), coupler (3), rocker (4), ground (1). Velocity and acceleration analysis uses loop-closure equations. Types: crank-rocker (Grashof condition: shortest link + longest link ≤ sum of other two).</def></div>
+  </div>
+  <table class="tbl">
+    <tr><th>Mechanism type</th><th>Input → Output</th><th>Typical use</th></tr>
+    <tr><td>Crank-slider</td><td>Rotation → translation</td><td>IC engines, compressors, pumps</td></tr>
+    <tr><td>Crank-rocker</td><td>Full rotation → oscillation</td><td>Windshield wipers, pumps</td></tr>
+    <tr><td>Double crank</td><td>Rotation → rotation</td><td>Vehicle suspension</td></tr>
+    <tr><td>Cam-follower</td><td>Rotation → prescribed motion</td><td>Engine valves, automation</td></tr>
+  </table>
+</div>

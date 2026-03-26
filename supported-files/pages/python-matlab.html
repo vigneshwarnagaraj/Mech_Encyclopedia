@@ -1,0 +1,115 @@
+<div class="page-hd">
+  <div class="kicker">Tools · 34</div>
+  <div class="page-title">Python &amp; MATLAB</div>
+  <p class="page-desc">Practical code examples for every major formula in this manual — FEA systems, vibration response, heat transfer, and Reynolds number calculations.</p>
+</div>
+
+<div class="sec">
+  <h3>Solve linear FEA system [K]{u} = {F}</h3>
+  <div class="code"><span class="c"># Python</span>
+<span class="k">import</span> numpy <span class="k">as</span> np
+K = np.array([[<span class="n">10</span>, -<span class="n">2</span>], [-<span class="n">2</span>, <span class="n">5</span>]])
+F = np.array([<span class="n">100</span>, <span class="n">0</span>])
+u = np.linalg.solve(K, F)
+<span class="k">print</span>(<span class="s">"Displacements:"</span>, u)</div>
+  <div class="code"><span class="c">% MATLAB</span>
+K = [<span class="n">10</span> -<span class="n">2</span>; -<span class="n">2</span> <span class="n">5</span>];
+F = [<span class="n">100</span>; <span class="n">0</span>];
+u = K \ F;
+disp(<span class="s">'Displacements:'</span>); disp(u)</div>
+</div>
+
+<div class="sec">
+  <h3>2-DOF eigenvalue — natural frequencies</h3>
+  <div class="code"><span class="k">import</span> numpy <span class="k">as</span> np
+<span class="k">from</span> scipy.linalg <span class="k">import</span> eig
+
+m1, m2 = <span class="n">2.0</span>, <span class="n">1.5</span>
+k1, k2, k3 = <span class="n">5000</span>, <span class="n">3000</span>, <span class="n">2000</span>
+
+M = np.diag([m1, m2])
+K = np.array([[k1+k2, -k2], [-k2, k2+k3]])
+
+vals, vecs = eig(K, M)
+freqs_hz = np.sqrt(vals.real) / (<span class="n">2</span>*np.pi)
+<span class="k">for</span> i, f <span class="k">in</span> enumerate(sorted(freqs_hz)):
+    <span class="k">print</span>(<span class="s">f"Mode {i+1}: {f:.3f} Hz"</span>)</div>
+</div>
+
+<div class="sec">
+  <h3>SDOF forced vibration — frequency sweep</h3>
+  <div class="code"><span class="k">import</span> numpy <span class="k">as</span> np
+<span class="k">import</span> matplotlib.pyplot <span class="k">as</span> plt
+
+m, k, zeta = <span class="n">10</span>, <span class="n">4000</span>, <span class="n">0.05</span>
+F0 = <span class="n">100</span>
+wn = np.sqrt(k/m)
+
+r = np.linspace(<span class="n">0.01</span>, <span class="n">3</span>, <span class="n">1000</span>)
+MF = <span class="n">1</span> / np.sqrt((<span class="n">1</span>-r**<span class="n">2</span>)**<span class="n">2</span> + (<span class="n">2</span>*zeta*r)**<span class="n">2</span>)
+
+plt.figure(figsize=(<span class="n">8</span>, <span class="n">4</span>))
+plt.plot(r, MF, color=<span class="s">'#4da3ff'</span>, lw=<span class="n">2</span>)
+plt.axvline(x=<span class="n">1</span>, color=<span class="s">'#ff6b8a'</span>, ls=<span class="s">'--'</span>, lw=<span class="n">1</span>, label=<span class="s">'Resonance r=1'</span>)
+plt.axhline(y=<span class="n">1</span>/(2*zeta), color=<span class="s">'#ffc96b'</span>, ls=<span class="s">'--'</span>, lw=<span class="n">1</span>, label=<span class="s">f'Peak MF = {1/(2*zeta):.1f}'</span>)
+plt.xlabel(<span class="s">'Frequency ratio r = ω/ωₙ'</span>)
+plt.ylabel(<span class="s">'Magnification factor MF'</span>)
+plt.title(<span class="s">f'SDOF Frequency Response — ζ={zeta}'</span>)
+plt.legend(); plt.grid(<span class="k">True</span>, alpha=<span class="n">0.3</span>); plt.tight_layout(); plt.show()</div>
+</div>
+
+<div class="sec">
+  <h3>Reynolds number and flow regime</h3>
+  <div class="code"><span class="c"># Air at 15°C over a flat plate</span>
+rho = <span class="n">1.225</span>; mu = <span class="n">1.789e-5</span>; V = <span class="n">30</span>; L = <span class="n">0.5</span>
+
+Re = rho * V * L / mu
+<span class="k">print</span>(<span class="s">f"Re = {Re:.3e}"</span>)
+regime = <span class="s">"Laminar"</span> <span class="k">if</span> Re &lt; <span class="n">2300</span> <span class="k">else</span> (<span class="s">"Transitional"</span> <span class="k">if</span> Re &lt; <span class="n">4000</span> <span class="k">else</span> <span class="s">"Turbulent"</span>)
+<span class="k">print</span>(<span class="s">f"Regime: {regime}"</span>)
+
+<span class="c"># Flat plate: laminar BL thickness and skin friction</span>
+x = <span class="n">0.3</span>  <span class="c"># position along plate [m]</span>
+Rex = rho * V * x / mu
+delta = <span class="n">5</span> * x / Rex**<span class="n">0.5</span>
+Cf = <span class="n">0.664</span> / Rex**<span class="n">0.5</span>
+<span class="k">print</span>(<span class="s">f"At x={x} m: δ = {delta*1000:.3f} mm, Cf = {Cf:.5f}"</span>)</div>
+</div>
+
+<div class="sec">
+  <h3>1D thermal resistance network</h3>
+  <div class="code">layers = [
+    {<span class="s">'name'</span>: <span class="s">'Steel'</span>,     <span class="s">'k'</span>: <span class="n">50</span>,   <span class="s">'L'</span>: <span class="n">0.01</span>},
+    {<span class="s">'name'</span>: <span class="s">'Insulation'</span>, <span class="s">'k'</span>: <span class="n">0.04</span>, <span class="s">'L'</span>: <span class="n">0.05</span>},
+    {<span class="s">'name'</span>: <span class="s">'Concrete'</span>,   <span class="s">'k'</span>: <span class="n">1.7</span>,  <span class="s">'L'</span>: <span class="n">0.20</span>},
+]
+A = <span class="n">1.0</span>; T_hot = <span class="n">200</span>; T_cold = <span class="n">20</span>; h_in = <span class="n">50</span>; h_out = <span class="n">10</span>
+
+R_conv_in  = <span class="n">1</span>/(h_in*A)
+R_conv_out = <span class="n">1</span>/(h_out*A)
+R_cond = sum(l[<span class="s">'L'</span>]/(l[<span class="s">'k'</span>]*A) <span class="k">for</span> l <span class="k">in</span> layers)
+R_total = R_conv_in + R_cond + R_conv_out
+Q_dot = (T_hot - T_cold) / R_total
+<span class="k">print</span>(<span class="s">f"R_total = {R_total:.4f} K/W  |  Q̇ = {Q_dot:.2f} W"</span>)</div>
+</div>
+
+<div class="sec">
+  <h3>Beam deflection and stress</h3>
+  <div class="code"><span class="c"># Simply supported beam, central point load</span>
+<span class="k">import</span> numpy <span class="k">as</span> np
+
+F = <span class="n">5000</span>   <span class="c"># N</span>
+L = <span class="n">2.0</span>    <span class="c"># m</span>
+E = <span class="n">200e9</span>  <span class="c"># Pa (steel)</span>
+b = <span class="n">0.05</span>   <span class="c"># width m</span>
+h = <span class="n">0.1</span>    <span class="c"># height m</span>
+I = b*h**<span class="n">3</span>/<span class="n">12</span>
+
+delta_max = F*L**<span class="n">3</span> / (<span class="n">48</span>*E*I)
+M_max = F*L/<span class="n">4</span>
+sigma_max = M_max * (h/<span class="n">2</span>) / I
+
+<span class="k">print</span>(<span class="s">f"I = {I:.4e} m⁴"</span>)
+<span class="k">print</span>(<span class="s">f"Max deflection = {delta_max*1000:.4f} mm"</span>)
+<span class="k">print</span>(<span class="s">f"Max bending stress = {sigma_max/1e6:.2f} MPa"</span>)</div>
+</div>

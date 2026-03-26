@@ -1,0 +1,43 @@
+/* ===================== TABLES ===================== */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.87rem;
+  margin: 0.7rem 0;
+}
+.tbl th {
+  background: var(--bg-2);
+  color: var(--txt);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tbl td {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border);
+  color: var(--txt-lo);
+  vertical-align: top;
+  line-height: 1.65;
+}
+.tbl tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+[data-theme="light"] .tbl tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+.tbl td strong { color: var(--txt); font-weight: 600; }
+
+/* Const value color */
+.const-val {
+  color: var(--accent2);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+}
+
+/* Table scroll wrapper for narrow screens */
+.tbl-wrap {
+  overflow-x: auto;
+  margin: 0.7rem 0;
+}
+.tbl-wrap .tbl { margin: 0; }

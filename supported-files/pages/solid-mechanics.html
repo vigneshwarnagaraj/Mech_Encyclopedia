@@ -1,0 +1,68 @@
+<div class="page-hd">
+  <div class="kicker">FEA / Solid Mechanics · 21</div>
+  <div class="page-title">Stress &amp; Strain Basics</div>
+  <p class="page-desc">Definitions of stress and strain, Hooke's law, elastic constants, generalized 3D relations, and thermal strain.</p>
+</div>
+
+<div class="sec">
+  <h3>Stress definitions</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma=\frac{F}{A},\quad\tau=\frac{V}{A} \]</div>
+    <div class="def"><strong>Normal stress \(\sigma\) and shear stress \(\tau\):</strong> [Pa = N/m²]. \(F\) = axial force [N], \(V\) = shear force [N], \(A\) = cross-sectional area [m²]. Tension positive, compression negative (common convention). In FEA: ANSYS reports stresses in MPa; check unit system is consistent.</def></div>
+    <div class="tags"><span class="tag tag-unit">Pa or MPa</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sigma_{ij}=\begin{bmatrix}\sigma_x&\tau_{xy}&\tau_{xz}\\\tau_{yx}&\sigma_y&\tau_{yz}\\\tau_{zx}&\tau_{zy}&\sigma_z\end{bmatrix} \]</div>
+    <div class="def"><strong>Stress tensor (3D):</strong> 9 components, symmetric (\(\tau_{ij}=\tau_{ji}\)) → 6 independent. Each component \(\sigma_{ij}\) = stress on face with normal in direction \(i\), acting in direction \(j\). FEA outputs all 6 components plus derived quantities (von Mises, principal stresses).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Strain definitions</h3>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon=\frac{\Delta L}{L_0},\quad\gamma=\frac{\delta}{h}\approx\tan\phi \]</div>
+    <div class="def"><strong>Normal strain \(\varepsilon\) and shear strain \(\gamma\):</strong> Dimensionless [m/m]. \(\varepsilon\) = change in length / original length. \(\gamma\) = angular distortion [rad]. Tensile strain positive. Engineering shear strain \(\gamma_{xy} = 2\varepsilon_{xy}\) (factor of 2 vs. tensor shear strain — be aware of this in FEA output).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon_x=\frac{\partial u}{\partial x},\quad \varepsilon_y=\frac{\partial v}{\partial y},\quad \gamma_{xy}=\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x} \]</div>
+    <div class="def"><strong>Strain-displacement relations (2D):</strong> \(u, v\) = displacement components [m]. These are the kinematic equations that relate deformation to strain — the foundation of all FEA element formulations.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Hooke's law — linear elasticity</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma=E\varepsilon,\quad\tau=G\gamma \]</div>
+    <div class="def"><strong>Hooke's law (1D):</strong> \(E\) = Young's modulus [Pa], \(G\) = shear modulus [Pa]. Steel: \(E\approx200\) GPa, \(G\approx79\) GPa. Aluminum: \(E\approx69\) GPa. Valid only in the elastic (linear) region — below yield stress.</def></div>
+    <div class="tags"><span class="tag tag-assume">Linear elastic · isotropic · below yield stress</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ E=2G(1+\nu),\quad K=\frac{E}{3(1-2\nu)},\quad G=\frac{E}{2(1+\nu)} \]</div>
+    <div class="def"><strong>Relations between elastic constants:</strong> \(\nu\) = Poisson's ratio [-], \(K\) = bulk modulus [Pa]. For steel: \(\nu\approx0.30\). For rubber: \(\nu\approx0.5\) (incompressible). \(\nu=0.5\) means \(K\to\infty\) — volume is preserved under hydrostatic stress.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon_{lateral}=-\nu\varepsilon_{axial} \]</div>
+    <div class="def"><strong>Poisson effect:</strong> A tensile strain in the axial direction produces compressive strains in the lateral directions, scaled by \(\nu\). Important for constrained expansion (e.g., a layer bonded between rigid plates) — the lateral constraint creates biaxial stress.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Generalised Hooke's law (3D)</h3>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon_x=\frac{1}{E}\left[\sigma_x-\nu(\sigma_y+\sigma_z)\right],\quad \gamma_{xy}=\frac{\tau_{xy}}{G} \]</div>
+    <div class="def"><strong>3D stress-strain relations:</strong> Each normal strain depends on all three normal stresses via Poisson coupling. Shear strains depend only on the corresponding shear stress. In matrix form: \(\{\varepsilon\}=[D]^{-1}\{\sigma\}\), where \([D]\) is the constitutive (stiffness) matrix used in FEA element formulation.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \{\sigma\}=[D]\{\varepsilon\},\quad [D]=\frac{E}{(1+\nu)(1-2\nu)}\begin{bmatrix}1-\nu&\nu&\nu&\cdots\\\nu&1-\nu&\nu&\cdots\\\vdots&&&\ddots\end{bmatrix} \]</div>
+    <div class="def"><strong>Constitutive matrix \([D]\):</strong> Maps strain to stress. Full \(6\times6\) symmetric matrix for isotropic linear elastic material. In FEA: \([k]^e=\int[B]^T[D][B]\,dV\) — the element stiffness is the integral of \([D]\) weighted by the strain-displacement matrix \([B]\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Thermal strain</h3>
+  <div class="fc">
+    <div class="formula">\[ \varepsilon_{th}=\alpha_{th}\Delta T,\quad\sigma_{th}=-E\alpha_{th}\Delta T\;\text{(fully constrained)} \]</div>
+    <div class="def"><strong>Thermal strain:</strong> \(\alpha_{th}\) = coefficient of thermal expansion [K⁻¹]. Steel: \(\alpha_{th}\approx12\times10^{-6}\) K⁻¹. Aluminum: \(\alpha_{th}\approx23\times10^{-6}\) K⁻¹. If free to expand: strain only, no stress. If fully constrained: stress proportional to \(E\alpha_{th}\Delta T\) (compressive for heating).</def></div>
+  </div>
+  <div class="note"><strong>ANSYS thermal-structural coupling:</strong> Run a Steady-State Thermal analysis first, then link the temperature result as an input to Static Structural. The thermal expansion will be applied automatically using the material's \(\alpha_{th}\) values.</div>
+</div>

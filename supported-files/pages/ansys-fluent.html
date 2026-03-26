@@ -1,0 +1,83 @@
+<div class="page-hd">
+  <div class="kicker">ANSYS · 32</div>
+  <div class="page-title">Fluent &amp; Fluent Meshing</div>
+  <p class="page-desc">Every meshing control explained, boundary condition types, solver settings, and what each option does physically.</p>
+</div>
+
+<div class="sec">
+  <h3>Fluent Meshing — controls and what they do</h3>
+  <table class="tbl">
+    <tr><th>Control</th><th>What it does</th><th>When to use</th></tr>
+    <tr><td><strong>Global element size</strong></td><td>Sets maximum cell size across the entire domain</td><td>First pass; override locally for refinement</td></tr>
+    <tr><td><strong>Body sizing</strong></td><td>Controls cell size inside a selected volume</td><td>Coarsen far-field, refine near object or wake region</td></tr>
+    <tr><td><strong>Face sizing</strong></td><td>Controls cell size on a selected surface</td><td>Inlet, outlet, walls — wherever a specific surface resolution is needed</td></tr>
+    <tr><td><strong>Edge sizing</strong></td><td>Controls node count on selected edges</td><td>Leading edge, nozzle throat, sharp geometric features</td></tr>
+    <tr><td><strong>Inflation layers</strong></td><td>Adds thin prism cells normal to wall surfaces</td><td>Whenever wall shear, y+, heat transfer, or boundary layer matters</td></tr>
+    <tr><td><strong>Growth rate</strong></td><td>How quickly cells grow away from refined regions</td><td>Keep ≤ 1.2 for quality; ≤ 1.3 absolute maximum</td></tr>
+    <tr><td><strong>Curvature sizing</strong></td><td>Refines curved surfaces automatically based on local curvature</td><td>Circular ducts, airfoil leading/trailing edges, rounded bodies</td></tr>
+    <tr><td><strong>Proximity sizing</strong></td><td>Refines where two surfaces are close together</td><td>Narrow channels, gaps between components</td></tr>
+    <tr><td><strong>Patch conforming</strong></td><td>Mesher honours all CAD face boundaries</td><td>Complex CAD; different BCs on adjacent faces</td></tr>
+    <tr><td><strong>Patch independent</strong></td><td>Mesher ignores small CAD face boundaries</td><td>Dirty or poorly organised CAD; reduces mesh sensitivity to geometry defects</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Inflation layer setup</h3>
+  <div class="fc">
+    <div class="formula">\[ \Delta y_1=\frac{y^+\,\mu}{\rho\,u_\tau},\quad u_\tau=\sqrt{\frac{\tau_w}{\rho}}\approx\sqrt{\frac{C_f}{2}}\cdot V_\infty \]</div>
+    <div class="def"><strong>First layer height calculation:</strong> Set target \(y^+\) (1 for wall-resolved SST, 30–300 for k-ε wall functions). Estimate \(C_f\) from flat plate: \(C_f \approx 0.026\,Re_L^{-1/7}\) (turbulent). Compute \(u_\tau\), then \(\Delta y_1\). Number of layers: 5–20. Growth rate: 1.2.</def></div>
+  </div>
+  <div class="tip"><strong>Quick estimate for air at 30 m/s over 0.5 m flat plate targeting y⁺=1:</strong> Re = 1.03×10⁶ → C_f ≈ 0.00356 → τ_w = 2.39 Pa → u_τ = 1.40 m/s → Δy₁ = 1.04×10⁻⁵ m ≈ 10 μm. Use an online y+ calculator to check this for your specific geometry.</div>
+</div>
+
+<div class="sec">
+  <h3>Fluent physics setup — model choices</h3>
+  <table class="tbl">
+    <tr><th>Setting</th><th>Enable when</th><th>Leave off when</th></tr>
+    <tr><td>Energy equation</td><td>Any heat transfer, buoyancy, temperature-dependent properties, compressible flow</td><td>Isothermal incompressible flow only</td></tr>
+    <tr><td>Gravity</td><td>Natural convection, buoyancy-driven flow, free-surface, sedimentation</td><td>Forced flow without density variation</td></tr>
+    <tr><td>Laminar</td><td>Re below critical transition value</td><td>All turbulent flows</td></tr>
+    <tr><td>k-ε Realizable</td><td>Fully turbulent enclosed duct flows, jets, wakes, impinging flows</td><td>Flows with strong adverse pressure gradient or separation</td></tr>
+    <tr><td>SST k-ω</td><td>External aerodynamics, separated flows, adverse pressure gradient</td><td>When k-ε is explicitly more appropriate</td></tr>
+    <tr><td>LES</td><td>Acoustic noise, combustion instability, large eddies must be resolved</td><td>Steady or weakly unsteady flows — cost prohibitive</td></tr>
+    <tr><td>Species transport</td><td>Mixing, multi-component flow, combustion, pollutant dispersion</td><td>Single-component flow</td></tr>
+    <tr><td>Multiphase — VOF</td><td>Free surface tracking, liquid-gas interface, sloshing, filling</td><td>Single-phase flows</td></tr>
+    <tr><td>Multiphase — Mixture</td><td>Dispersed phase (bubbles, droplets) with slip velocity</td><td>Single-phase or separated free surface</td></tr>
+    <tr><td>Radiation — DO</td><td>High temperature, solar loading, semi-transparent media</td><td>Low-temperature forced convection only</td></tr>
+    <tr><td>Moving Reference Frame</td><td>Rotating machinery (fans, pumps, turbines) — steady-state approximation</td><td>Non-rotating domains</td></tr>
+    <tr><td>Sliding Mesh</td><td>Rotating machinery — transient, captures rotor-stator interaction</td><td>Steady or non-rotating</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Boundary condition types and when to use them</h3>
+  <table class="tbl">
+    <tr><th>BC type</th><th>Specify</th><th>Use when</th><th>Avoid when</th></tr>
+    <tr><td><strong>Velocity inlet</strong></td><td>Velocity magnitude and direction, turbulence intensity, hydraulic diameter</td><td>Known inlet velocity — duct flows, fans</td><td>Compressible high-speed flows (use mass flow or pressure inlet)</td></tr>
+    <tr><td><strong>Mass flow inlet</strong></td><td>Mass flow rate, direction, turbulence</td><td>Known mass flow rate — preferred for compressible</td><td>When velocity is specified directly</td></tr>
+    <tr><td><strong>Pressure inlet</strong></td><td>Total (stagnation) pressure and temperature</td><td>External flows, atmospheric inlets, fan suction side</td><td>When flow rate is known directly</td></tr>
+    <tr><td><strong>Pressure outlet</strong></td><td>Gauge static pressure (usually 0 for atmosphere)</td><td>Most outlets — pipe discharge, external flow far-field</td><td>Supersonic outlet (use supersonic outlet BC)</td></tr>
+    <tr><td><strong>Wall</strong></td><td>No-slip (default); or velocity (moving wall); or temperature/heat flux (thermal)</td><td>All solid surfaces</td><td>—</td></tr>
+    <tr><td><strong>Symmetry</strong></td><td>No input needed — zero normal velocity and gradient</td><td>Symmetric geometry and flow field</td><td>When flow is not symmetric even if geometry is</td></tr>
+    <tr><td><strong>Periodic</strong></td><td>Pressure jump (translational) or rotation angle</td><td>Repeated flow patterns — blade passages, fin arrays</td><td>Non-periodic geometries</td></tr>
+    <tr><td><strong>Outflow</strong></td><td>Assumed fully developed — zero diffusion flux</td><td>Outlet when outlet conditions are unknown (legacy)</td><td>Backflow problems — unstable</td></tr>
+    <tr><td><strong>Interior</strong></td><td>Internal face between two fluid zones</td><td>Connecting fluid zones</td><td>—</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Solver settings and convergence</h3>
+  <table class="tbl">
+    <tr><th>Setting</th><th>Default value</th><th>Guidance</th></tr>
+    <tr><td>Pressure relaxation</td><td>0.3 (SIMPLE)</td><td>Reduce to 0.2 if pressure oscillates</td></tr>
+    <tr><td>Momentum relaxation</td><td>0.7</td><td>Reduce to 0.5 for complex/high-Re flows</td></tr>
+    <tr><td>k and ε relaxation</td><td>0.8</td><td>Reduce to 0.5–0.6 if turbulence oscillates</td></tr>
+    <tr><td>Energy relaxation</td><td>1.0</td><td>Reduce to 0.9 if temperature diverges</td></tr>
+    <tr><td>Pressure interpolation</td><td>Standard (SIMPLE) / Second Order</td><td>Use Second Order for accuracy in final run</td></tr>
+    <tr><td>Momentum scheme</td><td>Second Order Upwind</td><td>Start with First Order for convergence, switch to Second Order for final result</td></tr>
+    <tr><td>Iterations (steady)</td><td>—</td><td>Min 500; complex flows 1000–3000; stop when monitors flatten</td></tr>
+    <tr><td>Time step (transient)</td><td>—</td><td>Target CFL ≤ 1 in regions of interest; LES: CFL ≈ 0.5–1 near walls</td></tr>
+    <tr><td>Convergence criteria</td><td>10⁻³ for continuity/velocity, 10⁻⁶ for energy</td><td>Tighten energy to 10⁻⁷ for precise heat transfer; never relax continuity above 10⁻³</td></tr>
+  </table>
+  <div class="danger"><strong>Critical workflow:</strong> Always monitor a physical quantity (pressure drop, drag, outlet temperature) in addition to residuals. Never stop a simulation solely because residuals hit a threshold — check that the monitor is also flat.</div>
+</div>

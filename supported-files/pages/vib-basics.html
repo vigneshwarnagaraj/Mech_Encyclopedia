@@ -1,0 +1,59 @@
+<div class="page-hd">
+  <div class="kicker">Vibrations · 26</div>
+  <div class="page-title">Vibration Basics</div>
+  <p class="page-desc">Harmonic motion, frequency and period, velocity and acceleration of vibration, and the free body diagram of a vibrating system.</p>
+</div>
+
+<div class="sec">
+  <h3>Harmonic motion</h3>
+  <div class="fc">
+    <div class="formula">\[ x(t)=X\sin(\omega t+\phi) \]</div>
+    <div class="def"><strong>Simple harmonic motion:</strong> \(X\) = amplitude [m], \(\omega\) = angular frequency [rad/s], \(\phi\) = phase angle [rad], \(t\) = time [s]. All vibration at a single natural frequency takes this form.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \omega=2\pi f=\frac{2\pi}{T},\quad f=\frac{1}{T} \]</div>
+    <div class="def"><strong>Frequency relations:</strong> \(f\) = cyclic frequency [Hz], \(T\) = period [s], \(\omega\) = angular frequency [rad/s]. Engineers specify frequency in Hz; equations of motion use rad/s — always convert when substituting.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \dot{x}=X\omega\cos(\omega t+\phi),\quad\ddot{x}=-X\omega^2\sin(\omega t+\phi) \]</div>
+    <div class="def"><strong>Velocity and acceleration of harmonic motion:</strong>
+      <ul style="margin-top:0.35rem;">
+        <li>Velocity amplitude = \(X\omega\) — velocity leads displacement by 90°</li>
+        <li>Acceleration amplitude = \(X\omega^2\) — acceleration is 180° out of phase with displacement</li>
+        <li>At resonance: velocity is in phase with the driving force (maximum power input)</li>
+      </ul>
+    </def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Free body diagram of a vibrating system</h3>
+  <div class="fc">
+    <div class="formula">\[ m\ddot{x}=-kx-c\dot{x}+F(t) \]</div>
+    <div class="def"><strong>Equation of motion (spring-mass-damper):</strong> Sum of forces = mass × acceleration. Spring force \(-kx\) opposes displacement. Damping force \(-c\dot{x}\) opposes velocity. External force \(F(t)\) drives the system. Rearranged: \(m\ddot{x}+c\dot{x}+kx=F(t)\).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ k_{series}=\frac{k_1 k_2}{k_1+k_2},\quad k_{parallel}=k_1+k_2 \]</div>
+    <div class="def"><strong>Spring combinations:</strong> Springs in series: resultant softer (reciprocal sum). Springs in parallel: resultant stiffer (direct sum). This is analogous to electrical resistors (series/parallel capacitors). Used to model complex structural connections as equivalent springs.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Energy methods for natural frequency</h3>
+  <div class="fc">
+    <div class="formula">\[ KE_{max}=PE_{max}\quad\Rightarrow\quad\frac{1}{2}m\omega_n^2 X^2=\frac{1}{2}kX^2\quad\Rightarrow\quad\omega_n=\sqrt{\frac{k}{m}} \]</div>
+    <div class="def"><strong>Rayleigh's energy method:</strong> Maximum kinetic energy = maximum potential energy at the natural frequency. Useful for estimating \(\omega_n\) of continuous systems (beams, plates) by assuming a mode shape.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \omega_n^2=\frac{\sum k_i x_i^2}{\sum m_i x_i^2}\quad\text{(Rayleigh quotient)} \]</div>
+    <div class="def"><strong>Rayleigh quotient:</strong> Generalized form for discrete or continuous systems. The assumed mode shape \(\{x_i\}\) must satisfy boundary conditions. Gives an upper bound for the fundamental frequency — the closer to the actual mode shape, the more accurate.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Static deflection method</h3>
+  <div class="fc">
+    <div class="formula">\[ \delta_{st}=\frac{mg}{k},\quad\omega_n=\sqrt{\frac{g}{\delta_{st}}} \]</div>
+    <div class="def"><strong>Natural frequency from static deflection:</strong> \(\delta_{st}\) = static deflection under self-weight [m]. Useful quick estimate: if you know how much a structure sags under gravity, you can immediately estimate its natural frequency. Example: \(\delta_{st}=1\) mm → \(f_n \approx 15.8\) Hz.</def></div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="page-hd">
+  <div class="kicker">Reference · 00A</div>
+  <div class="page-title">Engineering Constants &amp; Reference Data</div>
+  <p class="page-desc">Every constant you will encounter across fluid mechanics, thermal analysis, structural mechanics, and vibrations — with values, units, and context.</p>
+</div>
+
+<div class="sec">
+  <h3>Universal Physical Constants</h3>
+  <table class="tbl">
+    <tr><th>Name</th><th>Symbol</th><th>Value</th><th>Unit</th><th>Used in</th></tr>
+    <tr><td><strong>Gravitational acceleration</strong></td><td>\(g\)</td><td class="const-val">9.81</td><td>m/s²</td><td>Weight, hydrostatics, Froude number</td></tr>
+    <tr><td><strong>Universal gas constant</strong></td><td>\(R_u\)</td><td class="const-val">8.314</td><td>J/mol·K</td><td>Ideal gas law (molar form)</td></tr>
+    <tr><td><strong>Boltzmann constant</strong></td><td>\(k_B\)</td><td class="const-val">1.381 × 10⁻²³</td><td>J/K</td><td>Statistical thermodynamics</td></tr>
+    <tr><td><strong>Stefan-Boltzmann constant</strong></td><td>\(\sigma\)</td><td class="const-val">5.67 × 10⁻⁸</td><td>W/m²·K⁴</td><td>Thermal radiation</td></tr>
+    <tr><td><strong>Speed of light</strong></td><td>\(c\)</td><td class="const-val">3.00 × 10⁸</td><td>m/s</td><td>Electromagnetics</td></tr>
+    <tr><td><strong>Standard atmosphere</strong></td><td>\(p_{atm}\)</td><td class="const-val">101 325</td><td>Pa</td><td>Pressure reference</td></tr>
+    <tr><td><strong>Avogadro number</strong></td><td>\(N_A\)</td><td class="const-val">6.022 × 10²³</td><td>mol⁻¹</td><td>Molar calculations</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Air Properties — Standard Conditions (15 °C, 1 atm)</h3>
+  <table class="tbl">
+    <tr><th>Property</th><th>Symbol</th><th>Value</th><th>Unit</th><th>Notes</th></tr>
+    <tr><td>Density</td><td>\(\rho\)</td><td class="const-val">1.225</td><td>kg/m³</td><td>Decreases with altitude and temperature</td></tr>
+    <tr><td>Dynamic viscosity</td><td>\(\mu\)</td><td class="const-val">1.789 × 10⁻⁵</td><td>Pa·s</td><td>Increases with temperature for gases</td></tr>
+    <tr><td>Kinematic viscosity</td><td>\(\nu\)</td><td class="const-val">1.46 × 10⁻⁵</td><td>m²/s</td><td>\(\nu = \mu/\rho\)</td></tr>
+    <tr><td>Thermal conductivity</td><td>\(k\)</td><td class="const-val">0.0257</td><td>W/m·K</td><td>Used in Nu correlations</td></tr>
+    <tr><td>Specific heat (const. p)</td><td>\(c_p\)</td><td class="const-val">1005</td><td>J/kg·K</td><td>Use in energy equation</td></tr>
+    <tr><td>Prandtl number</td><td>\(Pr\)</td><td class="const-val">0.713</td><td>—</td><td>\(Pr = \mu c_p / k\)</td></tr>
+    <tr><td>Specific gas constant</td><td>\(R_{air}\)</td><td class="const-val">287</td><td>J/kg·K</td><td>\(p = \rho R T\)</td></tr>
+    <tr><td>Speed of sound</td><td>\(a\)</td><td class="const-val">340</td><td>m/s</td><td>\(a = \sqrt{\gamma R T}\), \(\gamma=1.4\)</td></tr>
+    <tr><td>Ratio of specific heats</td><td>\(\gamma\)</td><td class="const-val">1.4</td><td>—</td><td>Diatomic gas; used in compressible flow</td></tr>
+  </table>
+  <div class="warn"><strong>Note:</strong> These values change with temperature and pressure. For simulations above 100 °C or below −20 °C, use temperature-dependent correlations or polynomial fits.</div>
+</div>
+
+<div class="sec">
+  <h3>Water Properties — 20 °C, 1 atm</h3>
+  <table class="tbl">
+    <tr><th>Property</th><th>Symbol</th><th>Value</th><th>Unit</th></tr>
+    <tr><td>Density</td><td>\(\rho\)</td><td class="const-val">998</td><td>kg/m³</td></tr>
+    <tr><td>Dynamic viscosity</td><td>\(\mu\)</td><td class="const-val">1.002 × 10⁻³</td><td>Pa·s</td></tr>
+    <tr><td>Kinematic viscosity</td><td>\(\nu\)</td><td class="const-val">1.004 × 10⁻⁶</td><td>m²/s</td></tr>
+    <tr><td>Thermal conductivity</td><td>\(k\)</td><td class="const-val">0.598</td><td>W/m·K</td></tr>
+    <tr><td>Specific heat</td><td>\(c_p\)</td><td class="const-val">4182</td><td>J/kg·K</td></tr>
+    <tr><td>Prandtl number</td><td>\(Pr\)</td><td class="const-val">7.01</td><td>—</td></tr>
+    <tr><td>Surface tension</td><td>\(\sigma\)</td><td class="const-val">0.0728</td><td>N/m</td></tr>
+    <tr><td>Vapour pressure</td><td>\(p_v\)</td><td class="const-val">2338</td><td>Pa</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Mechanical Material Properties</h3>
+  <table class="tbl">
+    <tr><th>Material</th><th>E (GPa)</th><th>ν</th><th>ρ (kg/m³)</th><th>σ_y (MPa)</th><th>α_th (×10⁻⁶/K)</th></tr>
+    <tr><td><strong>Structural Steel</strong></td><td class="const-val">200</td><td class="const-val">0.30</td><td class="const-val">7850</td><td class="const-val">250–350</td><td class="const-val">12</td></tr>
+    <tr><td><strong>Stainless Steel 316</strong></td><td class="const-val">193</td><td class="const-val">0.28</td><td class="const-val">7990</td><td class="const-val">170–310</td><td class="const-val">16</td></tr>
+    <tr><td><strong>Aluminum 6061-T6</strong></td><td class="const-val">69</td><td class="const-val">0.33</td><td class="const-val">2700</td><td class="const-val">276</td><td class="const-val">23.6</td></tr>
+    <tr><td><strong>Titanium Grade 5</strong></td><td class="const-val">114</td><td class="const-val">0.34</td><td class="const-val">4430</td><td class="const-val">880</td><td class="const-val">8.6</td></tr>
+    <tr><td><strong>Cast Iron (grey)</strong></td><td class="const-val">120–170</td><td class="const-val">0.26</td><td class="const-val">7200</td><td class="const-val">200–400</td><td class="const-val">10.8</td></tr>
+    <tr><td><strong>Copper</strong></td><td class="const-val">110–130</td><td class="const-val">0.34</td><td class="const-val">8960</td><td class="const-val">70–340</td><td class="const-val">17</td></tr>
+    <tr><td><strong>HDPE (plastic)</strong></td><td class="const-val">0.8–1.4</td><td class="const-val">0.42</td><td class="const-val">940–970</td><td class="const-val">20–30</td><td class="const-val">100–200</td></tr>
+    <tr><td><strong>CFRP (unidirectional)</strong></td><td class="const-val">70–140</td><td class="const-val">0.25–0.30</td><td class="const-val">1550–1600</td><td class="const-val">600–1500</td><td class="const-val">−1 to 3</td></tr>
+  </table>
+  <div class="note"><strong>FEA reminder:</strong> Always enter E in Pa (not GPa) in ANSYS Engineering Data. 200 GPa = 2×10¹¹ Pa.</div>
+</div>
+
+<div class="sec">
+  <h3>Thermal Conductivity — Quick Reference</h3>
+  <table class="tbl">
+    <tr><th>Material</th><th>k (W/m·K)</th><th>Category</th></tr>
+    <tr><td>Copper</td><td class="const-val">385–400</td><td>High conductivity metal</td></tr>
+    <tr><td>Aluminum</td><td class="const-val">150–240</td><td>High conductivity metal</td></tr>
+    <tr><td>Structural steel</td><td class="const-val">50</td><td>Metal</td></tr>
+    <tr><td>Stainless steel</td><td class="const-val">13–16</td><td>Low-k metal</td></tr>
+    <tr><td>Glass</td><td class="const-val">0.8–1.4</td><td>Solid non-metal</td></tr>
+    <tr><td>Concrete</td><td class="const-val">1.0–1.8</td><td>Building material</td></tr>
+    <tr><td>Water (20 °C)</td><td class="const-val">0.598</td><td>Liquid</td></tr>
+    <tr><td>Engine oil</td><td class="const-val">0.14–0.15</td><td>Liquid</td></tr>
+    <tr><td>Air (15 °C)</td><td class="const-val">0.0257</td><td>Gas</td></tr>
+    <tr><td>Polyurethane foam</td><td class="const-val">0.022–0.028</td><td>Insulation</td></tr>
+    <tr><td>Aerogel</td><td class="const-val">0.015–0.020</td><td>Super-insulation</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Typical Damping Ratios</h3>
+  <table class="tbl">
+    <tr><th>System / Material</th><th>ζ (typical range)</th><th>Notes</th></tr>
+    <tr><td>Welded steel structure</td><td class="const-val">0.01–0.02</td><td>Low inherent damping</td></tr>
+    <tr><td>Bolted steel structure</td><td class="const-val">0.02–0.04</td><td>Joint friction adds damping</td></tr>
+    <tr><td>Reinforced concrete</td><td class="const-val">0.04–0.07</td><td>Cracking increases damping</td></tr>
+    <tr><td>Rubber / elastomer mounts</td><td class="const-val">0.05–0.15</td><td>Used in vibration isolation</td></tr>
+    <tr><td>Rotating machinery (bearings)</td><td class="const-val">0.003–0.02</td><td>Very lightly damped</td></tr>
+    <tr><td>Aircraft fuselage panels</td><td class="const-val">0.01–0.03</td><td>Design for fatigue</td></tr>
+    <tr><td>CFRP structures</td><td class="const-val">0.005–0.02</td><td>Composite: lower than metal</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Pressure Unit Conversions</h3>
+  <table class="tbl">
+    <tr><th>Unit</th><th>In Pascals (Pa)</th><th>Engineering context</th></tr>
+    <tr><td>1 Pa</td><td class="const-val">1 N/m²</td><td>SI base; CFD residual scale</td></tr>
+    <tr><td>1 kPa</td><td class="const-val">1 000 Pa</td><td>Low-pressure differentials</td></tr>
+    <tr><td>1 bar</td><td class="const-val">100 000 Pa</td><td>Industry standard, close to 1 atm</td></tr>
+    <tr><td>1 atm</td><td class="const-val">101 325 Pa</td><td>Standard atmosphere</td></tr>
+    <tr><td>1 psi</td><td class="const-val">6 894.76 Pa</td><td>US customary; 1 MPa ≈ 145 psi</td></tr>
+    <tr><td>1 mmHg (torr)</td><td class="const-val">133.32 Pa</td><td>Medical, vacuum systems</td></tr>
+    <tr><td>1 MPa</td><td class="const-val">10⁶ Pa</td><td>Structural stress, high-pressure lines</td></tr>
+  </table>
+</div>

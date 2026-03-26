@@ -1,0 +1,59 @@
+<div class="page-hd">
+  <div class="kicker">Calculators · 37</div>
+  <div class="page-title">Fluid Mechanics Calculators</div>
+  <p class="page-desc">Reynolds number, pipe pressure drop, Bernoulli head check, and boundary layer thickness.</p>
+</div>
+
+<div class="sec">
+  <h3>Reynolds Number</h3>
+  <p>\(Re = \rho V L / \mu\) — determines flow regime.</p>
+  <div class="calc-box">
+    <h4>Reynolds Number Calculator</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Density ρ (kg/m³)</label><input id="re_rho" type="number" value="1.225" step="any"></div>
+      <div class="calc-field"><label>Velocity V (m/s)</label><input id="re_v" type="number" value="30" step="any"></div>
+      <div class="calc-field"><label>Length L (m)</label><input id="re_l" type="number" value="0.5" step="any"></div>
+      <div class="calc-field"><label>Dyn. viscosity μ (Pa·s)</label><input id="re_mu" type="number" value="1.789e-5" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcRe()">Calculate</button>
+    <div class="calc-result" id="re_result">Press Calculate to see result.</div>
+  </div>
+  <div class="note"><strong>Regimes:</strong> Pipe: laminar &lt; 2300 · transitional 2300–4000 · turbulent &gt; 4000. Flat plate: turbulent &gt; 5×10⁵.</div>
+</div>
+
+<div class="sec">
+  <h3>Pipe Pressure Drop (Darcy-Weisbach)</h3>
+  <p>\(\Delta p = f (L/D)(\rho V^2/2)\)</p>
+  <div class="calc-box">
+    <h4>Darcy-Weisbach Pressure Drop</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Friction factor f</label><input id="dw_f" type="number" value="0.02" step="any"></div>
+      <div class="calc-field"><label>Length L (m)</label><input id="dw_l" type="number" value="10" step="any"></div>
+      <div class="calc-field"><label>Diameter D (m)</label><input id="dw_d" type="number" value="0.05" step="any"></div>
+      <div class="calc-field"><label>Density ρ (kg/m³)</label><input id="dw_rho" type="number" value="998" step="any"></div>
+      <div class="calc-field"><label>Velocity V (m/s)</label><input id="dw_v" type="number" value="2" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcDW()">Calculate</button>
+    <div class="calc-result" id="dw_result">Press Calculate to see result.</div>
+  </div>
+  <div class="tip"><strong>Laminar:</strong> f = 64/Re. <strong>Turbulent smooth pipe:</strong> Blasius f ≈ 0.316·Re⁻⁰·²⁵ (Re &lt; 10⁵).</div>
+</div>
+
+<div class="sec">
+  <h3>Bernoulli Energy Balance</h3>
+  <p>Checks \(p/\rho g + V^2/2g + z = H\) at two stations.</p>
+  <div class="calc-box">
+    <h4>Bernoulli Head Balance</h4>
+    <div class="calc-grid">
+      <div class="calc-field"><label>p₁ (Pa)</label><input id="be_p1" type="number" value="200000" step="any"></div>
+      <div class="calc-field"><label>V₁ (m/s)</label><input id="be_v1" type="number" value="1" step="any"></div>
+      <div class="calc-field"><label>z₁ (m)</label><input id="be_z1" type="number" value="0" step="any"></div>
+      <div class="calc-field"><label>p₂ (Pa)</label><input id="be_p2" type="number" value="150000" step="any"></div>
+      <div class="calc-field"><label>V₂ (m/s)</label><input id="be_v2" type="number" value="3" step="any"></div>
+      <div class="calc-field"><label>z₂ (m)</label><input id="be_z2" type="number" value="0" step="any"></div>
+      <div class="calc-field"><label>Density ρ (kg/m³)</label><input id="be_rho" type="number" value="998" step="any"></div>
+    </div>
+    <button class="calc-btn" onclick="calcBernoulli()">Calculate</button>
+    <div class="calc-result" id="be_result">Press Calculate to see result.</div>
+  </div>
+</div>

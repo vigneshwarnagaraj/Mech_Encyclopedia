@@ -1,0 +1,68 @@
+<div class="page-hd">
+  <div class="kicker">Thermal · 10</div>
+  <div class="page-title">Conduction</div>
+  <p class="page-desc">Fourier's law, 1D steady conduction, thermal resistance networks, and transient conduction including lumped capacitance.</p>
+</div>
+
+<div class="sec">
+  <h3>Fourier's law of heat conduction</h3>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}=-kA\frac{dT}{dx} \]</div>
+    <div class="def"><strong>1D Fourier's law:</strong> \(k\) = thermal conductivity [W/m·K], \(A\) = cross-sectional area [m²], \(dT/dx\) = temperature gradient [K/m]. Negative sign: heat flows from hot to cold (positive \(x\) direction, decreasing \(T\)).</def></div>
+    <div class="tags"><span class="tag tag-unit">W (watts)</span><span class="tag tag-assume">Steady · 1D · isotropic material</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \vec{q}''=-k\nabla T\quad[\text{W/m}^2] \]</div>
+    <div class="def"><strong>Heat flux vector (3D):</strong> \(\vec{q}''\) = heat flux [W/m²]. In CFD, the energy equation uses this as the conduction term. In FEA (ANSYS Steady-State Thermal), nodal temperatures are solved and heat flux is derived.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Heat diffusion equation</h3>
+  <div class="fc">
+    <div class="formula">\[ \nabla^2T+\frac{\dot{q}}{k}=\frac{1}{\alpha}\frac{\partial T}{\partial t} \]</div>
+    <div class="def"><strong>General heat diffusion equation:</strong> \(\dot{q}\) = volumetric heat generation [W/m³], \(\alpha = k/(\rho c_p)\) = thermal diffusivity [m²/s].<br>
+      Special cases:
+      <ul style="margin-top:0.35rem;">
+        <li>Steady, no generation: \(\nabla^2T=0\) (Laplace equation)</li>
+        <li>Steady with generation: \(\nabla^2T+\dot{q}/k=0\) (Poisson equation)</li>
+        <li>Transient, no generation: \(\partial T/\partial t = \alpha\nabla^2T\)</li>
+      </ul>
+    </def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Thermal resistance networks</h3>
+  <div class="fc">
+    <div class="formula">\[ R_{cond}=\frac{L}{kA},\quad R_{conv}=\frac{1}{hA},\quad R_{rad}\approx\frac{1}{4\varepsilon\sigma T^3 A} \]</div>
+    <div class="def"><strong>Thermal resistances:</strong> Analogous to electrical resistors. Resistances in series add directly; in parallel they add as reciprocals. \(L\) = wall thickness [m], \(h\) = convection coefficient [W/m²·K].</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ R_{cyl}=\frac{\ln(r_2/r_1)}{2\pi k L},\quad R_{sphere}=\frac{1}{4\pi k}\left(\frac{1}{r_1}-\frac{1}{r_2}\right) \]</div>
+    <div class="def"><strong>Cylindrical and spherical resistances:</strong> Used for insulated pipes, reactor walls, nuclear fuel elements. \(r_1\) = inner radius, \(r_2\) = outer radius, \(L\) = cylinder length.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \dot{Q}=\frac{T_{hot}-T_{cold}}{R_{total}},\quad R_{total}=\sum_{\text{series}} R_i \]</div>
+    <div class="def"><strong>Heat flow through resistance network:</strong> Analogous to Ohm's law: \(\dot{Q}\) ↔ current, \(\Delta T\) ↔ voltage, \(R\) ↔ resistance. A multi-layer wall has resistances in series; parallel heat paths add in parallel.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Transient conduction</h3>
+  <h4>Lumped capacitance (Biot number check first)</h4>
+  <div class="fc">
+    <div class="formula">\[ Bi=\frac{hL_c}{k},\quad L_c=\frac{V}{A_s} \]</div>
+    <div class="def"><strong>Biot number:</strong> Ratio of external convection resistance to internal conduction resistance. If \(Bi &lt; 0.1\), internal temperature gradients are small → body is nearly isothermal → lumped capacitance is valid.</def></div>
+    <div class="tags"><span class="tag tag-assume">Lumped valid only if Bi &lt; 0.1</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{T(t)-T_\infty}{T_i-T_\infty}=e^{-t/\tau_t},\quad \tau_t=\frac{\rho V c_p}{hA_s}=\frac{\rho L_c c_p}{h} \]</div>
+    <div class="def"><strong>Lumped capacitance response:</strong> Exponential decay toward ambient temperature. \(\tau_t\) = thermal time constant [s]. At \(t=\tau_t\), the temperature difference has reduced to \(1/e \approx 37\%\) of the initial difference. At \(t=5\tau_t\), essentially at steady state.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ Fo=\frac{\alpha t}{L_c^2} \]</div>
+    <div class="def"><strong>Fourier number:</strong> Dimensionless time for transient conduction. Represents heat conducted out relative to heat stored. Used with Heisler charts for cases where \(Bi \geq 0.1\). Fo &gt; 0.2: single-term series solution is accurate.</def></div>
+  </div>
+  <div class="tip"><strong>Practical note:</strong> In ANSYS Steady-State Thermal, time is not solved — you get the equilibrium temperature field. For temperature evolution over time, switch to Transient Thermal analysis and set the time step.</div>
+</div>

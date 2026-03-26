@@ -1,0 +1,72 @@
+<div class="page-hd">
+  <div class="kicker">FEA / Solid Mechanics · 22</div>
+  <div class="page-title">Principal Stress &amp; Failure Criteria</div>
+  <p class="page-desc">Mohr's circle, principal stresses, von Mises criterion, Tresca criterion, and stress concentration factors.</p>
+</div>
+
+<div class="sec">
+  <h3>Principal stresses (2D)</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_{1,2}=\frac{\sigma_x+\sigma_y}{2}\pm\sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2+\tau_{xy}^2} \]</div>
+    <div class="def"><strong>Principal stresses:</strong> Maximum and minimum normal stresses at a point. No shear stress acts on the principal planes. \(\sigma_1 \geq \sigma_2\). Used directly in Tresca and von Mises failure criteria.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tau_{max}=\sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2+\tau_{xy}^2}=\frac{\sigma_1-\sigma_2}{2} \]</div>
+    <div class="def"><strong>Maximum in-plane shear stress:</strong> Acts on planes 45° to the principal planes. Important for ductile failure and for identifying planes susceptible to plastic slip.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tan 2\theta_p=\frac{2\tau_{xy}}{\sigma_x-\sigma_y} \]</div>
+    <div class="def"><strong>Principal plane orientation:</strong> \(\theta_p\) = angle between the x-axis and the principal stress direction. Two values of \(\theta_p\) exist, 90° apart. Mohr's circle is the graphical representation of all these relations.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Mohr's circle</h3>
+  <div class="fc">
+    <div class="formula">\[ \text{Centre: }\left(\frac{\sigma_x+\sigma_y}{2},\;0\right),\quad \text{Radius: }\sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2+\tau_{xy}^2} \]</div>
+    <div class="def"><strong>Mohr's circle construction:</strong> Plot \((\sigma_x, \tau_{xy})\) and \((\sigma_y, -\tau_{xy})\) as the two diameter endpoints. The circle's intersections with the horizontal axis give \(\sigma_1\) and \(\sigma_2\). The radius = \(\tau_{max}\). Rotating the physical element by angle \(\theta\) corresponds to rotating Mohr's circle by \(2\theta\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Von Mises failure criterion (ductile metals)</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_v=\sqrt{\frac{(\sigma_1-\sigma_2)^2+(\sigma_2-\sigma_3)^2+(\sigma_3-\sigma_1)^2}{2}} \]</div>
+    <div class="def"><strong>Von Mises equivalent stress:</strong> A scalar representation of the multiaxial stress state for comparison against uniaxial yield stress. Failure (onset of yielding) when \(\sigma_v \geq \sigma_y\). Factor of safety: \(FS = \sigma_y / \sigma_v\). This is what ANSYS reports as "Equivalent (von Mises) Stress".</def></div>
+    <div class="tags"><span class="tag tag-use">Ductile metals: steel, aluminium, titanium</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sigma_v=\sqrt{\sigma_x^2-\sigma_x\sigma_y+\sigma_y^2+3\tau_{xy}^2}\quad\text{(2D, plane stress)} \]</div>
+    <div class="def"><strong>Von Mises in 2D plane stress:</strong> \(\sigma_z=\tau_{xz}=\tau_{yz}=0\). This is the form used in the structural calculators section.</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Tresca failure criterion</h3>
+  <div class="fc">
+    <div class="formula">\[ \tau_{max}=\frac{\sigma_1-\sigma_3}{2}\leq\frac{\sigma_y}{2} \]</div>
+    <div class="def"><strong>Tresca (maximum shear stress criterion):</strong> More conservative than von Mises — predicts earlier failure. Preferred for safety-critical design, brittle materials, and cases where shear-mode failure is expected. In pure shear: Tresca predicts yielding at \(\tau_y=\sigma_y/2\); von Mises at \(\tau_y=\sigma_y/\sqrt{3}\approx0.577\sigma_y\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Maximum principal stress criterion (brittle materials)</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_1 \leq S_{ut},\quad |\sigma_3| \leq S_{uc} \]</div>
+    <div class="def"><strong>Rankine criterion:</strong> \(S_{ut}\) = ultimate tensile strength, \(S_{uc}\) = ultimate compressive strength. For brittle materials (cast iron, ceramics, concrete), failure occurs when the maximum principal stress reaches the tensile or compressive strength. Shear-based criteria (von Mises, Tresca) do not apply well to brittle fracture.</def></div>
+    <div class="tags"><span class="tag tag-use">Brittle materials: cast iron, ceramics, glass</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Stress concentration</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_{max}=K_t\,\sigma_{nom} \]</div>
+    <div class="def"><strong>Stress concentration factor \(K_t\):</strong> Geometric multiplier at notches, holes, and fillets. From Peterson's charts or Neuber's rule. Typical values: circular hole in wide plate: \(K_t=3\); semicircular notch: \(K_t=3\); sharp notch: \(K_t\gg3\). FEA captures \(K_t\) automatically if the mesh is fine enough at the feature — but stress singularities at perfectly sharp corners are mesh artifacts, not physical.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ K_t=1+2\sqrt{\frac{a}{\rho}}\quad\text{(elliptical hole, Inglis solution)} \]</div>
+    <div class="def"><strong>Elliptical notch:</strong> \(a\) = half-length of notch parallel to stress [m], \(\rho\) = notch tip radius [m]. As \(\rho\to0\) (sharp crack): \(K_t\to\infty\) — this is the domain of fracture mechanics, not stress concentration factors.</def></div>
+  </div>
+  <div class="warn"><strong>FEA stress singularity:</strong> If peak stress at a sharp corner increases monotonically as you refine the mesh, it is a singularity — not a real stress. Add a fillet radius (even a small one) to regularise the problem. Report the stress at the fillet, not at the sharp corner.</div>
+</div>

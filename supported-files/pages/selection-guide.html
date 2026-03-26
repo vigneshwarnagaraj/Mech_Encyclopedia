@@ -1,0 +1,69 @@
+<div class="page-hd">
+  <div class="kicker">Guides · 44</div>
+  <div class="page-title">Model &amp; Formula Selection Guides</div>
+  <p class="page-desc">How to choose the right turbulence model, structural analysis type, heat transfer model, and vibration approach for any engineering problem.</p>
+</div>
+
+<div class="sec">
+  <h3>CFD turbulence model selection</h3>
+  <table class="tbl">
+    <tr><th>Scenario</th><th>Recommended model</th><th>Avoid</th></tr>
+    <tr><td>Fully enclosed duct, no separation, high Re</td><td><strong>k-ε Realizable or Standard</strong></td><td>LES (unnecessary cost)</td></tr>
+    <tr><td>External aerodynamics — car, aircraft wing, building</td><td><strong>SST k-ω</strong></td><td>Standard k-ε (misses separation)</td></tr>
+    <tr><td>Turbomachinery, fans, pumps</td><td><strong>RNG k-ε or SST k-ω</strong></td><td>Standard k-ε near walls</td></tr>
+    <tr><td>Bluff body with large separation</td><td><strong>SST k-ω or Scale-Adaptive Simulation (SAS)</strong></td><td>k-ε (over-predicts attachment)</td></tr>
+    <tr><td>Acoustic noise, combustion, unsteady wake</td><td><strong>LES or DES</strong></td><td>Any RANS (time-averages out structure)</td></tr>
+    <tr><td>Low Reynolds number (Re &lt; 2000)</td><td><strong>Laminar</strong></td><td>Any turbulence model (unphysical)</td></tr>
+    <tr><td>Natural convection + turbulence</td><td><strong>Low-Re k-ε or SST with buoyancy terms enabled</strong></td><td>High-Re wall functions</td></tr>
+    <tr><td>Transitional flow (near critical Re)</td><td><strong>Gamma-ReTheta (γ-Reθ) transition model</strong></td><td>Fully turbulent RANS</td></tr>
+    <tr><td>Impinging jet heat transfer</td><td><strong>k-ε Realizable</strong></td><td>Standard k-ε (over-predicts stagnation heat transfer)</td></tr>
+  </table>
+  <div class="note"><strong>Quick rule:</strong> When unsure between k-ε and SST, choose SST. It performs better across more scenarios with negligible extra cost for most industrial problems.</div>
+</div>
+
+<div class="sec">
+  <h3>Structural analysis type selection</h3>
+  <table class="tbl">
+    <tr><th>Question</th><th>If yes →</th><th>Analysis type</th></tr>
+    <tr><td>Is the load constant or slowly varying?</td><td>Yes</td><td>Static Structural</td></tr>
+    <tr><td>Are there vibration / resonance concerns?</td><td>Yes</td><td>Modal Analysis first — always</td></tr>
+    <tr><td>Is the structure excited by a sinusoidal force?</td><td>Yes</td><td>Harmonic Response</td></tr>
+    <tr><td>Is the load time-varying (impact, road, shock)?</td><td>Yes</td><td>Transient Structural</td></tr>
+    <tr><td>Will the structure buckle under compression?</td><td>Possibly</td><td>Linear Buckling → then Nonlinear Static</td></tr>
+    <tr><td>Is the material plastic or hyper-elastic?</td><td>Yes</td><td>Nonlinear Static Structural</td></tr>
+    <tr><td>Is deformation large relative to geometry?</td><td>δ/L &gt; 5%</td><td>Nonlinear (Large Deflection ON)</td></tr>
+    <tr><td>Random excitation (road, wind, seismic PSD)?</td><td>Yes</td><td>Random Vibration (after Modal)</td></tr>
+    <tr><td>Earthquake or pyrotechnic shock?</td><td>Yes</td><td>Response Spectrum (after Modal)</td></tr>
+    <tr><td>Temperature field causes thermal stress?</td><td>Yes</td><td>Thermal → Structural coupled analysis</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Heat transfer model selection</h3>
+  <table class="tbl">
+    <tr><th>Scenario</th><th>Primary mechanism</th><th>Model / formula</th></tr>
+    <tr><td>Solid wall, known temperatures both sides</td><td>Conduction</td><td>Fourier's law; R_cond = L/(kA)</td></tr>
+    <tr><td>Surface exposed to moving fluid</td><td>Forced convection</td><td>Newton's cooling + Nusselt correlation</td></tr>
+    <tr><td>Heated vertical surface in still air</td><td>Natural convection</td><td>Ra → Nu correlation for vertical plate</td></tr>
+    <tr><td>High temperature surface (T &gt; 500 °C)</td><td>Radiation significant</td><td>Stefan-Boltzmann + emissivity</td></tr>
+    <tr><td>Furnace / combustion environment</td><td>Radiation dominant</td><td>View factors + DO model in CFD</td></tr>
+    <tr><td>Small object cooling quickly, Bi &lt; 0.1</td><td>Convection + transient</td><td>Lumped capacitance: T(t) = T∞ + (T₀−T∞)e^(−t/τ)</td></tr>
+    <tr><td>Two fluid streams exchanging heat</td><td>Combined</td><td>LMTD (known temperatures) or NTU-ε (unknown outlet)</td></tr>
+    <tr><td>Heat sink fin array on PCB</td><td>Conduction in fin + convection off surface</td><td>Fin efficiency η + extended surface formula</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Vibration analysis selection</h3>
+  <table class="tbl">
+    <tr><th>Situation</th><th>Model to use</th><th>Key output</th></tr>
+    <tr><td>Single mass-spring system</td><td>SDOF undamped/damped</td><td>Natural frequency, amplitude response</td></tr>
+    <tr><td>Multiple discrete masses + springs</td><td>MDOF eigenvalue</td><td>Multiple natural frequencies + mode shapes</td></tr>
+    <tr><td>Complex continuous structure</td><td>FEA modal analysis</td><td>Mode shapes + participation factors</td></tr>
+    <tr><td>Sinusoidal machine excitation</td><td>Harmonic response (FRF)</td><td>Amplitude vs. frequency, resonance identification</td></tr>
+    <tr><td>Measured vibration signal</td><td>EMA — curve-fit FRF peaks</td><td>ζ and f_n from measurement; MAC vs FEA</td></tr>
+    <tr><td>Random road/wind/seismic excitation</td><td>PSD + Random Vibration analysis</td><td>RMS stress, probability of exceedance</td></tr>
+    <tr><td>Damping ratio from free decay trace</td><td>Log decrement method</td><td>ζ estimate without knowing k, m, or c</td></tr>
+    <tr><td>Vibration isolation mount design</td><td>SDOF transmissibility</td><td>TR vs r; target r &gt; 2.5 for good isolation</td></tr>
+  </table>
+</div>

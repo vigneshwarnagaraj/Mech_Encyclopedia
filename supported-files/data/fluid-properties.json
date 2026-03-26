@@ -1,0 +1,56 @@
+{
+  "fluids": [
+    {
+      "name": "Air",
+      "temperature_C": 15,
+      "pressure_Pa": 101325,
+      "density_kg_m3": 1.225,
+      "dynamic_viscosity_Pa_s": 1.789e-5,
+      "kinematic_viscosity_m2_s": 1.46e-5,
+      "thermal_conductivity_W_mK": 0.0257,
+      "cp_J_kgK": 1005,
+      "prandtl": 0.713,
+      "specific_gas_constant_J_kgK": 287,
+      "gamma": 1.4
+    },
+    {
+      "name": "Water",
+      "temperature_C": 20,
+      "pressure_Pa": 101325,
+      "density_kg_m3": 998,
+      "dynamic_viscosity_Pa_s": 1.002e-3,
+      "kinematic_viscosity_m2_s": 1.004e-6,
+      "thermal_conductivity_W_mK": 0.598,
+      "cp_J_kgK": 4182,
+      "prandtl": 7.01,
+      "surface_tension_N_m": 0.0728,
+      "vapour_pressure_Pa": 2338
+    },
+    {
+      "name": "Engine oil (SAE 30)",
+      "temperature_C": 40,
+      "density_kg_m3": 875,
+      "dynamic_viscosity_Pa_s": 0.09,
+      "thermal_conductivity_W_mK": 0.145,
+      "cp_J_kgK": 1900,
+      "prandtl": 1050
+    },
+    {
+      "name": "Ethylene glycol (50% solution)",
+      "temperature_C": 20,
+      "density_kg_m3": 1070,
+      "dynamic_viscosity_Pa_s": 3.6e-3,
+      "thermal_conductivity_W_mK": 0.415,
+      "cp_J_kgK": 3450,
+      "prandtl": 30
+    }
+  ],
+  "pipe_roughness_mm": {
+    "drawn_tubing": 0.0015,
+    "commercial_steel": 0.046,
+    "cast_iron": 0.26,
+    "galvanised_steel": 0.15,
+    "concrete": "0.3-3.0",
+    "PVC_smooth": 0.0015
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "fluid": [
+    {
+      "id": "reynolds",
+      "title": "Reynolds Number",
+      "formula": "Re = ρVL/μ",
+      "inputs": [
+        {"id": "re_rho", "label": "Density ρ (kg/m³)",      "default": 1.225},
+        {"id": "re_v",   "label": "Velocity V (m/s)",        "default": 30},
+        {"id": "re_l",   "label": "Length L (m)",            "default": 0.5},
+        {"id": "re_mu",  "label": "Dyn. viscosity μ (Pa·s)", "default": 1.789e-5}
+      ],
+      "function": "calcRe",
+      "result_id": "re_result"
+    },
+    {
+      "id": "darcy_weisbach",
+      "title": "Darcy-Weisbach Pressure Drop",
+      "formula": "ΔP = f(L/D)(ρV²/2)",
+      "inputs": [
+        {"id": "dw_f",   "label": "Friction factor f",   "default": 0.02},
+        {"id": "dw_l",   "label": "Length L (m)",        "default": 10},
+        {"id": "dw_d",   "label": "Diameter D (m)",      "default": 0.05},
+        {"id": "dw_rho", "label": "Density ρ (kg/m³)",   "default": 998},
+        {"id": "dw_v",   "label": "Velocity V (m/s)",    "default": 2}
+      ],
+      "function": "calcDW",
+      "result_id": "dw_result"
+    }
+  ],
+  "structural": [
+    {
+      "id": "beam_bending",
+      "title": "Beam Bending Stress",
+      "formula": "σ = My/I",
+      "inputs": [
+        {"id": "bb_m",  "label": "Moment M (N·m)",          "default": 5000},
+        {"id": "bb_y",  "label": "y — distance from NA (m)","default": 0.05},
+        {"id": "bb_i",  "label": "I — 2nd moment (m⁴)",     "default": 8.33e-6},
+        {"id": "bb_sy", "label": "Yield stress (MPa)",       "default": 250}
+      ],
+      "function": "calcBeam",
+      "result_id": "bb_result"
+    }
+  ],
+  "vibration": [
+    {
+      "id": "natural_frequency",
+      "title": "SDOF Natural Frequency",
+      "formula": "ωₙ = √(k/m), fₙ = ωₙ/(2π)",
+      "inputs": [
+        {"id": "fn_m", "label": "Mass m (kg)",        "default": 10},
+        {"id": "fn_k", "label": "Stiffness k (N/m)",  "default": 4000},
+        {"id": "fn_c", "label": "Damping c (N·s/m)",  "default": 0}
+      ],
+      "function": "calcNatFreq",
+      "result_id": "fn_result"
+    }
+  ]
+}

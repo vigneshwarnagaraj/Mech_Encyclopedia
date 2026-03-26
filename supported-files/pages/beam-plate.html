@@ -1,0 +1,84 @@
+<div class="page-hd">
+  <div class="kicker">FEA / Solid Mechanics · 23</div>
+  <div class="page-title">Beams, Shafts &amp; Buckling</div>
+  <p class="page-desc">Bending stress, shear stress, torsion, deflection formulas, and Euler column buckling.</p>
+</div>
+
+<div class="sec">
+  <h3>Beam bending — flexure formula</h3>
+  <div class="fc">
+    <div class="formula">\[ \sigma_x=\frac{My}{I},\quad \sigma_{max}=\frac{Mc}{I}=\frac{M}{Z} \]</div>
+    <div class="def"><strong>Bending stress:</strong> \(M\) = bending moment [N·m], \(y\) = distance from neutral axis [m], \(I\) = second moment of area [m⁴], \(c\) = distance to outermost fibre [m], \(Z=I/c\) = section modulus [m³]. Maximum stress occurs at \(y=c\) (top or bottom fibre).</def></div>
+    <div class="tags"><span class="tag tag-assume">Euler-Bernoulli beam: plane sections remain plane</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tau_{max}=\frac{VQ}{Ib},\quad Q=\int_{y}^{c}y'\,dA \]</div>
+    <div class="def"><strong>Shear stress in a beam:</strong> \(V\) = shear force [N], \(Q\) = first moment of area above the point of interest [m³], \(b\) = width at the point of interest [m]. Maximum shear stress in a rectangular section: \(\tau_{max}=1.5V/A\) (at the neutral axis). In an I-beam: peak shear stress is in the web.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ EI\frac{d^2y}{dx^2}=M(x),\quad \frac{dV}{dx}=-w(x),\quad \frac{dM}{dx}=V(x) \]</div>
+    <div class="def"><strong>Beam differential equations:</strong> \(w\) = distributed load [N/m] (downward positive), \(EI\) = flexural rigidity [N·m²]. Integrating these with boundary conditions gives: shear force \(V\), bending moment \(M\), slope \(dy/dx\), and deflection \(y\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Common beam deflections</h3>
+  <table class="tbl">
+    <tr><th>Configuration</th><th>Max deflection \(\delta_{max}\)</th><th>Location</th></tr>
+    <tr><td>Simply supported — central point load \(F\)</td><td>\(\dfrac{FL^3}{48EI}\)</td><td>Centre</td></tr>
+    <tr><td>Simply supported — UDL \(w\)</td><td>\(\dfrac{5wL^4}{384EI}\)</td><td>Centre</td></tr>
+    <tr><td>Cantilever — tip point load \(F\)</td><td>\(\dfrac{FL^3}{3EI}\)</td><td>Free end</td></tr>
+    <tr><td>Cantilever — UDL \(w\)</td><td>\(\dfrac{wL^4}{8EI}\)</td><td>Free end</td></tr>
+    <tr><td>Fixed-fixed — central point load \(F\)</td><td>\(\dfrac{FL^3}{192EI}\)</td><td>Centre</td></tr>
+    <tr><td>Propped cantilever — tip load \(F\)</td><td>\(\dfrac{FL^3}{48EI}\)</td><td>0.4472L from fixed end</td></tr>
+  </table>
+  <div class="note"><strong>Quick comparison:</strong> A fixed-fixed beam is 4× stiffer than a simply supported beam under the same central load. A cantilever is 16× more flexible than simply supported. These ratios are useful for checking FEA deflection results.</div>
+</div>
+
+<div class="sec">
+  <h3>Second moments of area — key sections</h3>
+  <table class="tbl">
+    <tr><th>Section</th><th>\(I_{xx}\) (bending)</th><th>\(J\) (torsion)</th></tr>
+    <tr><td>Rectangle \(b \times h\)</td><td>\(bh^3/12\)</td><td>\(\approx bh(b^2+h^2)/12\) (approx, rect torsion)</td></tr>
+    <tr><td>Solid circle, dia \(d\)</td><td>\(\pi d^4/64\)</td><td>\(\pi d^4/32\)</td></tr>
+    <tr><td>Hollow circle, \(d_o, d_i\)</td><td>\(\pi(d_o^4-d_i^4)/64\)</td><td>\(\pi(d_o^4-d_i^4)/32\)</td></tr>
+    <tr><td>I-section (approx.)</td><td>\(2bt_f(h/2)^2+t_w h_w^3/12\)</td><td>Dominated by flanges</td></tr>
+  </table>
+</div>
+
+<div class="sec">
+  <h3>Torsion</h3>
+  <div class="fc">
+    <div class="formula">\[ \tau=\frac{Tr}{J},\quad\phi=\frac{TL}{GJ} \]</div>
+    <div class="def"><strong>Torsion formulas (circular section):</strong> \(T\) = torque [N·m], \(r\) = radius at point of interest [m], \(J\) = polar second moment of area [m⁴], \(\phi\) = angle of twist [rad], \(G\) = shear modulus [Pa], \(L\) = shaft length [m]. Maximum shear stress at the outer surface (\(r=r_{outer}\)).</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ J_{solid}=\frac{\pi d^4}{32},\quad J_{hollow}=\frac{\pi(d_o^4-d_i^4)}{32} \]</div>
+    <div class="def"><strong>Polar moment formulas:</strong> Hollow shafts are significantly more efficient in torsion — they use less material for nearly the same \(J\). A hollow shaft with \(d_i/d_o=0.8\) has 59% of solid shaft \(J\) but only 36% of its mass.</def></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \tau_{eq}=\frac{1}{Z_p}\sqrt{M^2+T^2},\quad Z_p=\frac{J}{r} \]</div>
+    <div class="def"><strong>Combined bending and torsion:</strong> \(\tau_{eq}\) = equivalent shear stress [Pa] used with the maximum shear stress theory. For ductile shafts under combined loading, use the distortion energy (von Mises) check: \(\sigma_v=\sqrt{\sigma_b^2+3\tau^2}\leq\sigma_y\).</def></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>Euler column buckling</h3>
+  <div class="fc">
+    <div class="formula">\[ P_{cr}=\frac{\pi^2EI}{(KL)^2},\quad \lambda=\frac{KL}{r},\quad r=\sqrt{\frac{I}{A}} \]</div>
+    <div class="def"><strong>Critical buckling load:</strong> \(K\) = effective length factor, \(\lambda\) = slenderness ratio, \(r\) = radius of gyration [m].
+      <table class="tbl" style="margin-top:0.5rem;">
+        <tr><th>End condition</th><th>K</th></tr>
+        <tr><td>Both ends pinned</td><td class="const-val">1.0</td></tr>
+        <tr><td>Fixed-pinned</td><td class="const-val">0.7</td></tr>
+        <tr><td>Both ends fixed</td><td class="const-val">0.5</td></tr>
+        <tr><td>Fixed-free (cantilever)</td><td class="const-val">2.0</td></tr>
+      </table>
+    </def></div>
+    <div class="tags"><span class="tag tag-assume">Long slender columns · elastic · no eccentricity · Euler range: λ &gt; 100</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \sigma_{cr}=\frac{P_{cr}}{A}=\frac{\pi^2 E}{\lambda^2} \]</div>
+    <div class="def"><strong>Critical buckling stress:</strong> Only valid when \(\sigma_{cr} &lt; \sigma_y\) (elastic buckling). If \(\sigma_{cr} \geq \sigma_y\), use inelastic buckling approaches (Johnson formula for intermediate columns: \(\lambda &lt; \pi\sqrt{2E/\sigma_y}\)). In ANSYS: Linear Buckling analysis returns a load multiplier — multiply by applied load to get \(P_{cr}\).</def></div>
+  </div>
+</div>
