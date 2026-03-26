@@ -1,49 +1,60 @@
 <div class="page-hd">
-  <div class="kicker">CFD · 16</div>
-  <div class="page-title">CFD Fundamentals</div>
-  <p class="page-desc">What CFD solves, how solvers work, and what you must understand before touching the mesh.</p>
+  <div class="kicker">CFD · 17</div>
+  <div class="page-title">Governing Equations</div>
+  <p class="page-desc">The mathematical equations behind every solver menu — what each term means and what each equation controls.</p>
 </div>
 
 <div class="sec">
-  <h3>What CFD is — and is not</h3>
-  <p>CFD discretises a fluid domain into cells (the mesh), then iteratively solves conservation equations at each cell until the imbalance (residual) falls below a threshold. The output is a field of pressure, velocity, temperature, and other quantities at every point in the domain.</p>
-  <div class="note"><strong>Key principle:</strong> CFD replaces the continuous fluid domain with a finite set of algebraic equations — one per cell per transported quantity. The accuracy of the solution depends on mesh quality, boundary conditions, turbulence model choice, and convergence behaviour.</div>
-  <div class="danger"><strong>Critical:</strong> A converged residual does not mean a correct answer. Always validate results against theory, a mesh independence study, or experimental data.</div>
+  <h3>Conservation of mass — continuity</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial\rho}{\partial t}+\nabla\cdot(\rho\vec{V})=0 \]</div>
+    <div class="def"><strong>Compressible, unsteady continuity:</strong> Rate of change of mass density + divergence of mass flux = 0. In incompressible steady flow: \(\nabla\cdot\vec{V}=0\). In Fluent, this appears as the "continuity" residual. It converges last in incompressible solvers because pressure is coupled to it through the pressure-velocity algorithm.</def></div>
+  </div>
 </div>
 
 <div class="sec">
-  <h3>The CFD workflow</h3>
-  <table class="tbl">
-    <tr><th>Step</th><th>What you do</th><th>Common mistake</th></tr>
-    <tr><td><strong>1. Geometry</strong></td><td>Import/create CAD, defeature, create fluid domain enclosure</td><td>Leaving sliver faces, gaps, missing enclosure for external flows</td></tr>
-    <tr><td><strong>2. Meshing</strong></td><td>Element type, global size, local refinements, inflation layers</td><td>No inflation layers near walls, too coarse near geometry features</td></tr>
-    <tr><td><strong>3. Physics setup</strong></td><td>Boundary conditions, turbulence model, energy equation on/off</td><td>Wrong BC type, inappropriate turbulence model, wrong fluid properties</td></tr>
-    <tr><td><strong>4. Solver settings</strong></td><td>Relaxation factors, iteration count, convergence criteria</td><td>Too aggressive relaxation causing divergence, stopping at residual target without checking monitors</td></tr>
-    <tr><td><strong>5. Post-processing</strong></td><td>Extract pressure, velocity, forces, temperature fields, surface integrals</td><td>Reporting contour images without verifying mass balance or physical sense</td></tr>
-  </table>
+  <h3>Conservation of momentum — Navier-Stokes</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho\!\left(\frac{\partial\vec{V}}{\partial t}+\vec{V}\cdot\nabla\vec{V}\right)=-\nabla p+\mu\nabla^2\vec{V}+\rho\vec{g}+\vec{S} \]</div>
+    <div class="def"><strong>Term-by-term:</strong>
+      <ul style="margin-top:0.35rem;">
+        <li>\(\rho\,\partial\vec{V}/\partial t\): unsteady (local) inertia — zero in steady simulations</li>
+        <li>\(\rho(\vec{V}\cdot\nabla\vec{V})\): convective (nonlinear) inertia — always present</li>
+        <li>\(-\nabla p\): pressure gradient — drives the flow</li>
+        <li>\(\mu\nabla^2\vec{V}\): viscous diffusion — damps velocity gradients</li>
+        <li>\(\rho\vec{g}\): body force — enable in Fluent when buoyancy matters</li>
+        <li>\(\vec{S}\): source terms — rotating reference frame, MHD, porous media</li>
+      </ul>
+    </def></div>
+    <div class="tags"><span class="tag tag-assume">Newtonian fluid · incompressible</span></div>
+  </div>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial(\rho u)}{\partial t}+\frac{\partial(\rho u^2)}{\partial x}+\frac{\partial(\rho uv)}{\partial y}=-\frac{\partial p}{\partial x}+\mu\!\left(\frac{\partial^2 u}{\partial x^2}+\frac{\partial^2 u}{\partial y^2}\right) \]</div>
+    <div class="def"><strong>x-momentum (2D expanded):</strong> This is what Fluent actually discretises for each velocity component. The nonlinear term \(\partial(\rho u^2)/\partial x\) is the source of numerical instability at high Re — it requires upwind or higher-order schemes.</def></div>
+  </div>
 </div>
 
 <div class="sec">
-  <h3>Flow regime identification</h3>
-  <table class="tbl">
-    <tr><th>Flow type</th><th>Condition</th><th>CFD approach</th></tr>
-    <tr><td>Laminar</td><td>Re &lt; 2300 (pipe), &lt; 5×10⁵ (flat plate)</td><td>Laminar solver — no turbulence model</td></tr>
-    <tr><td>Transitional</td><td>Re near critical values</td><td>γ-Reθ transition model or SST with transition</td></tr>
-    <tr><td>Turbulent</td><td>Re well above critical</td><td>RANS (k-ε, k-ω SST) or LES</td></tr>
-    <tr><td>Incompressible</td><td>Ma &lt; 0.3</td><td>Pressure-based solver (Fluent default)</td></tr>
-    <tr><td>Compressible</td><td>Ma &gt; 0.3</td><td>Density-based solver with ideal gas</td></tr>
-    <tr><td>Natural convection</td><td>Buoyancy-driven</td><td>Enable gravity + Boussinesq or full density variation</td></tr>
-  </table>
+  <h3>Conservation of energy</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho c_p\!\left(\frac{\partial T}{\partial t}+\vec{V}\cdot\nabla T\right)=\nabla\cdot(k\nabla T)+\dot{q}+\Phi \]</div>
+    <div class="def"><strong>Energy equation:</strong> Temperature transport. Left side: rate of change + convection. Right side: conduction + heat source + viscous dissipation \(\Phi\) (only significant at very high viscosity or high shear rates). Enable in Fluent when temperature gradients, heat flux BCs, or buoyancy are present.</def></div>
+  </div>
 </div>
 
 <div class="sec">
-  <h3>Discretisation methods</h3>
-  <table class="tbl">
-    <tr><th>Method</th><th>How it works</th><th>Used by</th></tr>
-    <tr><td><strong>Finite Volume (FV)</strong></td><td>Integrates governing equations over each cell. Naturally conservative.</td><td>Fluent, OpenFOAM, Star-CCM+</td></tr>
-    <tr><td><strong>Finite Element (FE)</strong></td><td>Weighted residual method; strong in structural analysis</td><td>ANSYS Mechanical, Comsol (for fluids)</td></tr>
-    <tr><td><strong>Finite Difference (FD)</strong></td><td>Approximates derivatives on structured grids</td><td>Research codes, DNS</td></tr>
-    <tr><td><strong>Spectral methods</strong></td><td>Global basis functions — very accurate but limited geometry</td><td>DNS, atmospheric modelling</td></tr>
-  </table>
-  <div class="tip"><strong>Finite volume:</strong> The reason Fluent uses finite volume is that it is inherently conservative — mass, momentum, and energy are conserved exactly over any control volume, regardless of mesh refinement. This is essential for physically correct results.</div>
+  <h3>General scalar transport equation</h3>
+  <div class="fc">
+    <div class="formula">\[ \frac{\partial(\rho\phi)}{\partial t}+\underbrace{\nabla\cdot(\rho\vec{V}\phi)}_{\text{convection}}=\underbrace{\nabla\cdot(\Gamma\nabla\phi)}_{\text{diffusion}}+\underbrace{S_\phi}_{\text{source}} \]</div>
+    <div class="def"><strong>General scalar transport:</strong> \(\phi\) = any transported quantity: temperature \(T\), species mass fraction \(Y\), turbulent kinetic energy \(k\), dissipation \(\varepsilon\), \(\omega\). \(\Gamma\) = diffusivity. Every equation in CFD fits this form — understanding it means understanding the physics of any Fluent model.</def></div>
+  </div>
+  <div class="note"><strong>Four terms to understand:</strong> Transient term (accumulation), convection term (transport by flow), diffusion term (molecular/turbulent spreading), source term (generation/destruction). If a quantity grows in a region, either the source term is positive or net convection/diffusion is bringing it in.</div>
+</div>
+
+<div class="sec">
+  <h3>RANS equations</h3>
+  <div class="fc">
+    <div class="formula">\[ \rho\!\left(\frac{\partial\bar{V}_i}{\partial t}+\bar{V}_j\frac{\partial\bar{V}_i}{\partial x_j}\right)=-\frac{\partial\bar{p}}{\partial x_i}+\frac{\partial}{\partial x_j}\!\left[\mu\frac{\partial\bar{V}_i}{\partial x_j}-\rho\overline{v_i'v_j'}\right]+\rho g_i \]</div>
+    <div class="def"><strong>Reynolds-averaged N-S:</strong> Bar = time-averaged quantities. The Reynolds stress tensor \(-\rho\overline{v_i'v_j'}\) appears because time-averaging produces a correlation of fluctuating velocity components. This is the <em>closure problem</em> — turbulence models (k-ε, k-ω, SST) provide this missing information through the Boussinesq hypothesis: \(-\rho\overline{v_i'v_j'} = \mu_t(\partial\bar{V}_i/\partial x_j + \partial\bar{V}_j/\partial x_i) - \tfrac{2}{3}\rho k\delta_{ij}\).</def></div>
+  </div>
 </div>
